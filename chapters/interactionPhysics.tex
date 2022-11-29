@@ -1,0 +1,200 @@
+\chapter{Charged Particle Interaction Physics}
+The interaction physics that describe the slowing down of energetic light ions through collisions with background charged particles in plasmas are described in terms of differential cross sections. The general differential cross section that describes a collision between an incident energetic light ion of species $p$ and a target charged particle of species $t$ resulting in
+new species $\alpha$ is written as,
+\begin{equation}
+    \sigma(E^{\prime},\mu_0)
+\end{equation}
+
+\section{Elastic scattering}
+\subsection{Coulomb scattering}
+
+\subsection{Nuclear elastic scattering}
+
+\subsection{Interference scattering}
+
+\section{Nuclear reactions}
+
+% \section{Coulomb Differential Cross Sections}
+% \subsection{Unscreened Coulomb differential cross sections}
+% The scattering amplitude for a Coulomb potential in Coulomb units is:
+% \begin{equation}
+%     f(\theta) = \dfrac{\gamma}{2 \, k \, \sin^2 \theta/2} \exp \left[ 2 \, i \, \gamma \, \log \sin \theta/2 \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)}
+% \end{equation}
+% where $\gamma = Z_1 \, Z_2 \, e^2 / \hbar \, v$, $v$ being the incident velocity, and $\hbar \, k = \mu \, v$.
+
+% \subsubsection{Distinguishable particles}
+% For distinguishable particles the differential cross section is given by:
+% \begin{equation}
+%     \sigma_{C,d} = | f(\theta) |^2 = f(\theta) \, f^{\star}(\theta)
+% \end{equation}
+% To begin we rewrite the exponential term using Euler's formula as:
+% \begin{equation}
+%     f(\theta) = \dfrac{\gamma}{2 \, k \, \sin^2 \theta/2} \left[ \cos x_1 + i \, \sin x_1 \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)}, \quad x_1 =  2 \, \gamma \, \log \sin \theta/2
+% \end{equation}
+% The complex conjugate of the scattering amplitude is:
+% \begin{equation}
+%     f^{\star}(\theta) = \dfrac{\gamma}{2 \, k \, \sin^2 \theta/2} \left[ \cos x_1 - i \, \sin x_1 \right] \dfrac{\Gamma(1 - i/k)}{\Gamma(1 + i/k)}, \quad x_1 =  2 \, \gamma \, \log \sin \theta/2
+% \end{equation}
+% Substituting in the scattering amplitude and the complex conjugate of the scattering amplitude gives:
+% \begin{multline}
+%     \sigma_{C,d} = \left\lbrace \dfrac{\gamma}{2 \, k \, \sin^2 \theta/2} \left[ \cos x_1 + i \, \sin x_1 \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)} \right\rbrace \\
+%     \times \left\lbrace \dfrac{\gamma}{2 \, k \, \sin^2 \theta/2} \left[ \cos x_1 - i \, \sin x_1 \right] \dfrac{\Gamma(1 - i/k)}{\Gamma(1 + i/k)} \right\rbrace
+% \end{multline}
+% Simplifying gives:
+% \begin{equation}
+%    \sigma_{C,d} = \dfrac{\gamma^2}{4 \, k^2 \, \sin^4 \theta/2}
+% \end{equation}
+% Finally, substituting in the expression for $\gamma$ and $k$ gives:
+% \begin{equation} \label{eqn:dist_unscreened_coulomb}
+%     \boxed{ \sigma_{C,d} = \left(\dfrac{Z_1 \, Z_2 \, e^2}{2 \, \mu \, v_1^2}\right)^2 \dfrac{1}{\sin^4 \theta/2} }
+% \end{equation}
+
+% To get Eq. \eqref{eqn:dist_unscreened_coulomb} into a more readily usable form (form in the ENDF manual), we begin by rewriting $e^2 = \alpha \, \hbar c$ and using the half angle trigonometry identity $2 \sin^2 \theta / 2 = 1 - \cos \theta$ giving:
+% \begin{equation}
+%     \sigma_{C,d} = \left(\dfrac{Z_1 \, Z_2 \, \alpha \, \hbar c}{\mu \, v_1^2}\right)^2 \dfrac{1}{(1 - \mu_0)^2}, \quad \text{where} \,\, \mu_0 = \cos \theta
+% \end{equation}
+% Next expanding out the reduced mass as $\mu = \dfrac{m_1 m_2}{m_1 + m_2}$ gives:
+% \begin{equation}
+%     \sigma_{C,d} = \left(\dfrac{Z_1 \, Z_2 \, \alpha \, \hbar c}{ \left(\frac{A}{1 + A} \right) \, m_1 \, v_1^2}\right)^2 \dfrac{1}{(1 - \mu_0)^2}, \quad \text{where} \,\, A = \dfrac{m_2}{m_1}.
+% \end{equation}
+% Using $m_1 \, v_1^2 = 2 \, E$ gives:
+% \begin{equation}
+%     \sigma_{C,d} = \left(\dfrac{Z_1^2 \, Z_2^2 \, \left(\alpha \, \hbar c\right)^2}{ 4 \, E^2 \, \left(\frac{A}{1 + A} \right)^2}\right) \dfrac{1}{(1 - \mu_0)^2}.
+% \end{equation}
+
+% \subsubsection{Identical particles}
+% For identical particles the differential cross section is given by:
+% \begin{equation} \label{eqn:formula-identical-particles}
+%      \sigma_{C,i} = | f(\theta) |^2 + | f(\pi - \theta) |^2 + \dfrac{(-1)^{2s}}{2s+1} \left[ f(\theta) f^{\star}(\pi-\theta) + f^{\star}(\theta) f(\pi-\theta) \right]
+% \end{equation}
+% In the above equation we already know $f(\theta)$ and $f^{\star}(\theta)$, to get $f(\pi-\theta)$ we simply substitute in $\theta = \pi - \theta$ to get
+% \begin{equation}
+%     f(\pi - \theta) = \dfrac{\gamma}{2 \, k \, \sin^2 \left(\frac{\pi - \theta}{2} \right)} \exp \left[ 2 \, i \, \gamma \, \log \sin \left(\frac{\pi - \theta}{2} \right) \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)}
+% \end{equation}
+% Note that:
+% \begin{equation*}
+%     \sin \left(\frac{\pi - \theta}{2} \right) = \sin \left(\dfrac{\pi}{2} - \dfrac{\theta}{2}\right) = \cos \theta/2
+% \end{equation*}
+% and therefore the shifted scattering amplitude is simply
+% \begin{equation}
+%     f(\pi - \theta) = \dfrac{\gamma}{2 \, k \, \cos^2 \theta/2} \exp \left[ 2 \, i \, \gamma \, \log \cos \theta/2 \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)},
+% \end{equation}
+% Using Euler's formula the shifted scattering amplitude and complex conjugate of the scattering amplitude can be rewritten as
+% \begin{equation}
+%     f(\pi - \theta) = \dfrac{\gamma}{2 \, k \, \cos^2 \theta/2} \left[ \cos x_2 + i \, \sin x_2 \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)}, \quad x_2 =  2 \, \gamma \, \log \cos \theta/2
+% \end{equation}
+% and
+% \begin{equation}
+%     f^{\star}(\pi - \theta) = \dfrac{\gamma}{2 \, k \, \cos^2 \theta/2} \left[ \cos x_2 - i \, \sin x_2 \right] \dfrac{\Gamma(1 - i/k)}{\Gamma(1 + i/k)}, \quad x_2 =  2 \, \gamma \, \log \cos \theta/2
+% \end{equation}
+
+% From the previous section the first term in Eq. \eqref{eqn:formula-identical-particles} is simply
+% \begin{equation}
+%     | f(\theta) |^2 = \dfrac{\gamma^2}{4 \, k^2 \, \sin^4 \theta/2}
+% \end{equation}
+% and similarly the second term in Eq. \eqref{eqn:formula-identical-particles} is
+% \begin{equation}
+%     | f(\pi - \theta) |^2 = \dfrac{\gamma^2}{4 \, k^2 \, \cos^4 \theta/2}
+% \end{equation}
+% Substituting in the scattering amplitudes into the third term in Eq. \eqref{eqn:formula-identical-particles} gives:
+% \begin{multline}
+%     \left[ f(\theta) f^{\star}(\pi-\theta) + f^{\star}(\theta) f(\pi-\theta) \right] = \left\lbrace \dfrac{\gamma}{2 \, k \, \sin^2 \theta/2} \left[ \cos x_1 + i \, \sin x_1 \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)} \right\rbrace \\
+%     \times \left\lbrace \dfrac{\gamma}{2 \, k \, \cos^2 \theta/2} \left[ \cos x_2 - i \, \sin x_2 \right] \dfrac{\Gamma(1 - i/k)}{\Gamma(1 + i/k)} \right\rbrace \\
+%     + \left\lbrace \dfrac{\gamma}{2 \, k \, \sin^2 \theta/2} \left[ \cos x_1 - i \, \sin x_1 \right] \dfrac{\Gamma(1 - i/k)}{\Gamma(1 + i/k)} \right\rbrace \\
+%     \times \left\lbrace \dfrac{\gamma}{2 \, k \, \cos^2 \theta/2} \left[ \cos x_2 + i \, \sin x_2 \right] \dfrac{\Gamma(1 + i/k)}{\Gamma(1 - i/k)} \right\rbrace
+% \end{multline}
+% Simplifying and collecting like terms gives:
+% \begin{multline}
+%     \left[ f(\theta) f^{\star}(\pi-\theta) + f^{\star}(\theta) f(\pi-\theta) \right] = \\
+%     \dfrac{\gamma^2}{4 \, k^2 \, \sin^2 \left(\theta/2 \right) \, \cos^2 \left(\theta/2\right)} \left[ \left( \cos x_1 + i \, \sin x_1 \right) \left( \cos x_2 - i \, \sin x_2 \right) \right. \\ \left. + \left( \cos x_1 - i \, \sin x_1 \right) \left( \cos x_2 + i \, \sin x_2 \right) \right]
+% \end{multline}
+% Expanding the expression and simplifying gives
+% \begin{equation}
+%     \left[ f(\theta) f^{\star}(\pi-\theta) + f^{\star}(\theta) f(\pi-\theta) \right] = \dfrac{2 \, \gamma^2}{4 \, k^2 \, \sin^2 \left(\theta/2 \right) \, \cos^2 \left(\theta/2\right)} \left[ \cos x_1 \, \cos x_2 + \sin x_1 \, \sin x_2  \right]
+% \end{equation}
+% Next using the trig identity $\cos (\alpha - \beta) = \cos \alpha \, \cos \beta + \sin \alpha \, \sin \beta$ the above expression simplifies to:
+% \begin{equation}
+%     \left[ f(\theta) f^{\star}(\pi-\theta) + f^{\star}(\theta) f(\pi-\theta) \right] = \dfrac{2 \, \gamma^2}{4 \, k^2 \, \sin^2 \left(\theta/2 \right) \, \cos^2 \left(\theta/2\right)} \cos \left( x_1 - x_2  \right)
+% \end{equation}
+% Substituting in our expression for $x_1$ and $x_2$ gives:
+% \begin{equation}
+%     \cos \left( x_1 - x_2  \right) = \cos \left[ 2 \, \gamma \, \left( \log \sin \theta/2 -  \log \cos \theta/2 \right)  \right]
+% \end{equation}
+% which readily simplifies to 
+% \begin{equation}
+%     \cos \left( x_1 - x_2  \right) = \cos \left( \gamma \, \log \, \tan^2 \theta/2 \right)
+% \end{equation}
+
+% Putting everything together we arrive at the final differential cross section for identical particles
+% \begin{equation}
+%     \sigma_{C,i} = \dfrac{\gamma^2}{4 \, k^2} \left[ \dfrac{1}{\sin^4 \theta/2} + \dfrac{1}{\cos^4 \theta/2} + \dfrac{(-1)^{2s}}{2s+1} \dfrac{2}{\sin^2 \left(\theta/2 \right) \, \cos^2 \left(\theta/2\right)} \cos \left( \gamma \, \log \, \tan^2 \theta/2 \right) \right]
+% \end{equation}
+% Next using the trig half-angle identities and $\mu_0 = \cos \theta$ gives:
+% \begin{equation} \label{eqn:coulomb-unscreened-identical}
+%     \boxed{ \sigma_{C,i} = \dfrac{\gamma^2}{k^2} \left[ \dfrac{1}{(1 - \mu_0)^2} + \dfrac{1}{(1 + \mu_0)^2} + \dfrac{(-1)^{2s}}{2s+1} \dfrac{2}{(1 - \mu_0)(1 + \mu_0)} \cos \left( \gamma \, \log \, \dfrac{1 - \mu_0}{1 + \mu_0} \right) \right] }
+% \end{equation}
+% Note, Eq. \eqref{eqn:coulomb-unscreened-identical} can be written in the form that appears in the ENDF manual by factoring out $2 / (1 - \mu_0^2)$ giving:
+% \begin{equation}
+%     \sigma_{C,i} = \dfrac{2 \, \gamma^2}{k^2 (1 - \mu_0^2)} \left[ \dfrac{1+\mu_0^2}{1-\mu_0^2} + \dfrac{(-1)^{2s}}{2s+1} \cos \left( \gamma \, \log \, \dfrac{1 - \mu_0}{1 + \mu_0} \right) \right]
+% \end{equation}
+
+% \subsection{Screened coulomb differential cross sections}
+% The scattering amplitude is given through Born approximation as
+% \begin{equation}
+%     f_W = - \dfrac{2 \, m}{\hbar^2} \int\limits_0^{\infty} U(r) \, \dfrac{\sin qr}{q} \, r \, dr
+% \end{equation}
+% where $q = 2 \, k \, \sin \theta / 2$. The Wentzel scattering potential is:
+% \begin{equation}
+%     U(r) = \dfrac{Z_1 \, Z_2 \, e^2}{r} \, \exp \left(-r/R\right)
+% \end{equation}
+% Substituting this potential into the scattering amplitude equation gives:
+% \begin{equation}
+%     f_W = - \dfrac{2 \, Z_1 \, Z_2 \, e^2 \, m}{q \, \hbar^2} \int\limits_0^{\infty} \, \sin qr \, \exp \left(-r/R\right) \, dr
+% \end{equation}
+% Expanding the sin function in the integral using Euler's formula gives:
+% \begin{equation}
+%    \dfrac{1}{2 \, i} \int\limits_0^{\infty} \, \Big\lbrace \text{e}^{-(\frac{1}{R} - i\,q)r} - \text{e}^{-(\frac{1}{R} + i\,q)r} \Big\rbrace \, dr
+% \end{equation}
+% Preforming the integration gives
+% \begin{equation}
+%     \dfrac{1}{2 \, i} \left[ \dfrac{i \, R}{i + q \, R} - \dfrac{i \, R}{i - q \, R} \right] = \dfrac{1}{2 \, i} \left[ \dfrac{2 \, i \, q \, R^2}{1 + q^2 \, R^2}\right] = \dfrac{q \, R^2}{1 + q^2 \, R^2} = \dfrac{q}{\left(\frac{1}{R}\right)^2 + q^2}
+% \end{equation}
+% Finally, substituting the above expression back into the scattering amplitude expression  gives
+% \begin{equation}
+%     f_W = - \dfrac{2 \, Z_1 \, Z_2 \, e^2 \, m}{\hbar^2} \dfrac{1}{\left(1 / R\right)^2 + q^2} = - \dfrac{2 \, Z_1 \, Z_2 \, e^2 \, m}{\hbar^2} \dfrac{1}{\left(1 / R\right)^2 + 4 \, k^2 \, \sin^2 \theta / 2}
+% \end{equation}
+% Factoring out $\frac{1}{4 \, k^2}$ and inserting our expression for $\gamma$ and $k$ gives the final form of the screened Rutherford or ``Wentzel'' scattering amplitude as
+% \begin{equation}
+%     \boxed{f_W = - \dfrac{Z_1 \, Z_2 \, e^2 \, m}{2 \, k^2 \, \hbar^2} \dfrac{1}{(2kR)^{-2} + \sin^2 \theta/2} = - \dfrac{\gamma}{2 \, k} \left[\dfrac{1}{(2kR)^{-2} + \sin^2 \theta/2}\right]}
+% \end{equation}
+
+% \subsubsection{Distinguishable particles}
+% For distinguishable particles the differential cross section is given by:
+% \begin{equation}
+%     \sigma_{W,d} = | f_W(\theta) |^2 = f_W(\theta) \, f_W^{\star}(\theta)
+% \end{equation}
+% Substituting in the Wentzel scattering amplitude gives the screened Coulomb or ``Wntzel'' differential cross as
+% \begin{equation}
+%     \boxed{\sigma_{W,d} = \dfrac{\gamma^2}{4 \, k^2} \dfrac{1}{\left[(2kR)^{-2} + \sin^2 \theta/2\right]^2} =  \dfrac{\gamma^2}{k^2} \dfrac{1}{\left[A_s + 1 - \mu_0\right]^2}}
+% \end{equation}
+% where $A_s = \left(\frac{1}{k \, R}\right)^2$ and $\mu_0 = \cos \theta$.
+
+% \subsubsection{Identical particles}
+% For identical particles the differential cross section is given by:
+% \begin{equation}
+%      \sigma_{W,i} = | f_W(\theta) |^2 + | f_W(\pi - \theta) |^2 + \dfrac{(-1)^{2s}}{2s+1} \left[ f_W(\theta) f_W^{\star}(\pi-\theta) + f_W^{\star}(\theta) f_W(\pi-\theta) \right]
+% \end{equation}
+% The shifted Wentzel screening amplitude is obtained by substituting $\theta = \pi - \theta$ into the Wentzel screening amplitude to get:
+% \begin{equation}
+%     f_W(\pi - \theta) = - \dfrac{\gamma}{2 \, k} \left[\dfrac{1}{(2kR)^{-2} + \cos^2 \theta/2}\right]
+% \end{equation}
+% Substituting in the Wentzel screening amplitudes into the equation for the differential cross section gives:
+% \begin{multline}
+%      \sigma_{W,i} = \dfrac{\gamma^2}{4 \, k^2} \left\lbrace \dfrac{1}{\left[(2kR)^{-2} + \sin^2 \theta/2\right]^2} + \dfrac{1}{\left[(2kR)^{-2} + \cos^2 \theta/2\right]^2}  \right. \\ \left.
+%      + \dfrac{(-1)^{2s}}{2s+1} \dfrac{2}{\left[(2kR)^{-2} + \sin^2 \theta/2\right]\left[(2kR)^{-2} + \cos^2 \theta/2\right] }\right\rbrace
+% \end{multline}
+% Finally, substituting in $2 \sin^2 \theta/2 = 1 - \cos \theta$ and $2 \cos^2 \theta/2 = 1 + \cos \theta$ gives the final form of the Wentzel differential cross section for identical particles as:
+% \begin{equation}
+%      \boxed{\sigma_{W,i} = \dfrac{\gamma^2}{k^2} \left[ \dfrac{1}{\left(A_s + 1 - \mu_0\right)^2} + \dfrac{1}{\left(A_s + 1 + \mu_0\right)^2} + \dfrac{(-1)^{2s}}{2s+1} \dfrac{2}{\left(A_s + 1 - \mu_0\right)\left(A_s + 1 + \mu_0\right) }\right]}
+% \end{equation}
+% where $A_s = \left(\frac{1}{k \, R}\right)^2$ and $\mu_0 = \cos \theta$.
