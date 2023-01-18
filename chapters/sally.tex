@@ -1,0 +1,247 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\chapter{The Charged Particle Transport Library SALLY}
+The following operator notation will be used throughout the document to represent the various transport operators encountered in charged particle transport (CPT):
+  \begin{enumerate}
+      \item \textbf{Streaming Operators}:
+        \begin{subequations} \label{eqn:streaming_operators}
+            \begin{equation}
+            \Lp \Psi = \mu \dfrac{\partial \Psi}{\partial x} + \Sigma_t(x,E) \Psi(x,E,\mu)
+            \end{equation}
+            \begin{equation}
+            \Ls \Psi = \dfrac{\mu}{r^2} \dfrac{\partial}{\partial r}\Big[ r^2 \Psi(r,E,\mu) \Big] 
+                + \Sigma_t(r,E) \Psi(r,E,\mu)
+            \end{equation}
+            \begin{equation}
+            \Ps \Psi = \dfrac{1}{r} \dfrac{\partial}{\partial \mu} \Big[(1 - \mu^2) \Psi(r,E,\mu)\Big] \\
+            \end{equation}
+        \end{subequations}
+     \item \textbf{Boltzmann Scattering Operator}:
+        \begin{equation} \label{eqn:boltzmann_operator}
+            \Bz \Psi = \sum_{l = 0}^{L} \dfrac{2l + 1}{4 \pi} \int_{0}^{\infty} dE^{\prime} \Sigma_{S,l}(z,E^{\prime}\rightarrow E) \, \Psi_l(z,E^{\prime}) - \Sigma_S(z,E) \, \Psi(z,E,\mu)
+        \end{equation}
+     \item \textbf{Fokker-Planck (FP) Scattering Operators}:
+        \begin{subequations} \label{eqn:fokker_planck_operators}
+            \begin{equation}
+            \Cz \Psi = \dfrac{\partial}{\partial E} \Big[ S(z,E) \Psi \Big]
+            \end{equation}
+            \begin{equation}
+            \Tz \Psi = \dfrac{1}{2} \dfrac{\partial^2}{\partial E^2} \Big[ T(z,E) \Psi \Big]
+            \end{equation}
+            \begin{equation}
+            \Fz \Psi = \dfrac{\Sigma_{tr}(z,E)}{2} \dfrac{\partial}{\partial \mu} \left[ (1 - \mu^2) \dfrac{\partial \Psi}{\partial \mu} \right]
+            \end{equation}
+        \end{subequations}
+     \item \textbf{Generalized Fokker-Planck (GFP) Scattering Operators}:
+        \begin{subequations} \label{eqn:gfp_operators}
+            \begin{equation}
+            \Gtwo \Psi = \alpha(z,E) \, \GFP \left[\Iz - \beta(z,E)\GFP \right]^{-1} \Psi
+            \end{equation}
+            \begin{equation}
+            \Gthree \Psi = \alpha_1(z,E) \, \GFP \left[\Iz - \beta_1(z,E)\GFP \right]^{-1} \Psi + \alpha_2(z,E) \, \GFP \, \Psi
+            \end{equation}
+            \begin{equation}
+            \Gfour \Psi = \alpha_1(z,E) \, \GFP \left[\Iz - \beta_1(z,E)\GFP \right]^{-1} \Psi
+            + \alpha_2(z,E) \, \GFP \left[\Iz - \beta_2(z,E)\GFP \right]^{-1} \Psi
+            \end{equation}
+        \end{subequations}
+  \end{enumerate}
+  
+  In Eq. \eqref{eqn:streaming_operators}, the subscripts $P$ and $S$ are used to distinguish between planar and spherical operators. Next in Eq. \eqref{eqn:boltzmann_operator}, the subscript $l$ in $\Sigma_{S,l}$ and $\Psi_l$ indicate the Legendre moment of the differential cross section and angular flux given by
+  \begin{equation}
+    \Sigma_{S,l}(z,E^{\prime}\rightarrow E) = 2 \pi \int_{-1}^{1} P_l(\mu) \, \Sigma_{S}(z,E^{\prime}\rightarrow E, \mu_{\scaleto{CM}{4pt}}) \, d \mu_{\scaleto{CM}{4pt}}
+  \end{equation}
+  \begin{equation}
+    \Psi_l(z,E^{\prime}) = 2 \pi \int_{-1}^{1} P_l(\mu) \, \Psi(z,E,\mu) \, d\mu
+  \end{equation}
+  where $P_l$ are the Legendre functions of order $l$. Lastly in Eq. \eqref{eqn:gfp_operators}, the GFP operator $\GFP$ is
+  \begin{equation}
+    \GFP = \dfrac{\partial}{\partial \mu} \left[ (1 - \mu^2) \dfrac{\partial \Psi}{\partial \mu} \right]
+  \end{equation}
+  if the operator $\G$ is operating in angle, or is given by 
+  \begin{equation}
+    \GFP = \dfrac{\partial}{\partial E}
+  \end{equation}
+  if the operator $\G$ is operating in energy.
+  
+  Using the CPT operators in Eqns. \eqref{eqn:streaming_operators}, \eqref{eqn:boltzmann_operator}, \eqref{eqn:fokker_planck_operators}, \eqref{eqn:gfp_operators} one can easily construct any CPT equation of interest. As an example the planar and spherical Boltzmann-Fokker-Planck (BFP) CPT equations are:
+  \begin{subequations}
+    \begin{equation}
+      \left[ \Lp - \Bz - \Cz -\Tz \right] \Psi = \dfrac{q(x,E,\mu)}{2}
+    \end{equation} 
+    \begin{equation}
+      \left[ \Ls + \Ps - \Bz - \Cz -\Tz \right] \Psi = \dfrac{q(r,E,\mu)}{2}
+    \end{equation} 
+  \end{subequations}
+  The remainder of this document serves to describe in detail how these operators have been discretized using the discrete -ordinates $S_N$ method for angle, and an arbitrary order finite element method to discretize in space and energy. The resulting discretizied CPT operators have been implemented in the CPT C++ code SALLY. Additionally, this documents provides the results of the method of manufactured solutions (MMS) testing preformed to verify that the operators have been discretized correctly.
+
+\section{Finite Element Class}
+The CPT C++ code SALLY provides three classes of finite elements: Planar, Spherical, and Energy. The Planar and Spherical finite element classes can be easily combined with the Energy finite element class into new classes (Planar-Energy or Spherical-Energy) to get the full finite element class required for the various CPT operators. Each class and its methods are summarized in the following sections.
+    
+    \subsection{Planar Finite Element Class}
+    The Planar finite element class is constructed in the following manner:
+    \begin{lstlisting}
+        #include "FiniteElements.hpp"
+        
+        int J = 2; // finite element order
+        std::vector<double> spatialGrid{0, 1, 2, 3, 4, 5};
+        finite_elements::Planar planar(spatialGrid, J);
+    \end{lstlisting}
+    Once the Planar finite element class has been constructed, the following methods are available:
+    \begin{lstlisting}
+        // Finite element discretization info
+        auto J = planar.get_order();
+        auto K = planar.number_of_cells();
+        auto spatialGrid = planar.get_grid();
+        
+        // Finite element matrices (Type = std::vector<Eigen::MatrixXd>)
+        auto MM = planar.get_all_mass_matrices();
+        auto Lp = planar.get_all_derivative_positive_matrices();
+        auto Lm = planar.get_all_derivative_negative_matrices();
+        auto Vp = planar.get_all_upwinding_positive_matrices();
+        auto Vm = planar.get_all_upwinding_negative_matrices();
+        auto  I = planar.get_all_I_matrices();
+    \end{lstlisting}
+    
+    \subsection{Spherical Finite Element Class}
+    The Spherical finite element class is constructed in the following manner:
+    \begin{lstlisting}
+        #include "FiniteElements.hpp"
+        
+        int J = 2; // finite element order
+        std::vector<double> spatialGrid{0, 1, 2, 3, 4, 5};
+        finite_elements::Spherical spherical(spatialGrid, J);
+    \end{lstlisting}
+    Once the Spherical finite element class has been constructed, the following methods are available:
+    \begin{lstlisting}
+        // Finite element discretization info
+        auto J = spherical.get_order();
+        auto K = spherical.number_of_cells();
+        auto spatialGrid = spherical.get_grid();
+        auto  V = spherical.get_all_volumes(); // std::vector<Eigen::VectorXd>
+        
+        // Finite element matrices (Type = std::vector<Eigen::MatrixXd>)
+        auto MM = spherical.get_all_mass_matrices();
+        auto Lp = spherical.get_all_derivative_positive_matrices();
+        auto Lm = spherical.get_all_derivative_negative_matrices();
+        auto Vp = spherical.get_all_upwinding_positive_matrices();
+        auto Vm = spherical.get_all_upwinding_negative_matrices();
+        auto  I = spherical.get_all_I_matrices();
+        auto PP = spherical.get_all_angular_mass_matrices();
+        auto MS = spherical.get_all_starting_mass_matrices();
+        auto Ls = spherical.get_all_derivative_starting_matrices();
+        auto Vs = spherical.get_all_upwinding_starting_matrices();
+    \end{lstlisting}
+    
+    \subsection{Energy Finite Element Class}
+    The Energy finite element class is constructed in the following manner:
+    \begin{lstlisting}
+        #include "FiniteElements.hpp"
+        
+        int J = 2; // finite element order
+        std::vector<double> energyGrid{0, 1, 2, 3, 4, 5};
+        finite_elements::Energy energy(energyGrid, J);
+    \end{lstlisting}
+    Once the Energy finite element class has been constructed, the following methods are available:
+    \begin{lstlisting}
+        // Finite element discretization info
+        auto J = energy.get_order();
+        auto G = energy.number_of_cells();
+        auto energyGrid = energy.get_grid();
+        auto dE = energy.get_all_dE(); // std::vector<Eigen::VectorXd>
+        
+        // Finite element matrices (Type = std::vector<Eigen::MatrixXd>)
+        auto  MM = energy.get_all_mass_matrices();
+        auto  Lp = energy.get_all_derivative_positive_matrices();
+        auto  Lm = energy.get_all_derivative_negative_matrices();
+        auto  Vp = energy.get_all_upwinding_positive_matrices();
+        auto  Vm = energy.get_all_upwinding_negative_matrices();
+        auto   I = energy.get_all_I_matrices();
+        auto  Ie = energy.get_all_Ie_matrices();
+        auto Gmm = energy.get_all_Gmm_matrices();
+        auto Gpp = energy.get_all_Gpp_matrices();
+        auto Gmp = energy.get_all_Gmp_matrices();
+        auto Gpm = energy.get_all_Gpm_matrices();
+        auto  BB = energy.get_all_BB_matrices();
+    \end{lstlisting}
+
+\section{Transport Operators Class}
+The CPT C++ code SALLY provides the various CPT operators listed in Section 1 in five different geometry configurations: planar, planar-energy, spherical, spherical-energy, and straight-ahead. In this section we list the various operators available and there corresponding C++ implementation, not some operators do not exist solely on there own and instead combined with others and/or only their inverse is available. These operators work by taking an \emph{Eigen::VectorXd}, preforming the action of the matrix on the vector, and returning the resulting the vector. For example, the spatial streaming operator in planar-energy coordinates operators on a vector in the following manner
+    
+\subsection{Planar Geometry}
+These operators correspond to the equation planar operators in Section 1 without energy-dependence, and are constructed with a Planar finite element class, an $S_N$ angular class, and a Data Matrix class:
+\begin{lstlisting}
+  #include "CPT_Operators.hpp"
+  
+  using namespace cpt_operators::planar;
+  auto spatialGrid = finite_elements::make_uniform_grid(zMin, zMax, K);
+
+  finite_elements::Planar planar(spatialGrid, J);
+
+  constexpr int N = 8;
+  quadrature::Gauss< quadrature::Legendre<N> > quad;
+  quadrature::DiscreteOrdinates angle(quad);
+
+  // Build Material
+  std::vector<double> sigA(1, 2.0);
+  std::vector<double> sigS(1, 1.0);
+  std::vector<double> sigT(1, 3.0);
+  std::vector<std::vector<double>> afp(1, {10.0, 1.0, 0.1});
+  std::vector<std::vector<double>> efp(1, {10.0, 1.0, 0.1});
+  std::vector<std::vector<std::vector<double>>> 
+    dSigS(1, std::vector<std::vector<double>>(1, {1.0, 0.5}));
+
+  std::vector<double> energyGrid{0.0, 1.0};
+  data::Material material(dSigS, afp, efp, sigA, sigS, sigT, energyGrid);
+
+  // Build Material Matrix
+  std::vector<int> cells{K};
+  std::vector<data::Material> materials{material};
+  data::DataMatrix dataMatrix(cells, materials, true);
+\end{lstlisting}
+The operators planar CPT operators that are available in SALLY are:
+\begin{itemize}
+    \item The inverse streaming operator, $\Lp^{-1}$:
+    \begin{lstlisting}
+      auto L_inv = streaming::L_inv(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The Boltzmann scattering operator, $\Bz$:
+    \begin{lstlisting}
+      auto B = boltzmann::B(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The angular Fokker-Planck operator, $\Fz$:
+    \begin{lstlisting}
+      auto F_dq = fokker_planck::dq::F(planar, angle, dataMatrix);
+      auto F_wdd = fokker_planck::wdd::F(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The inverse of the lower-triangular part second-order angular GFP operator plus streaming operator, $(\Lp+\Gtwo^l)^{-1}$:
+    \begin{lstlisting}
+      auto LG2l_inv = gfp::LG2l_inv(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The upper-triangular part of the second-order angular GFP operator, $\Gtwo^u$:
+    \begin{lstlisting}
+      auto G2u = gfp::G2u(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The inverse of the lower-triangular part third-order angular GFP operator plus streaming operator, $(\Lp+\Gthree^l)^{-1}$:
+    \begin{lstlisting}
+      auto LG3l_inv = gfp::LG3l_inv(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The upper-triangular part of the third-order angular GFP operator, $\Gthree^u$:
+    \begin{lstlisting}
+      auto G3u = gfp::G3u(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The inverse of the lower-triangular part fourth-order angular GFP operator plus streaming operator, $(\Lp+\Gfour^l)^{-1}$:
+    \begin{lstlisting}
+      auto LG4l_inv = gfp::LG4l_inv(planar, angle, dataMatrix);
+    \end{lstlisting}
+    \item The upper-triangular part of the fourth-order angular GFP operator, $\Gfour^u$:
+    \begin{lstlisting}
+      auto G4u = gfp::G4u(planar, angle, dataMatrix);
+    \end{lstlisting}
+\end{itemize}
+
+\section{Solvers Class}
+
+\section{Example Problems}
+\end{document}

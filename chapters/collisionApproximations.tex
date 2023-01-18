@@ -1,7 +1,113 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
 \chapter{Approximations to the Boltzmann Collision Operator}
 
 \section{Fokker-Planck}
+The FP scattering operator is derived by performing a Taylor series expansion of the differential cross section about $\mucm - 1= 0$ and $E^{\prime}-E = 0$, that is about zero angular deflection and zero energy loss \cite{Pomraning-1996}. This yields the following higher-order FP scattering operator
+\begin{equation} \label{eqn:Taylor_Series_Boltzmann}
+    \boldsymbol{C}_{x,t \rightarrow x}^{HFP} \Psi_x = \sum_{j=0}^{J} \sum_{k=0}^{K} \dfrac{1}{k!} \dfrac{\partial^k}{\partial E^k} \left[ T_{x,t\rightarrow x}^{k,j}(r,E) \boldsymbol{\mathcal{H}}_{j} \Psi_x(r,E,\mu) \right],
+\end{equation}
+where $T_{x,t\rightarrow x}^{k,j}(r,E)$ are the FP moments of the differential cross section given by
+\begin{equation} \label{eqn:FP_data_moments}
+    T_{x,t\rightarrow x}^{k,j} (E) = 2\pi \, \int_{0}^{\infty} dE \, (E^{\prime} - E)^k \int_{-1}^{1} d \mucm \, (1 - \mucm)^j \, \Sigma_{x,t\rightarrow x}(E^{\prime}\rightarrow E;\mucm).
+\end{equation}
+In Eq.~\eqref{eqn:Taylor_Series_Boltzmann}, $\boldsymbol{\mathcal{H}}_{j}$ are the angular operators given by
+\begin{equation} \label{eqn:angular_operators}
+    \boldsymbol{\mathcal{H}}_0 = \boldsymbol{I}, \quad \boldsymbol{\mathcal{H}}_j = \dfrac{1}{2^j \, (j!)^2} \prod_{i=0}^{j-1} \Big[ \boldsymbol{\mathcal{L}} + i(i+1) \Big],
+\end{equation}
+where $\boldsymbol{\mathcal{L}}$ is the angular spherical Laplacian operator given by
+\begin{equation}
+    \boldsymbol{\mathcal{L}} = \dfrac{\partial}{\partial \mu} (1 - \mu^2) \dfrac{\partial}{\partial \mu}.
+\end{equation}
+Note that Eq.~\eqref{eqn:Taylor_Series_Boltzmann} is formally equivalent to the original Boltzmann scattering operator. The Taylor series expansion has transformed the discrete integral Boltzmann scattering operator into a continuous differential scattering operator, which by definition has no associated MFP.
+
+Next, returning to the asymptotic analysis introduced at the beginning of this section, the asymptotic limit of the FP scattering operator can be examined. This examination begins by substituting the scaled differential cross section, Eq.~\eqref{eqn:scaled_dsig_s}, into Eq.~\eqref{eqn:FP_data_moments}, such that the differential cross section moments, $T_{x,t\rightarrow x}^{k,j}(E)$, are $\mathcal{O}\left(\dfrac{\epsilon^k \, \delta^j}{\Delta}\right)$. Substituting the order of teh differential cross section moments into the higher-order FP expansion, Eq.~\eqref{eqn:Taylor_Series_Boltzmann}, shows that the order of the terms in the Taylor series expansion are given by the order of the FP moments of the differential cross section. Therefore, the Taylor series expansion is a valid approximation to the original Boltzmann scattering operator when the FP moments of the differential cross section decay according to $\mathcal{O}\left(\dfrac{\epsilon^k \, \delta^j}{\Delta}\right)$. As Larsen shows \cite{Larsen-1999}, while this is the case for the screened Coulomb differential cross section, this is not always true; therefore care must be taken to ensure that this asymptotic limit is met when the FP scattering operator is used.
+
+It was shown by Prinja and Pomeraning \cite{Prinja-2001} that solutions involving Eq.~\eqref{eqn:Taylor_Series_Boltzmann} with $K>2$ and $J>1$ are not robust, and therefore the FP scattering operator used in this work is found by neglecting the terms in the higher-order FP expansion that are greater than $K=2$ and $J=1$. Additionally, all energy-angle cross terms are neglected thereby decoupling angular-deflection and energy loss collisions. The general FP scattering operator examined in this work is,
+\begin{multline} \label{eqn:Fokker-Planck}
+    \boldsymbol{C}_{x,t \rightarrow x}^{FP} \Psi_x = \dfrac{\partial}{\partial E} \Big[ T_{x,t \rightarrow x}^{1,0}(E) \Psi_z(E) \Big] + \dfrac{1}{2} \dfrac{\partial^2}{\partial E^2} \Big[ T_{x,t \rightarrow x}^{2,0}(E) \Psi_z(E) \Big] \\
+    + \dfrac{T_{x,t \rightarrow x}^{0,1}(E)}{2} \dfrac{\partial}{\partial \mu} \Big[(1-\mu^2) \dfrac{\partial \Psi_z}{\partial \mu}\Big].
+\end{multline}
+By neglecting all higher-order moments of the higher-order FP expansion, and by neglecting all energy-angle cross terms, Eq.~\eqref{eqn:Fokker-Planck} neglects all large-angle scattering collisions.
+
+In Eq.~\eqref{eqn:Fokker-Planck}, $T_{x,t \rightarrow x}^{1,0}(E)$ and $T_{x,t \rightarrow x}^{2,0}(E)$ are referred to as the stopping power and the energy-straggling coefficients, and $T_{x,t \rightarrow x}^{0,1}(E)$ is referred to as the momentum transfer cross section. The first operator in Eq.~\eqref{eqn:Fokker-Planck} is a convection in energy operator and is referred to as the continuous slowing down (CSD) operator. If a beam of charged particles is incident on a slab of material, the CSD operator describes the average energy lost by the beam of particles as they move through the slab of material. The second operator is a diffusion in energy operator and is referred to as the energy-straggling operator (ES), and describes the spreading out in energy of the beam of particles as it slows down in the slab of material. Lastly, the third operator in Eq.~\eqref{eqn:Fokker-Planck} is an angular diffusion operator referred to as the angular Fokker-Planck operator (AFP), and describes the spreading out in angle of the beam of particles as it slows down in energy. To simplify notation in the following sections, whenever the FP collision operator is used, the stopping power, energy straggling, and momentum transfer coefficients will be denoted as $S(E)$, $T(E)$, and $\Sigma_{tr}$ respectively.
 
 \section{Boltzmann-Fokker-Planck}
+To account for the large-angle scattering collisions that the FP scattering operator neglects, the Boltzmann-Fokker-Planck (BFP) scattering operator is introduced \cite{Ligou-1986}. The BFP scattering operator splits the differential cross section into two parts: one part that is peaked and one part that is smooth, that is,
+\begin{equation}
+    \sigma_{x,t \rightarrow x}(E^{\prime} \rightarrow E; \mucm) = \sigma_{x,t \rightarrow x}^{p}(E^{\prime} \rightarrow E; \mucm) + \sigma_{x,t \rightarrow x}^{s}(E^{\prime} \rightarrow E; \mucm),
+\end{equation}
+where $\sigma_s^{p}$ and $\sigma_s^{s}$ are the peaked and smooth parts respectively. The peaked part is then represented by an FP scattering operator, while the smooth part is represented by a Boltzmann scattering operator. The BFP scattering operator is expressed as
+\begin{equation} \label{eqn:BFP-operator}
+    \boldsymbol{C}_{x,t \rightarrow x}^{BFP} = \boldsymbol{C}_{x,t \rightarrow x}^{B} + \boldsymbol{C}_{x,t \rightarrow x}^{FP},
+\end{equation}
+where the superscripts $B$ and $FP$ represent the Boltzmann and FP scattering operators respectively.
+
+To ensure that the BFP scattering operator is an accurate approximation to the original Boltzmann scattering operator, the splitting of the original differential cross section needs to be done in such a way that the peaked differential cross section satisfies the asymptotic limit of the FP expansion, and the MFP associated with new Boltzmann scattering operator is $\mathcal{O}(1)$.
 
 \section{Generalized Fokker-Planck}
+The GFP approximation was first introduced by Leakeas and Larsen \cite{leakeas-2001} as a method of handling scattering kernels that contain a sufficient amount of large-angle scattering in mono-energetic transport problems. Leakeas and Larsen derived the angular GFP operator by re-normalizing the full angular FP Taylor series expansion to achieve a coupled system of second-order GFP equations. Moreover, the angular GFP operator can be written in different but mathematically equivalent forms as coupled systems of second-order differential equations or as a single Boltzmann or BFP equation. This is advantageous as the angular GFP operators are amenable to different types of numerical treatment.
+
+The energy-dependent GFP operator is found by subdividing the finite energy range $E \in [\emin, \emax]$ into $G$ intervals order as 
+\begin{equation}
+  \emin = E_{\frac{1}{2}} < E_{\frac{3}{2}} < \ldots < E_{g-\frac{1}{2}} < E_{g+\frac{1}{2}} < \ldots < E_{G+\frac{1}{2}} = \emax
+\end{equation}
+with a group $g$ being the the interval $I_g = [E_{g-\frac{1}{2}}, E_{g+\frac{1}{2}}]$. With appropriately averaged group constants $Q_{n,g}$, Eq. \eqref{eqn:generalFokkerPlanckExpansion} becomes the following set of so-called multigroup equations
+\begin{equation} \label{eqn:multigroupFokkerPlanck}
+  \dfrac{\partial \Psi(x,E)}{\partial x} = \sum_{n=1}^{\infty} \dfrac{Q_{n,g}}{n !} \dfrac{\partial^n \Psi(x,E) }{\partial E^n}, \quad \text{for} \,\, E \in [E_{g-\frac{1}{2}}, E_{g+\frac{1}{2}}], \quad g = 1,2,\ldots,G.
+\end{equation}
+
+Next, the first-order differential operator,
+\begin{equation} \label{eqn:GFPOperator}
+  \mathcal{L} = \alpha_g \dfrac{\partial}{\partial E} \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1}, \quad E \in [E_{g-1/2}, E_{g+1/2}],
+\end{equation}
+is introduced and forms the basic building block of the energy-dependent GFP approximations. The Taylor series expansion of Eq. \eqref{eqn:GFPOperator} is
+\begin{equation} \label{eqn:taylorSeriesGFPOperator}
+  \mathcal{L} = \alpha_g \sum_{n=1}^{\infty} \beta^{n-1} \dfrac{\partial^n}{\partial E^n} = \alpha_g \dfrac{\partial}{\partial E} + \alpha_g \beta_g \dfrac{\partial^2}{\partial E^2} + \ldots
+\end{equation}
+which has an identical form to Eq. \eqref{eqn:multigroupFokkerPlanck}. The coefficients $\alpha_g$ and $\beta_g$ are found by equating the first two terms in Eq. \eqref{eqn:multigroupFokkerPlanck} with the first two terms in Eq. \eqref{eqn:taylorSeriesGFPOperator}, this yields a system of two equations with two unknowns which can be easily solved. The resulting operator will preserve exactly the first two moments of Eq. \eqref{eqn:taylorSeriesGFPOperator}, and will approximate all higher-order moments in terms of the first two moments. 
+
+More moments can be preserved by summing $\mathcal{L}$ operators as
+\begin{equation} \label{eqn:higherOrderGFPOperator}
+  \mathcal{L}_N = \sum_{n=1}^{N} \alpha_{g,n} \dfrac{\partial}{\partial E} \left(1 - \beta_{g,n} \dfrac{\partial}{\partial E}\right)^{-1}, \quad E \in [E_{g-1/2}, E_{g+1/2}].
+\end{equation}
+The coefficients $\alpha_{g,n}$ and $\beta_{g,n}$ are found by equating the Taylor series expansion of Eq. \eqref{eqn:higherOrderGFPOperator} with the first $2N$ moments of Eq. \eqref{eqn:multigroupFokkerPlanck}. In the remainder of this section the differential and integral forms of the energy-dependent GFP approximations are introduced.
+
+\subsubsection{Differential form}
+The energy-dependent GFP operator can be written as a system of first-order differential equations by introducing
+\begin{equation} \label{eqn:chi}
+  \chi(E) = \left(1 - \beta_{g,n} \dfrac{\partial}{\partial E}\right)^{-1} \Psi(E).
+\end{equation}
+Substituting Eq. \eqref{eqn:chi} into Eq. \eqref{eqn:higherOrderGFPOperator} results in the system of $N$ coupled first-order differential equations
+\begin{subequations} \label{eqn:GFPDifferential}
+  \begin{equation}
+    \mathcal{L}_N \, \Psi(E) = \sum_{n=1}^{N} \alpha_{g,n} \dfrac{\partial \chi_n(E)}{\partial E},
+  \end{equation}
+  \begin{equation}
+    \Psi(E) = \chi_n(E) - \beta_{g,n} \dfrac{\partial \chi_n(E)}{\partial E}, \quad n = 1,2,\ldots,N.
+  \end{equation}
+\end{subequations}
+Notice that because Eq. \eqref{eqn:GFPDifferential} only contains first-order advective terms meaning that this operator only allows for particles to slow down unlike the FP approximation which allows for particles to unphysically up-scatter. Additionally, the differential operators in Eq. \eqref{eqn:GFPDifferential} only act on the new variable $\chi_n(E)$ and therefore boundary conditions will only act on $\chi_n(E)$. These boundary conditions are derived in the next section enroute to the integral form of the GFP operators.
+
+\subsubsection{Integral form}
+A mathematically equivalent integral GFP energy operator is derived by using the relationship
+\begin{equation} \label{eqn:dEexpression}
+  \boldsymbol{I} = (\boldsymbol{I} - \beta \dfrac{\partial}{\partial E})(\boldsymbol{I} - \beta \dfrac{\partial}{\partial E})^{-1} \implies \dfrac{\partial}{\partial E} = \dfrac{1}{\beta} \left[\boldsymbol{I} - \left(\boldsymbol{I} - \beta \dfrac{\partial}{\partial E}\right)\right],
+\end{equation}
+where $\boldsymbol{I}$ is the identity operator. Substituting Eq. \eqref{eqn:dEexpression} into Eq. \eqref{eqn:GFPOperator} gives the following equivalent form of $\mathcal{L}$,
+\begin{equation} \label{eqn:GFPequivalentForm}
+  \mathcal{L} = \alpha_g \left\lbrace \dfrac{1}{\beta} \left[\boldsymbol{I} - \left(\boldsymbol{I} - \beta \dfrac{\partial}{\partial E}\right)\right] \right\rbrace \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1} = \widehat{\Sigma}_g \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1} + \widehat{\Sigma}_g,
+\end{equation}
+where $\widehat{\Sigma}_g = \alpha_g / \beta_g$ is the new total scattering cross section. Next, it can be shown that the inverse differential term in Eq. \eqref{eqn:GFPequivalentForm} can be written as the integral term
+\begin{equation} \label{eqn:GFPIntegral}
+  \widehat{\Sigma}_g \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1} \Psi(x,E) \equiv \widehat{\Sigma}_g \, \chi(E) \equiv \int\limits_{E}^{\emax} dE^{\prime} \, \widehat{\Sigma}_g(E^{\prime}\rightarrow E) \, \Psi(x,E^{\prime}),
+\end{equation}
+where $\widehat{\Sigma}_g(E^{\prime}\rightarrow E)$ is the new differential scattering cross section
+\begin{equation}
+  \widehat{\Sigma}(E^{\prime}\rightarrow E) = \dfrac{\widehat{\Sigma}_g}{\beta_g} \exp \left[ - \dfrac{1}{\beta_g}(E^{\prime} - E)\right].
+\end{equation}
+To derive Eq. \eqref{eqn:GFPIntegral}, the boundary condition $\chi(\emax) = 0$ was used; these boundary conditions will be used to complete the system of first-order differential equations given by Eq. \eqref{eqn:GFPDifferential}.
+
+\end{document}
