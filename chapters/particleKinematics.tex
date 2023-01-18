@@ -1,0 +1,191 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\chapter{Two Body Particle Kinematics}
+Here the two body particle kinematics required by the charged particle code LANDO to generate the multigroup data and cross sections are derived in detail. The first section derives the angle-energy relationships for two-body scattering, including: the general relationship for center-of-mass (COM) scattering angle and incident and final energy of the scattered particle, a simplified form of the general scattering angle-energy relationship for elastic scattering, the expression for obtaining the Fokker-Planck coefficients, and the general relationship for COM recoil scattering angle and incident energy of the scattered particle with the final energy of the recoil particle.
+
+In this section the kinematics that describe two-body collisions are derived. We begin by considering the two-body collisions in the laboratory (LAB) reference frame shown in Figure \ref{fig:two-body-figure}.
+
+\begin{figure}[!htb]
+  \centering
+  \includestandalone{tikz/twobodylab}
+  \caption{LAB frame}
+  \label{fig:two-body-figure}
+\end{figure}
+
+\section{Energy-angle relationship}
+To derive a relationship between the LAB scattering angle and incoming and outing scattering angles we begin by considering the energy conservation equation for this reaction, that is,
+\begin{equation}
+  E_p = E_{\alpha} + E_{\beta} - Q,
+\end{equation}
+where $Q$ is the energy released in the reaction. Solving for $E_{\beta}$ gives
+\begin{equation}
+  E_{\beta} = E_p - E_{\alpha} + Q.
+\end{equation}
+
+Next from the conservation of momentum in the y-direction, we can write
+\begin{equation}
+  0 = m_{\alpha} \, v_{\alpha} \sin \theta + m_{\beta} \, v_{\beta} \sin \phi.
+\end{equation}
+Squaring the equation and then using trigonometry identities, the previous equation can be solved for $\cos \phi$ as
+\begin{equation}
+  \cos \phi = \sqrt{1 - \dfrac{m_{\alpha}^2 \, v_{\alpha}^2}{m_{\beta}^2 \, v_{\beta}^2} (1 - \cos^2 \theta)}
+\end{equation}
+The momentum balance in the x-direction is
+\begin{equation}
+  m_p v_p = m_{\alpha} v_{\alpha} \cos \theta + m_{\beta} v_{\beta} \cos \phi
+\end{equation}
+Substituting in our expression for $\cos \phi$ from before gives
+\begin{equation}
+  m_p v_p = m_{\alpha} v_{\alpha} \cos \theta + m_{\beta} v_{\beta} \sqrt{1 - \dfrac{m_{\alpha}^2 \, v_{\alpha}^2}{m_{\beta}^2 \, v_{\beta}^2} (1 - \cos^2 \theta)}
+\end{equation}
+\begin{equation}
+  m_p v_p - m_{\alpha} v_{\alpha} \cos \theta =  m_{\beta} v_{\beta} \sqrt{1 - \dfrac{m_{\alpha}^2 \, v_{\alpha}^2}{m_{\beta}^2 \, v_{\beta}^2} (1 - \cos^2 \theta)}
+\end{equation}
+\begin{equation}
+  m_p^2 v_p^2 + m_{\alpha}^2 v_{\alpha}^2 \cos^2 \theta - 2 m_p v_p m_{\alpha} v_{\alpha} \cos \theta =  m_{\beta}^2 v_{\beta}^2 \left[1 - \dfrac{m_{\alpha}^2 \, v_{\alpha}^2}{m_{\beta}^2 \, v_{\beta}^2} (1 - \cos^2 \theta)\right]
+\end{equation}
+\begin{equation}
+  m_p^2 v_p^2 + m_{\alpha}^2 v_{\alpha}^2 \cos^2 \theta - 2 m_p v_p m_{\alpha} v_{\alpha} \cos \theta =  m_{\beta}^2 v_{\beta}^2 - m_{\alpha}^2 \, v_{\alpha}^2 (1 - \cos^2 \theta)
+\end{equation}
+\begin{equation}
+  m_p^2 v_p^2 + m_{\alpha}^2 v_{\alpha}^2 \cos^2 \theta - 2 m_p v_p m_{\alpha} v_{\alpha} \cos \theta =  m_{\beta}^2 v_{\beta}^2 - m_{\alpha}^2 \, v_{\alpha}^2 + m_{\alpha}^2 \, v_{\alpha}^2 \cos^2 \theta
+\end{equation}
+\begin{equation}
+  m_p^2 v_p^2 - 2 m_p v_p m_{\alpha} v_{\alpha} \cos \theta =  m_{\beta}^2 v_{\beta}^2 - m_{\alpha}^2 \, v_{\alpha}^2
+\end{equation}
+Next using the following energy-velocity relationships
+\begin{equation}
+  v^2 = \dfrac{2E}{m}, \quad v = \sqrt{\dfrac{2 E}{m}}
+\end{equation} 
+the previous expression can be re-written in terms of energy as 
+\begin{equation}
+  m_p^2 \left(\dfrac{2E_p}{m_p}\right) - 2 m_p m_{\alpha} \cos \theta \sqrt{\dfrac{2E_p}{m_p}} \sqrt{\dfrac{2E_{\alpha}}{m_{\alpha}}} =  m_{\beta}^2 \left(\dfrac{2E_{\beta}}{m_{\beta}}\right) - m_{\alpha}^2 \, \left(\dfrac{2E_{\alpha}}{m_{\alpha}}\right)
+\end{equation}
+\begin{equation}
+  2 m_p E_p - 4 \cos \theta \sqrt{m_p m_{\alpha} E_p E_{\alpha}} =  2 m_{\beta} E_{\beta} - 2 m_{\alpha} E_{\alpha}
+\end{equation}
+\begin{equation}
+  \cos \theta \sqrt{m_p m_{\alpha} E_p E_{\alpha}} =  \dfrac{1}{2} \left[m_p E_p + m_{\alpha} E_{\alpha} - m_{\beta} E_{\beta}\right]
+\end{equation}
+Finally, substituting in our energy conservation expression gives
+\begin{equation}
+  \cos \theta \sqrt{m_p m_{\alpha} E_p E_{\alpha}} =  \dfrac{1}{2} \Big[m_p E_p + m_{\alpha} E_{\alpha} - m_{\beta} \left(E_p - E_{\alpha} + Q\right)\Big]
+\end{equation}
+\begin{equation}
+  \cos \theta \sqrt{m_p m_{\alpha} E_p E_{\alpha}} =  \dfrac{1}{2} \Big[E_p\left(m_p - m_{\beta}\right) + E_{\alpha}\left(m_{\alpha} + m_{\beta}\right) - m_{\beta}\,Q\Big]
+\end{equation}
+\begin{equation} \label{eqn:two-body-kinematics}
+  \boxed{\cos \theta = \mu = \dfrac{1}{2} \Bigg[\frac{m_p - m_{\beta}}{\sqrt{m_p \, m_{\alpha}}}\sqrt{\dfrac{E_p}{E_{\alpha}}} + \frac{m_{\alpha} + m_{\beta}}{\sqrt{m_p \, m_{\alpha}}}\sqrt{\dfrac{E_{\alpha}}{E_p}} - \dfrac{m_{\beta} \, Q}{\sqrt{m_p m_{\alpha} E_p E_{\alpha}}}\Bigg]}
+\end{equation}
+Using the mass relationship $m_{\beta} \approx m_p + m_t - m_{\alpha}$, Eq. \eqref{eqn:two-body-kinematics} can be written in terms of only $m_p$, $m_t$, and $m_{\alpha}$ as
+\begin{equation}
+  \mu = \dfrac{1}{2\sqrt{m_p \, m_{\alpha}}} \left(\dfrac{E_p}{E_{\alpha}}\right)^{\frac{1}{2}} \Bigg[\left(m_{\alpha} - m_{t}\right) + \left(m_{p} + m_{t}\right) \dfrac{E_{\alpha}}{E_p} - \left(m_p + m_t - m_{\alpha}\right)\dfrac{Q}{E_p}\Bigg]
+\end{equation}
+
+\subsection{Elastic scattering}
+For elastic scattering $Q = 0$ and the masses of the particles do not change as a result of the reaction ($m_p = m_{\alpha}$, and $m_t = m_{\beta}$). Substituting these expressions into Eq. \eqref{eqn:two-body-kinematics} gives
+\begin{equation} \label{eqn:elastic-scattering-angle-energy-rel}
+  \boxed{\mu = \dfrac{1}{2} \left[\left(1 - A\right)\sqrt{\dfrac{E_p}{E_{\alpha}}} + \left(1 + A\right)\sqrt{\dfrac{E_{\alpha}}{E_p}}\right], \quad A = \dfrac{m_t}{m_p}}
+\end{equation}
+
+\subsection{Elastic scattering minimum scattering angle}
+To determine the minimum scattering angle, we begin by taking the derivative of Eq. \eqref{eqn:elastic-scattering-angle-energy-rel} with respect to $E_{\alpha}$,
+\begin{equation}
+  \dfrac{d \mu}{d E_{\alpha}} = \dfrac{1}{2} \left[\frac{1}{2}\left(1 + A\right)(E_{\alpha})^{\frac{1}{2}}(E_p)^{-\frac{1}{2}} - \frac{1}{2}\left(1 - A\right)(E_p)^{\frac{1}{2}}(E_{\alpha})^{-\frac{3}{2}}\right]
+\end{equation}
+Next setting the derivative equal to zero and solving for $E_{\alpha}$ gives
+\begin{equation}
+  0 = \left(1 + A\right)(E_{\alpha})^{\frac{1}{2}}(E_p)^{-\frac{1}{2}} - \left(1 - A\right)(E_p)^{\frac{1}{2}}(E_{\alpha})^{-\frac{3}{2}}
+\end{equation}
+\begin{equation}
+  \left(1 - A\right)(E_p)^{\frac{1}{2}}(E_{\alpha})^{-\frac{3}{2}} = \left(1 + A\right)(E_{\alpha})^{\frac{1}{2}}(E_p)^{-\frac{1}{2}}
+\end{equation}
+\begin{equation}
+  E_{\alpha} = \dfrac{1-A}{1+A} Ep
+\end{equation}
+Finally substituting this expression for $E_{\alpha}$ back into Eq. \eqref{eqn:elastic-scattering-angle-energy-rel} gives
+\begin{equation}
+  \mu_{\text{min}} = \dfrac{1}{2} \left[\left(1 - A\right)\sqrt{\dfrac{1+A}{1-A}} + \left(1 + A\right)\sqrt{\dfrac{1-A}{1+A}}\right]
+\end{equation}
+\begin{equation}
+  \boxed{\mu_{\text{min}} = \sqrt{(1+A)(1-A)} = \Big[1 - A^2\Big]^{\frac{1}{2}}, \quad \text{for} \,\, m_p > m_t}.
+\end{equation}
+
+\section{Laboratory and center of mass relationships}
+To derive a relationship between the CM and LAB consider the diagram in Figure \ref{fig:lab_com_rel}.
+\begin{figure}[!htb]
+  \centering
+  \includestandalone{tikz/lab_com_relationship}
+  \caption{LAB frame}
+  \label{fig:lab_com_rel}
+\end{figure}
+
+The y-direction velocity components are:
+\begin{equation}
+  v_{\alpha}^L \sin \theta_{\scaleto{L}{3pt}} = v_{\alpha}^C \sin \theta_{\scaleto{C}{3pt}},
+\end{equation}
+and in the x-direction 
+\begin{equation}
+  v_{\alpha}^L \cos \theta_{\scaleto{L}{3pt}} = v_{CM} + v_{\alpha}^C \cos \theta_{\scaleto{C}{3pt}}.
+\end{equation}
+Dividing the two equations gives
+\begin{equation}
+  \tan \theta_{\scaleto{L}{3pt}} = \dfrac{\sin \theta_{\scaleto{C}{3pt}}}{\alpha + \cos \theta_{\scaleto{C}{3pt}}}, \quad \text{where} \,\, \alpha = \dfrac{v_{CM}}{v_{\alpha}^C}
+\end{equation}
+squaring and using the trigonometry identity $\sin^2 \theta = 1 - \cos^2 \theta$ gives
+\begin{equation}
+  \dfrac{1 - \cos^2 \theta_{\scaleto{L}{3pt}}}{\cos^2 \theta_{\scaleto{L}{3pt}}} = \dfrac{1 - \cos^2 \theta_{\scaleto{C}{3pt}}}{\alpha^2 + 2 \, \alpha \, \cos \theta_{\scaleto{C}{3pt}} + \cos^2 \theta_{\scaleto{C}{3pt}}}
+\end{equation}
+The previous relationship can be solved for $\cos \theta_{\scaleto{L}{3pt}}$ to give 
+\begin{equation} \label{eqn:lab-com-angle-relationship}
+  \boxed{\mu_C = \alpha (\mu_L^2 - 1) \pm \mu_L \sqrt{1 + \alpha^2(\mu_L^2-1)}}
+\end{equation}
+
+\subsection{Center of mass velocities}
+To compute the COM velocities required by Eq. \eqref{eqn:lab-com-angle-relationship} consider the simple two-body diagram shown in Figure \ref{fig:two-body-figure-com}.
+\begin{figure}[!htb]
+  \centering
+  \includestandalone{tikz/twobodycm}
+  \caption{LAB frame}
+  \label{fig:two-body-figure-com}
+\end{figure}
+We begin by transforming the incident energy of the particle $E_p^l$ from the LAB frame to the COM frame. This is done by first considering the velocities of the projectile and target particles in the COM frame, that is,
+\begin{subequations}
+  \begin{eqnarray*}
+    u_p = v_p - V \\
+    u_t = -V
+  \end{eqnarray*}
+\end{subequations}
+where $V$ is the COM velocity of the system. Next the total momentum in the COM is zero, and therefore the COM velocity can be solved for
+\begin{gather*}
+  m_p u_p + m_t u_t = 0 \\
+  m_p (v_p - V) + m_t (-V) = 0 \\
+  V(m_p + m_t) = m_p v_p \\
+  \therefore V = \dfrac{m_p}{m_p + m_t} v_p
+\end{gather*}
+Using $V$ the energy of the incident particle $p$ in the COM frame is
+\begin{gather}
+  E_p^C = \dfrac{1}{2} m_p u_p^2 = \dfrac{1}{2} m_p \left( v_p - \dfrac{m_p}{m_p + m_t} v_p \right)^2 = E_p^l \left( \dfrac{m_t}{m_p+m_t} \right)^2
+\end{gather}
+Another relationship that will be useful in our derivations is the COM velocities of the outgoing particles for which relationships can be found by considering the conservation of momentum, that is,
+\begin{gather}
+  m_p u_p + m_t u_t = 0 \implies u_t = -\dfrac{m_p}{m_t} u_p \\
+  m_{\alpha} u_{\alpha} + m_{\beta} u_{\beta} = 0 \implies u_{\beta} = -\dfrac{m_{\alpha}}{m_{\beta}} u_{\alpha}, \quad u_{\alpha} = -\dfrac{m_{\beta}}{m_{\alpha}} u_{\beta} 
+\end{gather} 
+
+To derive a relationship for the cosine of the COM scattering angle, and the LAB incident and outgoing energies we begin by using energy conservation to derive a relationship between the COM outgoing energy and the incident lab energy as
+\begin{gather*}
+  E_p^C + E_t^C = E_{\alpha}^C + E_{\beta}^C - Q \\
+  m_p u_p^2 + m_t \left(-\dfrac{m_p}{m_t} u_p \right)^2 = m_{\alpha} u_{\alpha}^2 + m_{\beta} \left(-\dfrac{m_{\alpha}}{m_{\beta}} u_{\alpha}\right)^2 - 2 Q \\
+  \left(1 + \dfrac{m_p}{m_t}\right) m_p u_p^2 = \left(1 + \dfrac{m_{\alpha}}{m_{\beta}}\right) m_{\alpha} u_{\alpha}^2 - 2Q \\
+  \left(\dfrac{m_t + m_p}{m_t}\right) E_p^C = \left(\dfrac{m_{\beta} + m_{\alpha}}{m_{\beta}}\right) E_{\alpha}^C - Q \\
+  E_{\alpha}^C = \left(\dfrac{m_{\beta}(m_t + m_p)}{m_t(m_{\beta}+m_{\alpha})}\right) E_p^C + \left(\dfrac{m_{\beta}}{m_{\beta}+m_{\alpha}}\right) Q \\
+  \boxed{E_{\alpha}^C(E_p^L,Q) = E_p^l \left( \dfrac{m_t}{m_p+m_t} \right)^2 \left(\dfrac{m_{\beta}(m_t + m_p)}{m_t(m_{\beta}+m_{\alpha})}\right) + \left(\dfrac{m_{\beta}}{m_{\beta}+m_{\alpha}}\right) Q}.
+\end{gather*}
+where $Q$ is the energy lost in a nuclear reaction. Finally, the velocity of the outgoing particle in the COM frame is simply
+\begin{equation}
+  v_{\alpha}^C = \sqrt{\frac{2 E_{\alpha}^C}{m_{\alpha}}}
+\end{equation}
+
+\end{document}
