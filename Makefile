@@ -84,8 +84,8 @@ $(MAIN).pdf: $(MAIN).tex $(figdir) $(FIGS) $(TABS) $(TIKZ) $(REF) $(CLS) $(subfi
 	$(PDFLATEX) $(BASE) && $(BIBTEX) $(BASE) && $(PDFLATEX) $(BASE) && $(PDFLATEX) $(BASE)
 
 # compile chapters individually 
-% : $(subfiles_dir)/%.tex $(figdir) $(FIGS) $(TABS) $(TIKZ) $(REF) $(GLOSS) $(CLS) Makefile 
-	cd $(subfiles_dir); latexmk -pdf $@ > /dev/null
+% : $(subfiles_dir)/%.tex $(figdir) $(FIGS) $(TABS) $(TIKZ) $(REF) $(CLS) Makefile 
+	cd $(subfiles_dir); $(PDFLATEX) $@ && $(PDFLATEX) $@
 
 # list figure names 
 listfigs : 
