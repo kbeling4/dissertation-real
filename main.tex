@@ -1,107 +1,4 @@
-\documentclass[botnum, fleqn]{unmeethesis}
-\usepackage{subfiles}
-\usepackage[mode=buildnew]{standalone}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb}
-\usepackage{tikz,caption,subcaption}
-\usepackage{scalerel}
-\usepackage{indentfirst}
-\usepackage{tabls}
-\usepackage{tabularx}
-\usepackage{booktabs}
-\usepackage{tablefootnote}
-\usepackage{hhline}
-\usepackage[justification=centering]{caption}
-\usepackage{graphicx}
-\usepackage{listings}
-\usepackage{color}
-\graphicspath{ {./figures/} }
-
-\usetikzlibrary{patterns}
-
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black
-}
-
-\newcommand{\BOmega}{\ensuremath{\boldsymbol{\Omega}}}
-\newcommand{\Bx}{\ensuremath{\boldsymbol{x}}}
-\newcommand{\Bv}{\ensuremath{\boldsymbol{v}}}
-\newcommand{\mucm}{\ensuremath{\mu_{\scaleto{CM}{3pt}}}}
-\newcommand{\etacm}{\ensuremath{\eta_{\scaleto{CM}{3pt}}}}
-\newcommand{\dG}{dG($p$)~}
-\newcommand{\dGns}{dG($p$)}
-\newcommand{\Sn}{$\text{S}_N$~}
-\newcommand{\Snns}{$\text{S}_N$}
-\newcommand{\mev}{\ensuremath{\,\text{MeV}}}
-\newcommand{\icm}{\ensuremath{\,\text{cm}^{-1}}}
-\newcommand{\cm}{\ensuremath{\,\text{cm}}}
-\newcommand{\bA}[1]{\ensuremath{\mathbf{#1}}}
-
-\newcommand{\dGc}{dG($p$)}
-\newcommand{\emin}{\ensuremath{E_{\text{min}}}}
-\newcommand{\emax}{\ensuremath{E_{\text{max}}}}
-\newcommand{\qmin}{\ensuremath{Q_{\text{min}}}}
-\newcommand{\qmax}{\ensuremath{Q_{\text{max}}}}
-\newcommand{\st}{\ensuremath{\sqrt{\dfrac{T}{2}}}}
-\newcommand{\ste}{\ensuremath{\sqrt{\dfrac{T(E)}{2}}}}
-\newcommand{\stg}[1]{\ensuremath{\sqrt{\dfrac{T_{#1}}{2}}}}
-\newcommand{\egp}{\ensuremath{E_{g+1/2}}}
-\newcommand{\egm}{\ensuremath{E_{g-1/2}}}
-\newcommand{\gp}{\ensuremath{g+1/2}}
-\newcommand{\gm}{\ensuremath{g-1/2}}
-\newcommand{\m}{\ensuremath{\phantom{-}}}
-
-\newcommand{\Iz}{\ensuremath{\boldsymbol{I}}}
-
-\newcommand{\Lp}{\ensuremath{\boldsymbol{L}_{\scaleto{P}{4pt}}}}
-\newcommand{\Ls}{\ensuremath{\boldsymbol{L}_{\scaleto{S}{4pt}}}}
-
-\newcommand{\Ps}{\ensuremath{\boldsymbol{P}}}
-\newcommand{\Pdq}{\ensuremath{\boldsymbol{P}_{\scaleto{DQ}{4pt}}}}
-\newcommand{\Pwdd}{\ensuremath{\boldsymbol{P}_{\scaleto{WDD}{4pt}}}}
-
-\newcommand{\Bz}{\ensuremath{\boldsymbol{B}}}
-\newcommand{\Cz}{\ensuremath{\boldsymbol{C}}}
-
-\newcommand{\Tz}{\ensuremath{\boldsymbol{T}}}
-\newcommand{\Taf}{\ensuremath{\boldsymbol{T}_{\scaleto{AF}{4pt}}}}
-\newcommand{\Tdf}{\ensuremath{\boldsymbol{T}_{\scaleto{DF}{4pt}}}}
-
-\newcommand{\Fz}{\ensuremath{\boldsymbol{F}}}
-\newcommand{\Fdq}{\ensuremath{\boldsymbol{F}_{\scaleto{DQ}{4pt}}}}
-\newcommand{\Fwdd}{\ensuremath{\boldsymbol{F}_{\scaleto{WDD}{4pt}}}}
-
-\newcommand{\G}{\ensuremath{\boldsymbol{G}}}
-\newcommand{\Gtwo}{\ensuremath{\boldsymbol{G}_{\scaleto{2}{4pt}}}}
-\newcommand{\Gthree}{\ensuremath{\boldsymbol{G}_{\scaleto{3}{4pt}}}}
-\newcommand{\Gfour}{\ensuremath{\boldsymbol{G}_{\scaleto{4}{4pt}}}}
-
-\newcommand{\GFP}{\ensuremath{\boldsymbol{\mathcal{L}}}}
-
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-
-\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}  
-
-\lstset{language=C++,
-        aboveskip=3mm,
-        belowskip=3mm,
-        showstringspaces=false,
-        columns=flexible,
-        backgroundcolor=\color{lbcolor},
-        basicstyle={\small\ttfamily},
-        keywordstyle=\color{blue}\ttfamily,
-        stringstyle=\color{red}\ttfamily,
-        commentstyle=\color{green}\ttfamily,
-        morecomment=[l][\color{magenta}]{\#},
-        tabsize=3
-}
+\documentclass[botnum, fleqn]{dissertation}
 
 \begin{document}
   \frontmatter
@@ -115,8 +12,6 @@
   \subfile{chapters/interactionPhysics}
 
   \subfile{chapters/particleKinematics}
-
-  \subfile{chapters/dataProcessing}
 
   \subfile{chapters/lando}
 
@@ -148,6 +43,6 @@
     
 
 \bibliographystyle{ieeetr}
-\bibliography{cpt.bib}
+\bibliography{references.bib}
 
 \end{document}
