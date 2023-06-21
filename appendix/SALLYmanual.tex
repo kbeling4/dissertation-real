@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-\chapter{The Charged Particle Transport Library SALLY}
+\chapter{SALLY Manual}
 The following operator notation will be used throughout the document to represent the various transport operators encountered in charged particle transport (CPT):
   \begin{enumerate}
       \item \textbf{Streaming Operators}:
@@ -81,15 +81,15 @@ The CPT C++ code SALLY provides three classes of finite elements: Planar, Spheri
     
     \subsection{Planar Finite Element Class}
     The Planar finite element class is constructed in the following manner:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
         #include "FiniteElements.hpp"
         
         int J = 2; // finite element order
         std::vector<double> spatialGrid{0, 1, 2, 3, 4, 5};
         finite_elements::Planar planar(spatialGrid, J);
-    \end{lstlisting}
+    \end{minted}
     Once the Planar finite element class has been constructed, the following methods are available:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
         // Finite element discretization info
         auto J = planar.get_order();
         auto K = planar.number_of_cells();
@@ -102,19 +102,19 @@ The CPT C++ code SALLY provides three classes of finite elements: Planar, Spheri
         auto Vp = planar.get_all_upwinding_positive_matrices();
         auto Vm = planar.get_all_upwinding_negative_matrices();
         auto  I = planar.get_all_I_matrices();
-    \end{lstlisting}
+    \end{minted}
     
     \subsection{Spherical Finite Element Class}
     The Spherical finite element class is constructed in the following manner:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
         #include "FiniteElements.hpp"
         
         int J = 2; // finite element order
         std::vector<double> spatialGrid{0, 1, 2, 3, 4, 5};
         finite_elements::Spherical spherical(spatialGrid, J);
-    \end{lstlisting}
+    \end{minted}
     Once the Spherical finite element class has been constructed, the following methods are available:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
         // Finite element discretization info
         auto J = spherical.get_order();
         auto K = spherical.number_of_cells();
@@ -132,19 +132,19 @@ The CPT C++ code SALLY provides three classes of finite elements: Planar, Spheri
         auto MS = spherical.get_all_starting_mass_matrices();
         auto Ls = spherical.get_all_derivative_starting_matrices();
         auto Vs = spherical.get_all_upwinding_starting_matrices();
-    \end{lstlisting}
+    \end{minted}
     
     \subsection{Energy Finite Element Class}
     The Energy finite element class is constructed in the following manner:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
         #include "FiniteElements.hpp"
         
         int J = 2; // finite element order
         std::vector<double> energyGrid{0, 1, 2, 3, 4, 5};
         finite_elements::Energy energy(energyGrid, J);
-    \end{lstlisting}
+    \end{minted}
     Once the Energy finite element class has been constructed, the following methods are available:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
         // Finite element discretization info
         auto J = energy.get_order();
         auto G = energy.number_of_cells();
@@ -164,14 +164,14 @@ The CPT C++ code SALLY provides three classes of finite elements: Planar, Spheri
         auto Gmp = energy.get_all_Gmp_matrices();
         auto Gpm = energy.get_all_Gpm_matrices();
         auto  BB = energy.get_all_BB_matrices();
-    \end{lstlisting}
+    \end{minted}
 
 \section{Transport Operators Class}
 The CPT C++ code SALLY provides the various CPT operators listed in Section 1 in five different geometry configurations: planar, planar-energy, spherical, spherical-energy, and straight-ahead. In this section we list the various operators available and there corresponding C++ implementation, not some operators do not exist solely on there own and instead combined with others and/or only their inverse is available. These operators work by taking an \emph{Eigen::VectorXd}, preforming the action of the matrix on the vector, and returning the resulting the vector. For example, the spatial streaming operator in planar-energy coordinates operators on a vector in the following manner
     
 \subsection{Planar Geometry}
 These operators correspond to the equation planar operators in Section 1 without energy-dependence, and are constructed with a Planar finite element class, an $S_N$ angular class, and a Data Matrix class:
-\begin{lstlisting}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
   #include "CPT_Operators.hpp"
   
   using namespace cpt_operators::planar;
@@ -199,46 +199,46 @@ These operators correspond to the equation planar operators in Section 1 without
   std::vector<int> cells{K};
   std::vector<data::Material> materials{material};
   data::DataMatrix dataMatrix(cells, materials, true);
-\end{lstlisting}
+\end{minted}
 The operators planar CPT operators that are available in SALLY are:
 \begin{itemize}
     \item The inverse streaming operator, $\Lp^{-1}$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto L_inv = streaming::L_inv(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The Boltzmann scattering operator, $\Bz$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto B = boltzmann::B(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The angular Fokker-Planck operator, $\Fz$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto F_dq = fokker_planck::dq::F(planar, angle, dataMatrix);
       auto F_wdd = fokker_planck::wdd::F(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The inverse of the lower-triangular part second-order angular GFP operator plus streaming operator, $(\Lp+\Gtwo^l)^{-1}$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto LG2l_inv = gfp::LG2l_inv(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The upper-triangular part of the second-order angular GFP operator, $\Gtwo^u$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto G2u = gfp::G2u(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The inverse of the lower-triangular part third-order angular GFP operator plus streaming operator, $(\Lp+\Gthree^l)^{-1}$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto LG3l_inv = gfp::LG3l_inv(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The upper-triangular part of the third-order angular GFP operator, $\Gthree^u$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto G3u = gfp::G3u(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The inverse of the lower-triangular part fourth-order angular GFP operator plus streaming operator, $(\Lp+\Gfour^l)^{-1}$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto LG4l_inv = gfp::LG4l_inv(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
     \item The upper-triangular part of the fourth-order angular GFP operator, $\Gfour^u$:
-    \begin{lstlisting}
+    \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{cpp}
       auto G4u = gfp::G4u(planar, angle, dataMatrix);
-    \end{lstlisting}
+    \end{minted}
 \end{itemize}
 
 \section{Solvers Class}

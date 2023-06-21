@@ -1,0 +1,137 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\chapter{Method of Manufactured Solutions Results}
+Here the numerical discretizations of the CPT operators are verified using the method of manufactured solutions (MMS). To verify the CPT operators two problems were examined: the first uses a Boltzmann collision operator, and the second uses an FP collision operator. In operator notation the two problems that were examined are:
+\begin{subequations} \label{eqn:L2_problems}
+  \begin{equation} 
+    \left[ \boldsymbol{L} + \boldsymbol{P} - \boldsymbol{C}^B_{x,t\rightarrow x} \right] \Psi_x = q_x,
+  \end{equation}
+  and
+  \begin{equation}
+    \left[ \boldsymbol{L} + \boldsymbol{P} - \boldsymbol{C}^{FP}_{x,t\rightarrow x} \right] \Psi_x = q_x.
+  \end{equation}
+\end{subequations}
+While the FP problem was solved in the full three-dimensional problem domain, the Boltzmann problem was only solved in the space-angle domain. The Boltzmann problem was only solved in the space-angle domain because the coupling between energy groups becomes a source on the right-hand side, and the remaining operators are simply multiplied by an energy mass matrix. This causes the Boltzmann problem to become many single-group equations with sources that depend on the fluxes of the previous energy assuming no up-scatter, and therefore only the single-group discretization of the Boltzmann problem was examined.
+
+To verify the CPT operators in the Boltzmann problem the following manufactured solution was used
+\begin{equation} \label{eqn:mms_psi_a}
+  \Psi_M(r,\mu) = \left( R^2 - r^2 \right) \, \text{cos}\left(\frac{\pi \, \mu}{2}\right),
+\end{equation}
+which was selected because it satisfies the boundary conditions of the spatial and angular streaming operators. The manufactured scalar flux corresponding to Eq.~\eqref{eqn:mms_psi_a} is
+\begin{equation}
+  \Phi_M(r) = \dfrac{4}{\pi} \, \left( R^2 - r^2 \right).
+\end{equation}
+To compare the numerically-calculated scalar flux solution, $\phi$, to the manufactured scalar flux, the one-dimensional discrete $L_2$ norm was used:
+\begin{equation} \label{eqn:L2_norm_a}
+  \delta = \left[ \dfrac{1}{K} \sum_{i=1}^K \left(\Phi_{M,i} - \phi_{i} \right)^2 \right]^{1/2},
+\end{equation}
+where $K$ is the number of spatial cells in the problem. In Eq.~\eqref{eqn:L2_norm_a}, $\Phi_{M,i}$ and $\phi_{i}$ are the cell-group-averaged manufactured and numerical scalar fluxes calculated as
+\begin{equation}
+  \Phi_{M,i} = \frac{ \int_{I_i} \, dr \, r^2 \, \Phi_M(r) }{ \int_{I_i} \, dr \, r^2  }, \quad \phi_{i} = \frac{ \int_{I_i} dr \, r^2 \, \phi(r) }{ \int_{I_i} dr \, r^2 }.
+\end{equation}
+
+The manufactured solution that was used to verify the numerical discretizations in the FP problem was
+\begin{equation} \label{eqn:mms_psi}
+  \Psi_M(r,E,\mu) = \left( R^2 - r^2 \right) \, \text{cos}\left(\frac{\pi \, \mu}{2}\right) \, \left(E_{max} - E\right)^2 \left(E - E_{min}\right)^2.
+\end{equation}
+This manufactured solution was selected since it satisfies the boundary conditions in all domains of the problem for all the CPT operators in the FP problem. The manufactured scalar flux corresponding to Eq.~\eqref{eqn:mms_psi} is
+\begin{equation}
+  \Phi_M(r,E) = \dfrac{4}{\pi} \, \left( R^2 - r^2 \right) \, \left(E_{max} - E\right)^2 \left(E - E_{min}\right)^2.
+\end{equation}
+The numerically-calculated scalar flux solution, $\phi$, is compared to the manufactured scalar flux using the two-dimensional discrete $L_2$ norm:
+\begin{equation} \label{eqn:L2_norm}
+  \delta = \left[ \dfrac{1}{K G} \sum_{i=1}^K \sum_{g=1}^G \left(\Phi_{M,i,g} - \phi_{i,g} \right)^2 \right]^{1/2},
+\end{equation}
+where $K$ and $G$ are the number of spatial cells and energy groups respectively. In Eq.~\eqref{eqn:L2_norm}, $\Phi_{M,i,g}$ and $\phi_{i,g}$ are the cell-group-averaged manufactured and numerical scalar fluxes calculated as
+\begin{equation}
+  \Phi_{M,i,g} = \frac{ \int_{I_g} dE \, \int_{I_i} \, dr \, r^2 \, \Phi_M(r,E) }{ \int_{I_g} dE \, \int_{I_i} \, dr \, r^2  }, \quad \phi_{i,g} = \frac{ \int_{I_g} dE \, \int_{I_i} dr \, r^2 \, \phi(r,E) }{ \int_{I_g} dE \int_{I_i} dr \, r^2 }.
+\end{equation}
+
+The radius of the sphere is $2.0$ cm, and the energy domain of the problem is $E \in [0, 2.0]$ MeV, and Table \ref{tab:MMS_data} gives the constant data values used.
+\begin{table}[!htb]
+  \centering
+  \caption{Data used in MMS problems}
+  \label{tab:MMS_data}
+  \begin{tabular}{c|c|c}
+  \toprule[2pt]
+  name       & value & units      \\
+  \midrule[2pt]
+  $\Sigma_a(r,E)$ & 1.0  & $cm^{-1}$  \\
+  $\Sigma_s(r,E)$ & 0.1  & $cm^{-1}$  \\
+  $S(r,E)$  & 10.0  & $Mev/cm$   \\
+  $T(r,E)$  & 0.1   & $Mev^2/cm$ \\
+  $\Sigma_{tr}(r,E)$  & 0.2   & $Mev/cm$   \\
+  \bottomrule[2pt]
+  \end{tabular}
+\end{table}
+
+The Boltzmann and FP problems were solved using the bi-linear \dG discretizations methods, both the WDD and DQ angular discretizations methods, and the alternating flux method. To numerically solve Eqs.~\eqref{eqn:L2_problems}, the spatial streaming operator was inverted using the standard transport sweep method \cite{Lewis-1984}, and then multiplied from the left by $\boldsymbol{L}^{-1}$ giving
+\begin{subequations} \label{eqn:L2_problems_preconditioned}
+  \begin{equation} 
+    \boldsymbol{L}^{-1} \left[ \boldsymbol{I} + \boldsymbol{P} - \boldsymbol{C}^B_{x,t\rightarrow x} \right] \Psi_x = \boldsymbol{L}^{-1} q_x,
+  \end{equation}
+  and
+  \begin{equation}
+    \boldsymbol{L}^{-1} \left[ \boldsymbol{I} + \boldsymbol{P} - \boldsymbol{C}^{FP}_{x,t\rightarrow x} \right] \Psi_x = \boldsymbol{L}^{-1} q_x,
+  \end{equation}
+\end{subequations}
+where $\boldsymbol{I}$ is the identity operator. The resulting preconditioned equations, Eqs.~\eqref{eqn:L2_problems_preconditioned}, were numerically solved using the generalized minimal residual (GMRES) Krylov iterative method. 
+
+Tables \ref{tab:L2_boltzmann} and \ref{tab:L2_fokker_planck}, show the results of the mesh refinement experiments for the Boltzmann and FP collision operator problems respectively. In both tables, the WDD discretization results in a method that is $\mathcal{O}(\delta^{2})$ accurate, while the DQ discretization method results in a method that is $\sim\mathcal{O}(\delta^{2.5})$ accurate. As the WDD method is essentially a finite difference method, only second order accuracy is expected and therefore the CPT operators have been discretized correctly using the WDD method. For the DQ method, at least second order accuracy is expected since the DQ discretizations of the angular derivatives should be more rapidly converging than the corresponding WDD discretizations \cite{Warsa-2012} \cite{Warsa-2014}. This greater than second order accuracy is clearly observed, and it can be concluded that the DQ discretizations were implemented correctly.
+
+\begin{table}[!htb]
+  \centering
+  \caption{$L_2$-norm error for problem with $\boldsymbol{C}^B$}
+  \label{tab:L2_boltzmann}
+  \begin{tabular}{ccc|ccc|ccc}
+  \toprule[2pt]
+  \multicolumn{3}{c|}{} & \multicolumn{3}{c|}{WDD} & \multicolumn{3}{c}{DQ} \\ \hline
+  \multicolumn{1}{c}{k}            & \multicolumn{1}{c}{K}                       & \multicolumn{1}{c|}{N}  
+  & \multicolumn{1}{c}{$\delta_k$} & \multicolumn{1}{c}{$\delta_{k-1}/\delta_k$} & \multicolumn{1}{c|}{order}    
+  & \multicolumn{1}{c}{$\delta_k$} & \multicolumn{1}{c}{$\delta_{k-1}/\delta_k$} & \multicolumn{1}{c}{order}
+  \\ \midrule[2pt]
+  \multicolumn{1}{c}{3}          & \multicolumn{1}{c}{8}        & \multicolumn{1}{c|}{8}        
+  & \multicolumn{1}{c}{$3.23\times 10^{-1}$} & \multicolumn{1}{c}{}         & \multicolumn{1}{c|}{} 
+  & \multicolumn{1}{c}{$2.41\times 10^{-3}$} & \multicolumn{1}{c}{}         & \multicolumn{1}{c}{} \\
+  \multicolumn{1}{c}{4}          & \multicolumn{1}{c}{16}       & \multicolumn{1}{c|}{16}      
+  & \multicolumn{1}{c}{$1.02\times 10^{-1}$} & \multicolumn{1}{c}{$3.15$} & \multicolumn{1}{c|}{$1.66$} 
+  & \multicolumn{1}{c}{$4.52\times 10^{-4}$} & \multicolumn{1}{c}{$5.35$} & \multicolumn{1}{c}{$2.42$} \\
+  \multicolumn{1}{c}{5}          & \multicolumn{1}{c}{32}       & \multicolumn{1}{c|}{32} 
+  & \multicolumn{1}{c}{$2.94\times 10^{-2}$} & \multicolumn{1}{c}{$3.49$} & \multicolumn{1}{c|}{$1.80$} 
+  & \multicolumn{1}{c}{$7.86\times 10^{-5}$} & \multicolumn{1}{c}{$5.74$} & \multicolumn{1}{c}{$2.52$} \\
+  \multicolumn{1}{c}{6}          & \multicolumn{1}{c}{64}       & \multicolumn{1}{c|}{64} 
+  & \multicolumn{1}{c}{$7.94\times 10^{-3}$} & \multicolumn{1}{c}{$3.70$} & \multicolumn{1}{c|}{$1.89$} 
+  & \multicolumn{1}{c}{$1.33\times 10^{-5}$} & \multicolumn{1}{c}{$5.92$} & \multicolumn{1}{c}{$2.57$} \\
+  \bottomrule[2pt]
+  \end{tabular}
+\end{table}
+
+\begin{table}[!htb]
+  \centering
+  \caption{$L_2$-norm error for problem with $\boldsymbol{C}^{FP}$}
+  \label{tab:L2_fokker_planck}
+  \begin{tabular}{cccc|ccc|ccc}
+  \toprule[2pt]
+  \multicolumn{4}{c|}{} & \multicolumn{3}{c|}{WDD} & \multicolumn{3}{c}{DQ} \\ \hline
+  \multicolumn{1}{c}{k} & \multicolumn{1}{c}{K}  & \multicolumn{1}{c}{G}  & \multicolumn{1}{c|}{N}  
+  & \multicolumn{1}{c}{$\delta_k$} & \multicolumn{1}{c}{$\delta_{k-1} / \delta_k$} & \multicolumn{1}{c|}{order}    
+  & \multicolumn{1}{c}{$\delta_k$} & \multicolumn{1}{c}{$\delta_{k-1} / \delta_k$} & \multicolumn{1}{c}{order}
+  \\ \midrule[2pt]
+  \multicolumn{1}{c}{3} & \multicolumn{1}{c}{8}  & \multicolumn{1}{c}{8}  & \multicolumn{1}{c|}{8}  
+  & \multicolumn{1}{c}{$4.16\times 10^{-1}$}  & \multicolumn{1}{c}{} & \multicolumn{1}{c|}{}         
+  & \multicolumn{1}{c}{$1.48\times 10^{-3}$}  & \multicolumn{1}{c}{} & \multicolumn{1}{c}{} \\
+  \multicolumn{1}{c}{4} & \multicolumn{1}{c}{16} & \multicolumn{1}{c}{16} & \multicolumn{1}{c|}{16} 
+  & \multicolumn{1}{c}{$1.25\times 10^{-1}$} & \multicolumn{1}{c}{$3.34$} & \multicolumn{1}{c|}{$1.74$} 
+  & \multicolumn{1}{c}{$2.93\times 10^{-4}$} & \multicolumn{1}{c}{$5.04$} & \multicolumn{1}{c}{$2.33$} \\
+  \multicolumn{1}{c}{5} & \multicolumn{1}{c}{32} & \multicolumn{1}{c}{32} & \multicolumn{1}{c|}{32} 
+  & \multicolumn{1}{c}{$3.04\times 10^{-2}$} & \multicolumn{1}{c}{$4.11$} & \multicolumn{1}{c|}{$2.04$} 
+  & \multicolumn{1}{c}{$5.72\times 10^{-5}$} & \multicolumn{1}{c}{$5.13$} & \multicolumn{1}{c}{$2.36$} \\
+  \multicolumn{1}{c}{6} & \multicolumn{1}{c}{64} & \multicolumn{1}{c}{64} & \multicolumn{1}{c|}{64} 
+  & \multicolumn{1}{c}{$7.98\times 10^{-3}$} & \multicolumn{1}{c}{$3.81$} & \multicolumn{1}{c|}{$1.93$} 
+  & \multicolumn{1}{c}{$1.08\times 10^{-5}$} & \multicolumn{1}{c}{$5.31$} & \multicolumn{1}{c}{$2.41$} \\
+  \bottomrule[2pt]
+  \end{tabular}
+\end{table}
+
+\end{document}

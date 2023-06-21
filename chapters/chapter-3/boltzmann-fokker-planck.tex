@@ -1,0 +1,14 @@
+\section{Boltzmann-Fokker-Planck}
+To account for the large-angle scattering collisions that the FP scattering operator neglects, the Boltzmann-Fokker-Planck (BFP) scattering operator is introduced \cite{Ligou-1986}. The BFP scattering operator splits the differential cross section into two parts: one part that is peaked and one part that is smooth, that is,
+\begin{equation}
+    \sigma_{x,t \rightarrow x}(E^{\prime} \rightarrow E; \mucm) = \sigma_{x,t \rightarrow x}^{p}(E^{\prime} \rightarrow E; \mucm) + \sigma_{x,t \rightarrow x}^{s}(E^{\prime} \rightarrow E; \mucm),
+\end{equation}
+where $\sigma_s^{p}$ and $\sigma_s^{s}$ are the peaked and smooth parts respectively. The peaked part is then represented by an FP scattering operator, while the smooth part is represented by a Boltzmann scattering operator. The BFP scattering operator is expressed as
+\begin{equation} \label{eqn:BFP-operator}
+    \boldsymbol{C}_{x,t \rightarrow x}^{BFP} = \boldsymbol{C}_{x,t \rightarrow x}^{B} + \boldsymbol{C}_{x,t \rightarrow x}^{FP},
+\end{equation}
+where the superscripts $B$ and $FP$ represent the Boltzmann and FP scattering operators respectively.
+
+To ensure that the BFP scattering operator is an accurate approximation to the original Boltzmann scattering operator, the splitting of the original differential cross section needs to be done in such a way that the peaked differential cross section satisfies the asymptotic limit of the FP expansion, and the MFP associated with new Boltzmann scattering operator is $\mathcal{O}(1)$.
+
+\subsection{Decomposition methods}

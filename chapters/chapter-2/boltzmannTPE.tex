@@ -1,0 +1,50 @@
+\section{The Boltzmann Transport Equation}
+To begin the discussion on the Boltzmann transport equation, we first consider a particle moving in a three dimensional space, and let the vectors $\Bx$ and $\Bv$ give the particles position and velocity. Next, we define the distribution function for a given particle species as $f(\Bx,\Bv,t)$. Multiplying $f$ by the phase space, that is the set of all possible positions and velocities, gives the expected number of particles in the differential phase space for a given phase space at time $t$, that is,
+\begin{equation}
+  N(\Bx,\Bv,t) = f(\Bx,\Bv,t) \, d\Bx \, d\Bv.
+\end{equation}
+
+The Boltzmann transport equation describes the evolution of the particle distribution function over time, that is,
+\begin{equation} \label{eqn:general}
+  \dfrac{D f}{D t} = \left( \dfrac{\partial f}{\partial t} \right)_{\text{collision}} 
+\end{equation}
+where the collision term that describes the rate of change to $f$ due to collisions with the background particles. The term on the left-hand side of Eq. \eqref{eqn:general} is the total derivative which can be expressed as:
+\begin{equation} \label{eqn:total_derivative}
+    \dfrac{D f}{Dt} = \dfrac{\partial f}{\partial t} + \dfrac{\partial}{\partial \Bx} \cdot \left( \Bv \, f \right) + \dfrac{\partial}{\partial \Bv} \cdot \left( \boldsymbol{a} f \right),
+\end{equation}
+where $d\Bx = \Bv \, dt$, and $d\Bv = \boldsymbol{a} \, dt$. In Eq. \eqref{eqn:total_derivative}, $\boldsymbol{a}$ represents the particle's acceleration due to external forces. In charged particle transport the particle acceleration is given by the Lorentz force
+\begin{equation} \label{eqn:lorentz}
+  \boldsymbol{F} = q \Big( \boldsymbol{E} + \Bv \times \boldsymbol{B} \Big)
+\end{equation}
+where $q$ is the charge of the particle, $\boldsymbol{E}$ is the external electric field, and $\boldsymbol{B}$ is the external magnetic field. Furthermore, in Eq. \eqref{eqn:total_derivative}, $\Bx$ and $\Bv$ are independent quantities in phase-space, and therefore the spatial derivative can be written as
+\begin{equation} \label{eqn:spatial_derivative}
+  \dfrac{\partial}{\partial \Bx} \cdot \left( \Bv \, f \right) = \Bv \cdot \dfrac{\partial f}{\partial \Bx}.
+\end{equation}
+
+Substituting Eqs. \eqref{eqn:total_derivative} and \eqref{eqn:spatial_derivative} into Eq. \eqref{eqn:general}, the general Boltzmann transport equation for ion species $i$ becomes
+\begin{equation} \label{eqn:boltzmann}
+  \dfrac{\partial f_i}{\partial t} + \Bv \cdot \dfrac{\partial f_i}{\partial \Bx} + \dfrac{\boldsymbol{F}}{m} \cdot \dfrac{\partial f_i}{\partial \Bv} = \left( \dfrac{\partial f_i}{\partial t} \right)_{\text{collision}}.
+\end{equation}
+Finally, in radiation transport the velocity variable is represented using a direction of flight variable, $\BOmega$, and an energy variable. For charged particle transport we recast Eq. \eqref{eqn:boltzmann} in terms of the angular flux, that is,
+\begin{equation}
+  \Psi(\Bx,E,\BOmega,t) = v \, f(\Bx,\Bv,t).
+\end{equation}
+The resulting general transport equation for particles of species $i$ in terms of the angular flux is,
+\begin{equation}
+  \dfrac{1}{v} \dfrac{\partial \Psi_i}{\partial t} + \boldsymbol{\Omega} \cdot \dfrac{\partial \Psi_i}{\partial \Bx} + \dfrac{\boldsymbol{F}}{m} \cdot \dfrac{\partial \Psi_i}{\partial \Bv} = \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{collision}}.
+\end{equation} 
+
+
+\subsection{The Boltzmann collision operator}
+\begin{equation}
+  \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{collision}} = \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{absorption}} + \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{scattering}} + \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{source}}
+\end{equation}
+\begin{equation}
+  \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{absorption}} = \Sigma_a \Psi_i(\Bx,E,\BOmega,t)
+\end{equation}
+\begin{multline}
+  \left( \dfrac{\partial f_i}{\partial t} \right)_{\text{scattering}} = \int_{0}^{\infty} dE^{\prime} \int_{4\pi} d \BOmega^{\prime} \, \Sigma_s(\Bx, E^{\prime}\rightarrow E; \BOmega^{\prime} \rightarrow \BOmega) \, \Psi(\Bx,E^{\prime},\BOmega^{\prime},t) \\
+  - \Sigma_s(\Bx,E) \, \Psi(\Bx,E,\BOmega,t)
+\end{multline}
+
+\subsection{Boundary conditions}

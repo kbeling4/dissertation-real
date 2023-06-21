@@ -1,0 +1,29 @@
+\section{Fokker-Planck}
+The FP scattering operator is derived by performing a Taylor series expansion of the differential cross section about $\mucm - 1= 0$ and $E^{\prime}-E = 0$, that is about zero angular deflection and zero energy loss \cite{Pomraning-1996}. This yields the following higher-order FP scattering operator
+\begin{equation} \label{eqn:Taylor_Series_Boltzmann}
+    \boldsymbol{C}_{x,t \rightarrow x}^{HFP} \Psi_x = \sum_{j=0}^{J} \sum_{k=0}^{K} \dfrac{1}{k!} \dfrac{\partial^k}{\partial E^k} \left[ T_{x,t\rightarrow x}^{k,j}(r,E) \boldsymbol{\mathcal{H}}_{j} \Psi_x(r,E,\mu) \right],
+\end{equation}
+where $T_{x,t\rightarrow x}^{k,j}(r,E)$ are the FP moments of the differential cross section given by
+\begin{equation} \label{eqn:FP_data_moments}
+    T_{x,t\rightarrow x}^{k,j} (E) = 2\pi \, \int_{0}^{\infty} dE \, (E^{\prime} - E)^k \int_{-1}^{1} d \mucm \, (1 - \mucm)^j \, \Sigma_{x,t\rightarrow x}(E^{\prime}\rightarrow E;\mucm).
+\end{equation}
+In Eq.~\eqref{eqn:Taylor_Series_Boltzmann}, $\boldsymbol{\mathcal{H}}_{j}$ are the angular operators given by
+\begin{equation} \label{eqn:angular_operators}
+    \boldsymbol{\mathcal{H}}_0 = \boldsymbol{I}, \quad \boldsymbol{\mathcal{H}}_j = \dfrac{1}{2^j \, (j!)^2} \prod_{i=0}^{j-1} \Big[ \boldsymbol{\mathcal{L}} + i(i+1) \Big],
+\end{equation}
+where $\boldsymbol{\mathcal{L}}$ is the angular spherical Laplacian operator given by
+\begin{equation}
+    \boldsymbol{\mathcal{L}} = \dfrac{\partial}{\partial \mu} (1 - \mu^2) \dfrac{\partial}{\partial \mu}.
+\end{equation}
+Note that Eq.~\eqref{eqn:Taylor_Series_Boltzmann} is formally equivalent to the original Boltzmann scattering operator. The Taylor series expansion has transformed the discrete integral Boltzmann scattering operator into a continuous differential scattering operator, which by definition has no associated MFP.
+
+Next, returning to the asymptotic analysis introduced at the beginning of this section, the asymptotic limit of the FP scattering operator can be examined. This examination begins by substituting the scaled differential cross section, Eq.~\eqref{eqn:scaled_dsig_s}, into Eq.~\eqref{eqn:FP_data_moments}, such that the differential cross section moments, $T_{x,t\rightarrow x}^{k,j}(E)$, are $\mathcal{O}\left(\dfrac{\epsilon^k \, \delta^j}{\Delta}\right)$. Substituting the order of teh differential cross section moments into the higher-order FP expansion, Eq.~\eqref{eqn:Taylor_Series_Boltzmann}, shows that the order of the terms in the Taylor series expansion are given by the order of the FP moments of the differential cross section. Therefore, the Taylor series expansion is a valid approximation to the original Boltzmann scattering operator when the FP moments of the differential cross section decay according to $\mathcal{O}\left(\dfrac{\epsilon^k \, \delta^j}{\Delta}\right)$. As Larsen shows \cite{Larsen-1999}, while this is the case for the screened Coulomb differential cross section, this is not always true; therefore care must be taken to ensure that this asymptotic limit is met when the FP scattering operator is used.
+
+It was shown by Prinja and Pomeraning \cite{Prinja-2001} that solutions involving Eq.~\eqref{eqn:Taylor_Series_Boltzmann} with $K>2$ and $J>1$ are not robust, and therefore the FP scattering operator used in this work is found by neglecting the terms in the higher-order FP expansion that are greater than $K=2$ and $J=1$. Additionally, all energy-angle cross terms are neglected thereby decoupling angular-deflection and energy loss collisions. The general FP scattering operator examined in this work is,
+\begin{multline} \label{eqn:Fokker-Planck}
+    \boldsymbol{C}_{x,t \rightarrow x}^{FP} \Psi_x = \dfrac{\partial}{\partial E} \Big[ T_{x,t \rightarrow x}^{1,0}(E) \Psi_z(E) \Big] + \dfrac{1}{2} \dfrac{\partial^2}{\partial E^2} \Big[ T_{x,t \rightarrow x}^{2,0}(E) \Psi_z(E) \Big] \\
+    + \dfrac{T_{x,t \rightarrow x}^{0,1}(E)}{2} \dfrac{\partial}{\partial \mu} \Big[(1-\mu^2) \dfrac{\partial \Psi_z}{\partial \mu}\Big].
+\end{multline}
+By neglecting all higher-order moments of the higher-order FP expansion, and by neglecting all energy-angle cross terms, Eq.~\eqref{eqn:Fokker-Planck} neglects all large-angle scattering collisions.
+
+In Eq.~\eqref{eqn:Fokker-Planck}, $T_{x,t \rightarrow x}^{1,0}(E)$ and $T_{x,t \rightarrow x}^{2,0}(E)$ are referred to as the stopping power and the energy-straggling coefficients, and $T_{x,t \rightarrow x}^{0,1}(E)$ is referred to as the momentum transfer cross section. The first operator in Eq.~\eqref{eqn:Fokker-Planck} is a convection in energy operator and is referred to as the continuous slowing down (CSD) operator. If a beam of charged particles is incident on a slab of material, the CSD operator describes the average energy lost by the beam of particles as they move through the slab of material. The second operator is a diffusion in energy operator and is referred to as the energy-straggling operator (ES), and describes the spreading out in energy of the beam of particles as it slows down in the slab of material. Lastly, the third operator in Eq.~\eqref{eqn:Fokker-Planck} is an angular diffusion operator referred to as the angular Fokker-Planck operator (AFP), and describes the spreading out in angle of the beam of particles as it slows down in energy. To simplify notation in the following sections, whenever the FP collision operator is used, the stopping power, energy straggling, and momentum transfer coefficients will be denoted as $S(E)$, $T(E)$, and $\Sigma_{tr}$ respectively.

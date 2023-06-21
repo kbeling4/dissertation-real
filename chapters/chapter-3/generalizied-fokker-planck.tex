@@ -1,0 +1,65 @@
+
+\section{Generalized Fokker-Planck}
+The GFP approximation was first introduced by Leakeas and Larsen \cite{leakeas-2001} as a method of handling scattering kernels that contain a sufficient amount of large-angle scattering in mono-energetic transport problems. Leakeas and Larsen derived the angular GFP operator by re-normalizing the full angular FP Taylor series expansion to achieve a coupled system of second-order GFP equations. Moreover, the angular GFP operator can be written in different but mathematically equivalent forms as coupled systems of second-order differential equations or as a single Boltzmann or BFP equation. This is advantageous as the angular GFP operators are amenable to different types of numerical treatment.
+
+The energy-dependent GFP operator is found by subdividing the finite energy range $E \in [\emin, \emax]$ into $G$ intervals order as 
+\begin{equation}
+  \emin = E_{\frac{1}{2}} < E_{\frac{3}{2}} < \ldots < E_{g-\frac{1}{2}} < E_{g+\frac{1}{2}} < \ldots < E_{G+\frac{1}{2}} = \emax
+\end{equation}
+with a group $g$ being the the interval $I_g = [E_{g-\frac{1}{2}}, E_{g+\frac{1}{2}}]$. With appropriately averaged group constants $Q_{n,g}$, Eq. \eqref{eqn:generalFokkerPlanckExpansion} becomes the following set of so-called multigroup equations
+\begin{equation} \label{eqn:multigroupFokkerPlanck}
+  \dfrac{\partial \Psi(x,E)}{\partial x} = \sum_{n=1}^{\infty} \dfrac{Q_{n,g}}{n !} \dfrac{\partial^n \Psi(x,E) }{\partial E^n}, \quad \text{for} \,\, E \in [E_{g-\frac{1}{2}}, E_{g+\frac{1}{2}}], \quad g = 1,2,\ldots,G.
+\end{equation}
+
+Next, the first-order differential operator,
+\begin{equation} \label{eqn:GFPOperator}
+  \mathcal{L} = \alpha_g \dfrac{\partial}{\partial E} \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1}, \quad E \in [E_{g-1/2}, E_{g+1/2}],
+\end{equation}
+is introduced and forms the basic building block of the energy-dependent GFP approximations. The Taylor series expansion of Eq. \eqref{eqn:GFPOperator} is
+\begin{equation} \label{eqn:taylorSeriesGFPOperator}
+  \mathcal{L} = \alpha_g \sum_{n=1}^{\infty} \beta^{n-1} \dfrac{\partial^n}{\partial E^n} = \alpha_g \dfrac{\partial}{\partial E} + \alpha_g \beta_g \dfrac{\partial^2}{\partial E^2} + \ldots
+\end{equation}
+which has an identical form to Eq. \eqref{eqn:multigroupFokkerPlanck}. The coefficients $\alpha_g$ and $\beta_g$ are found by equating the first two terms in Eq. \eqref{eqn:multigroupFokkerPlanck} with the first two terms in Eq. \eqref{eqn:taylorSeriesGFPOperator}, this yields a system of two equations with two unknowns which can be easily solved. The resulting operator will preserve exactly the first two moments of Eq. \eqref{eqn:taylorSeriesGFPOperator}, and will approximate all higher-order moments in terms of the first two moments. 
+
+More moments can be preserved by summing $\mathcal{L}$ operators as
+\begin{equation} \label{eqn:higherOrderGFPOperator}
+  \mathcal{L}_N = \sum_{n=1}^{N} \alpha_{g,n} \dfrac{\partial}{\partial E} \left(1 - \beta_{g,n} \dfrac{\partial}{\partial E}\right)^{-1}, \quad E \in [E_{g-1/2}, E_{g+1/2}].
+\end{equation}
+The coefficients $\alpha_{g,n}$ and $\beta_{g,n}$ are found by equating the Taylor series expansion of Eq. \eqref{eqn:higherOrderGFPOperator} with the first $2N$ moments of Eq. \eqref{eqn:multigroupFokkerPlanck}. In the remainder of this section the differential and integral forms of the energy-dependent GFP approximations are introduced.
+
+\subsubsection{Differential form}
+The energy-dependent GFP operator can be written as a system of first-order differential equations by introducing
+\begin{equation} \label{eqn:chi}
+  \chi(E) = \left(1 - \beta_{g,n} \dfrac{\partial}{\partial E}\right)^{-1} \Psi(E).
+\end{equation}
+Substituting Eq. \eqref{eqn:chi} into Eq. \eqref{eqn:higherOrderGFPOperator} results in the system of $N$ coupled first-order differential equations
+\begin{subequations} \label{eqn:GFPDifferential}
+  \begin{equation}
+    \mathcal{L}_N \, \Psi(E) = \sum_{n=1}^{N} \alpha_{g,n} \dfrac{\partial \chi_n(E)}{\partial E},
+  \end{equation}
+  \begin{equation}
+    \Psi(E) = \chi_n(E) - \beta_{g,n} \dfrac{\partial \chi_n(E)}{\partial E}, \quad n = 1,2,\ldots,N.
+  \end{equation}
+\end{subequations}
+Notice that because Eq. \eqref{eqn:GFPDifferential} only contains first-order advective terms meaning that this operator only allows for particles to slow down unlike the FP approximation which allows for particles to unphysically up-scatter. Additionally, the differential operators in Eq. \eqref{eqn:GFPDifferential} only act on the new variable $\chi_n(E)$ and therefore boundary conditions will only act on $\chi_n(E)$. These boundary conditions are derived in the next section enroute to the integral form of the GFP operators.
+
+\subsubsection{Integral form}
+A mathematically equivalent integral GFP energy operator is derived by using the relationship
+\begin{equation} \label{eqn:dEexpression}
+  \boldsymbol{I} = (\boldsymbol{I} - \beta \dfrac{\partial}{\partial E})(\boldsymbol{I} - \beta \dfrac{\partial}{\partial E})^{-1} \implies \dfrac{\partial}{\partial E} = \dfrac{1}{\beta} \left[\boldsymbol{I} - \left(\boldsymbol{I} - \beta \dfrac{\partial}{\partial E}\right)\right],
+\end{equation}
+where $\boldsymbol{I}$ is the identity operator. Substituting Eq. \eqref{eqn:dEexpression} into Eq. \eqref{eqn:GFPOperator} gives the following equivalent form of $\mathcal{L}$,
+\begin{equation} \label{eqn:GFPequivalentForm}
+  \mathcal{L} = \alpha_g \left\lbrace \dfrac{1}{\beta} \left[\boldsymbol{I} - \left(\boldsymbol{I} - \beta \dfrac{\partial}{\partial E}\right)\right] \right\rbrace \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1} = \widehat{\Sigma}_g \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1} + \widehat{\Sigma}_g,
+\end{equation}
+where $\widehat{\Sigma}_g = \alpha_g / \beta_g$ is the new total scattering cross section. Next, it can be shown that the inverse differential term in Eq. \eqref{eqn:GFPequivalentForm} can be written as the integral term
+\begin{equation} \label{eqn:GFPIntegral}
+  \widehat{\Sigma}_g \left(1 - \beta_g \dfrac{\partial}{\partial E}\right)^{-1} \Psi(x,E) \equiv \widehat{\Sigma}_g \, \chi(E) \equiv \int\limits_{E}^{\emax} dE^{\prime} \, \widehat{\Sigma}_g(E^{\prime}\rightarrow E) \, \Psi(x,E^{\prime}),
+\end{equation}
+where $\widehat{\Sigma}_g(E^{\prime}\rightarrow E)$ is the new differential scattering cross section
+\begin{equation}
+  \widehat{\Sigma}(E^{\prime}\rightarrow E) = \dfrac{\widehat{\Sigma}_g}{\beta_g} \exp \left[ - \dfrac{1}{\beta_g}(E^{\prime} - E)\right].
+\end{equation}
+To derive Eq. \eqref{eqn:GFPIntegral}, the boundary condition $\chi(\emax) = 0$ was used; these boundary conditions will be used to complete the system of first-order differential equations given by Eq. \eqref{eqn:GFPDifferential}.
+
+\end{document}

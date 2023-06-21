@@ -1,0 +1,138 @@
+\section{\dG energy discretization}
+Similar to the spatial discretization, the energy discretization of the CPT operators in Eq.~\eqref{eqn:operator-equation} are done using a \dG finite element method. This method begins by breaking the energy domain, $E \in [E_{min}, E_{max}]$, into $G$ groups defined as
+\begin{equation}
+    E_{min} = E_{\frac{1}{2}} < E_{\frac{3}{2}} < \ldots < E_{g-\frac{1}{2}} < E_{g+\frac{1}{2}} < \ldots < E_{G+\frac{1}{2}} = E_{max},
+\end{equation}
+with an energy group $g$ being defined as $I_g = [E_{g-\frac{1}{2}}, E_{g+\frac{1}{2}}]$. Next, the finite element basis $P^p(I_g)$ of degree $p$ on interval $I_g$ consisting of the functions $\lbrace u_j(E) \in P^p(I_g), \, 1 \leq j \leq p \rbrace$ is defined. The solution $\Psi_x(r,E,\mu)$ is expanded in the local polynomial basis for an energy group $g$ as
+\begin{equation} \label{eqn:energy-expansion}
+    \Psi_{x,g}(r,E,\mu) = \sum_{j=1}^p \Psi_{x,g}^j(r,\mu) u_j(E).
+\end{equation}
+Substituting Eq.~\eqref{eqn:energy-expansion} into the CPT operators, multiplying by the test functions $\lbrace v_k(E) \in P^p(I_g), \, 1 \leq k \leq p \rbrace$, and integrating over an energy group gives the weak forms for each operator. Note that only the Boltzmann and FP collision operators act in energy on the angular flux, and therefore the \dG discretizations of the remaining operators simply result in mass matrices. Only the \dG energy discretizations of the Boltzmann and FP collision operators are shown in the remainder of this section, because the discretization to a mass matrix is considered trivial.
+
+\subsection{\dG energy discretization of the Boltzmann collision operator}
+The dG(p) energy discretization of the Boltzmann collision operator, Eq.~\eqref{eqn:boltzmann_collision_operator_legendre}, starts by breaking up the integral over $E^{\prime}$ into a sum over energy groups as
+\begin{multline} \label{eqn:boltzmann-ed1}
+    \boldsymbol{C}_{x,t}^B \Psi_z = \sum_{l=0}^{\infty} \dfrac{2l+1}{4 \pi} \, P_l(\mu)  \sum_{g^{\prime}=1}^G \int_{I_{g^{\prime}}} 
+    dE^{\prime} \, \Sigma_{x,t\rightarrow x, l}(E^{\prime} \rightarrow E) \, \Psi_{x,l}(r,E^{\prime}) \\
+    - \Sigma_{x,t \rightarrow x}(r,E) \Psi_x(r,E,\mu).
+\end{multline}
+Next, substituting Eq.~\eqref{eqn:energy-expansion} into Eq.~\eqref{eqn:boltzmann-ed1} gives the weak form of the Boltzmann collision operator,
+\begin{multline} \label{eqn:boltzmann-ed2}
+    \boldsymbol{C}_{x,t}^B \Psi_x = \sum_{l=0}^{\infty} \dfrac{2l+1}{4 \pi} \, P_l(\mu) \int_{I_g} dE \, v_k  \sum_{g^{\prime}=1}^G \int_{I_{g^{\prime}}} 
+    dE^{\prime} \, \Sigma_{x,t\rightarrow x, l}(E^{\prime} \rightarrow E) \, \Psi_{x,l,g^{\prime}}(r,E^{\prime}) \\
+    - \int_{I_g} dE \, v_k \Sigma_{x,t\rightarrow x}(r,E) \Psi_x(r,E,\hat{\Omega}).
+\end{multline}
+To proceed, both the total and differential scattering cross sections are assumed to be appropriately averaged in energy, that is,
+\begin{subequations} \label{eqn:group-averaged-xs}
+    \begin{equation} 
+        \Sigma_{x,t \rightarrow x}(r,E) = \Sigma_{x,t \rightarrow x, g}(r),
+    \end{equation}
+    \begin{equation}
+        \Sigma_{x,t \rightarrow x,l}(E^{\prime} \rightarrow E) = \Sigma_{x,t\rightarrow x,l,g^{\prime}\rightarrow g}(r).
+    \end{equation}
+\end{subequations}
+Finally, substituting Eq.~\eqref{eqn:group-averaged-xs} into Eq.~\eqref{eqn:boltzmann-ed2} the \dG discretized form of the Boltzmann collision operator is
+\begin{multline} \label{eqn:boltzmann-ed3}
+    \boldsymbol{C}_{x,t}^B \Psi_x = \sum_{l=0}^{\infty} \dfrac{2l+1}{4 \pi} \, P_l(\mu) \int_{I_g} dE \, v_k  \sum_{g^{\prime}=1}^G \Sigma_{x,t\rightarrow x,l,g^{\prime}\rightarrow g}(r) \int_{I_{g^{\prime}}} 
+    dE^{\prime} \, \Psi_{x,l,g^{\prime}}(r,E^{\prime}) \\
+    - \Sigma_{x,t\rightarrow x,g}(r) \, \int_{I_g} dE \, v_k \, \Psi_{x,g}(r,E,\mu).
+\end{multline}
+
+\subsection{\dG energy discretization of the Fokker-Planck collision operator}
+Here the \dG energy discretization of the FP collision operator is presented. Note that only a portion of the total FP collision operator operates in energy on the angular flux. Only the portion that operates in energy on the angular flux is discretized here, because the \dG energy discretization  of the the angular diffusion operator results in an energy mass matrix. The energy-dependent portion of the FP collision operator is,
+\begin{equation} \label{eqn:FP_energy_dependent}
+    \boldsymbol{C}_{x,t}^{FPE} \Psi_x = \dfrac{\partial}{\partial E} \left\lbrace S_{x,t\rightarrow x}(r,E) \Psi_z(r,E,\mu)  + \dfrac{1}{2} \dfrac{\partial}{\partial E} \Big[ T_{x,t\rightarrow x}(r,E) \Psi(r,E,\mu) \Big] \right\rbrace.
+\end{equation}
+
+Before proceeding to the \dG energy discretization, recall that Eq.~\eqref{eqn:FP_energy_dependent} is a second-order differential equation in energy and therefore requires two boundary conditions (BCs) in energy. In this work the zero-incoming energy-current BCs are used. The zero-incoming energy-current BCs are found by rewriting Eq.~\eqref{eqn:FP_energy_dependent} as an energy current $J(r,E,\mu)$, that is,
+\begin{equation}
+    \boldsymbol{C}_{x,t}^{FPE} \Psi_x = \dfrac{\partial J}{\partial E} = \dfrac{\partial}{\partial E} \left\lbrace S_{x,t\rightarrow x}(r,E) \Psi_x(r,E,\mu)  + \dfrac{1}{2} \dfrac{\partial}{\partial E} \Big[ T_{x,t\rightarrow x}(r,E) \Psi_x(r,E,\mu) \Big] \right\rbrace.
+\end{equation}
+Before proceeding, the FP moments of the DCS are assumed to be the following appropriately averaged multigroup constants
+\begin{equation} \label{eqn:multigroup_FP_moments}
+    S_{x,t\rightarrow x}(r,E) = S_g(r), \quad T_{x,t\rightarrow x}(r,E) = T_g(r).
+\end{equation}
+Using Eq.~\eqref{eqn:multigroup_FP_moments}, the energy current $J(r,E,\mu)$ is decomposed into group-wise partial currents using the method characteristic variables \cite{Warsa-2002}. The details of this transformation to characteristic variables are shown here \cite{Beling-2021}. The resulting partial currents are
+\begin{subequations}
+    \begin{align}
+        J^+(r,E,\mu) &= -S_g(r) \, \gamma^+(r,E,\mu) + \sqrt{\frac{T_g(r)}{2}} \gamma^+(r,E,\mu), \\
+        J^-(r,E,\mu) &=  \,\,\,\,S_g(r) \, \gamma^-(r,E,\mu) + \sqrt{\frac{T_g(r)}{2}} \gamma^-(r,E,\mu),
+    \end{align}
+\end{subequations}
+where $\gamma^{\pm}(r,E,\mu)$ are ``directional flows'' in energy defined as
+\begin{equation}
+    \gamma^{\pm}(r,E,\mu) = \mp \Psi(r,E,\mu) + \dfrac{1}{2} \, \sqrt{\frac{T_g(r)}{2}} \dfrac{\partial \Psi}{\partial E}.
+\end{equation}
+Using these partial energy currents, the zero-incoming energy current boundary conditions are
+\begin{subequations} \label{eqn:Fokker-Planck-BCS}
+    \begin{align}
+        J^+(r,E_{min},\mu) &= 0 = - \Psi(r,E_{min},\mu) + \sqrt{\dfrac{T_{0}(r)}{2}} \left.\dfrac{d \Psi}{dE}\right|_{E=E_{min}}, \\
+        J^-(r,E_{max},\mu) &= 0 = \,\,\,\, \Psi(r,E_{max},\mu) + \sqrt{\dfrac{T_G(r)}{2}} \left.\dfrac{d \Psi}{dE}\right|_{E=E_{max}}.
+    \end{align}
+\end{subequations}
+Finally, these zero-incoming energy current BCs allow the energy-dependent FP collision operator to be properly discretized in energy using a \dG method. 
+
+To begin the \dG energy discretization, the FP collision operator is rewritten as the following coupled system of equations
+\begin{subequations} \label{eqn:Fokker-Planck-de2}
+    \begin{equation}
+        S_g(r)  \dfrac{\partial}{\partial E} \Big[ \Psi_x(r,E,\mu) \Big] + \sqrt{\frac{T_g(r)}{2}} \dfrac{\partial}{\partial E} \Big[ R_x(r,E,\mu) \Big] = 0,
+    \end{equation}
+    \begin{equation}
+        R_x(r,E,\mu) - \sqrt{\frac{T_g(r)}{2}} \dfrac{\partial}{\partial E} \Big[ \Psi_x(r,E,\mu) \Big] = 0.
+    \end{equation}
+\end{subequations}
+In the exact same manner as $\Psi_x(r,E,\mu)$, the new variable $R_x(r,E,\mu)$ is expanded in the local polynomial basis for group $g$ as
+\begin{equation} \label{eqn:R-energy-expansion}
+    R_{x,g}(r,E,\mu) = \sum_{j=1}^k R_{x,g}^j(r,\mu) u_j(E).
+\end{equation}
+The weak form of Eq.~\eqref{eqn:Fokker-Planck-de2} is found by substituting Eqs.~\eqref{eqn:energy-expansion} and~\eqref{eqn:R-energy-expansion} into Eq.~\eqref{eqn:Fokker-Planck-de2}, multiplying by the test function $v_k$, and integrating over an energy group $g$. The weak form of the FP collision operator is
+ \begin{subequations} \label{eqn:Fokker-Planck-weak-form}
+    \begin{multline}
+        v_k \, \tilde{\Psi}_{g+1/2} - v_k \, \tilde{\Psi}_{g-1/2} - S_g \int_{I_g} dE \, v_k^{\prime} \, \Psi_{x,g}(r,E,\mu) \\
+        + v_k \, \hat{R}_{g+1/2} - v_k \, \hat{R}_{g-1/2} - \sqrt{\frac{T_g}{2}} \int_{I_g} dE \, v_k^{\prime} \, R_{x,g}(E) = 0,
+    \end{multline}
+    \begin{equation}
+        \int_{I_g} dE \, v_k \, R_{x,g}(E) - v_k \, \hat{\Psi}_{g+1/2} + v_k \, \hat{\Psi}_{g-1/2} + \sqrt{\frac{T_g}{2}} \int_{I_g} dE \, v_k^{\prime} \, \Psi_{x,g}(E) = 0,
+    \end{equation}
+\end{subequations} 
+where the terms $\tilde{\Psi}$, $\hat{\Psi}$, and $\hat{R}$ are the numerical fluxes that introduce discontinuities into the discretization via upwinding based on the flow direction of particles. Notice that these numerical fluxes contain the terms $S_g(r)$ and $\sqrt{T_g(r)/2}$ that will be assigned when the numerical fluxes are defined. 
+
+The direction of flow is clearly defined for $\tilde{\Psi}$, which arises from the CSD operator, as particles can only lose energy in slowing down \cite{Lazo-1986}. As such, the numerical flux $\tilde{\Psi}$ is defined by the negatively directed flow in energy, that is,
+\begin{equation}
+    \tilde{\Psi}_{g+1/2} = S_{g+1} \, \Psi_{g+1}(E_{g+1/2}), \quad \tilde{\Psi}_{g-1/2} = S_g \, \Psi_{g}(E_{g-1/2}).
+\end{equation}
+For the energy-straggling operator, there is no clear definition of the flow directions $\hat{\Psi}$ and $\hat{R}$ since particles can both lose and gain energy as a result of this operator. To overcome this, two distinct methods for determining the upwinding are presented: the alternating flux \cite{Cheng-2008}, and the directional flows methods. 
+
+In the alternating flux method, the direction of flows associated with the numerical fluxes $\hat{\Psi}$ and $\hat{R}$ are chosen arbitrarily to be fixed in the positive direction for one and in the negative direction for the other. The numerical flux $\hat{\Psi}$ is in this case chosen to flow in the negative direction to maintain consistency with $\tilde{\Psi}$. Thus, $\hat{R}$ is taken to flow in the positive direction, and the corresponding numerical fluxes are
+\begin{subequations}
+    \begin{equation}
+        \hat{\Psi}_{g+1/2} = \sqrt{\frac{T_{g+1}}{2}} \, \Psi_{g+1}(E_{g+1/2}), \quad \hat{R}_{g+1/2} = \sqrt{\frac{T_{g}}{2}} \, R_{g}(E_{g+1/2}),
+    \end{equation}
+    \begin{equation}
+        \hat{\Psi}_{g-1/2} = \sqrt{\frac{T_g}{2}} \, \Psi_{g}(E_{g-1/2}), \quad \hat{R}_{g-1/2} = \sqrt{\frac{T_{g-1}}{2}} \, R_{g-1}(E_{g-1/2}).
+    \end{equation}
+\end{subequations}
+
+The directional flows method evaluates $\Psi(E)$ and $R(E)$ using the characteristic variables such that the numerical fluxes are defined as
+\begin{subequations}
+    \begin{equation}
+        \hat{\Psi}_{g+1/2} = \gamma_{g+1/2}^- - \gamma_{g+1/2}^+, \quad \hat{R}_{g+1/2} = \gamma_{g+1/2}^- + \gamma_{g+1/2}^+
+    \end{equation}
+    \begin{equation}
+        \hat{\Psi}_{g-1/2} = \gamma_{g-1/2}^- - \gamma_{g-1/2}^+, \quad \hat{R}_{g-1/2} = \gamma_{g-1/2}^- + \gamma_{g-1/2}^+
+    \end{equation}
+\end{subequations}
+where the incoming flows into group $g$ are
+\begin{subequations}
+    \begin{align}
+        \gamma_{g+1/2}^- &= \sqrt{\frac{T_{g+1}}{2}} \left[\,\,\,\,\frac{1}{2} \, \Psi_{g+1}(E_{g+1/2}) + \frac{1}{2} \, R_{g+1}(E_{g+1/2}) \right], \\
+        \gamma_{g-1/2}^+ &= \sqrt{\frac{T_{g-1}}{2}} \left[-\frac{1}{2} \, \Psi_{g-1}(E_{g-1/2}) + \frac{1}{2} \, R_{g-1}(E_{g-1/2}) \right],
+    \end{align}
+\end{subequations}
+and the outgoing flows from group $g$ are
+\begin{subequations}
+    \begin{align}
+        \gamma_{g+1/2}^+ &= \sqrt{\frac{T_g}{2}} \left[-\frac{1}{2} \, \Psi_{g}(E_{g+1/2}) + \frac{1}{2} \, R_{g}(E_{g+1/2}) \right], \\
+        \gamma_{g-1/2}^- &= \sqrt{\frac{T_g}{2}} \left[\,\,\,\,\frac{1}{2} \, \Psi_{g}(E_{g-1/2}) + \frac{1}{2} \, R_{g}(E_{g-1/2}) \right].
+    \end{align}
+\end{subequations}

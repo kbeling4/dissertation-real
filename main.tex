@@ -3,46 +3,57 @@
 \begin{document}
   \frontmatter
 
-  \include{chapters/frontmatter.tex}
+  \include{frontmatter/frontmatter.tex}
 
   \mainmatter
-  \subfile{chapters/introduction}
 
-  \part{Charged Particle Interaction Physics and Data}
-  \subfile{chapters/interactionPhysics}
+  % INTRODUCTION
+  \subfile{chapters/chapter-1}
 
-  \subfile{chapters/particleKinematics}
+  % TRANSPORT EQUATION
+  \subfile{chapters/chapter-2}
 
-  \subfile{chapters/lando}
+  % COLLISION APPROXIMATIONS
+  \subfile{chapters/chapter-3}
 
-  \part{Charged Particle Transport}
-  \subfile{chapters/transport}
+  % INTERACTION PHYSICS
+  \subfile{chapters/chapter-4}
 
-  \subfile{chapters/collisionApproximations}
+  % MULTIGROUP DATA
+  \subfile{chapters/chapter-5}
 
-  \subfile{chapters/numericalDiscretizations}
+  % NUMERICAL DISCRETIZATIONS
+  \subfile{chapters/chapter-6}
 
-  \subfile{chapters/sally}
+  % ITERATIVE SOLUTION METHODS
+  \subfile{chapters/chapter-7}
 
-  \part{Results and Conclusions}
-  \subfile{chapters/results}
+  % RESULTS
+  \subfile{chapters/chapter-8}
 
-  \subfile{chapters/conclusions}
+  % CONCLUSIONS
+  \subfile{chapters/chapter-9}
 
-  % \chapter*{Appendices}
+  \part*{Appendices}
 
-  % \addcontentsline{toc}{chapter}{Appendices}
+  \addcontentsline{toc}{part}{Appendices}
   % Next lines duplicated from .toc file and used to create mini
   % "Appendix Table of Contents," if desired:
-  % \contentsline {chapter}{\numberline {A}Particle Kinematics}{2}
+  % \contentsline {chapter}{\numberline {A} SALLY Manual}{101}
+  % \contentsline {chapter}{\numberline {B} LANDO Manual}{102}
   % End mini table of contents
 
-  % \appendix
+  \appendix
+
+  \subfile{appendix/MMSsolutions}
   
-  % \subfile{appendix/particleKinematics}
+  \subfile{appendix/SALLYmanual}
+
+  \subfile{appendix/LANDOmanual}
     
 
-\bibliographystyle{ieeetr}
-\bibliography{references.bib}
+  % REFERENCES
+  \bibliographystyle{ieeetr}
+  \bibliography{references.bib}
 
 \end{document}

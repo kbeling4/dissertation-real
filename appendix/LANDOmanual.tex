@@ -1,7 +1,7 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-\chapter{The Charged Particle Data Processing Library LANDO}
+\chapter{LANDO Manual}
 LANDO is a C++ charged particle data processing code that produces JSON formatted multigroup charged particle data from ENDF files. Figure \ref{fig:LANDO_code_structure} shows the general code structure and data processing method that LANDO uses; in general LANDO first reconstructs the charged particle cross sections using the \textbf{Construct} class and a \textit{screening} function. Next LANDO interprets the constructed cross sections into light/heavy reactions using the \textbf{Interpret} class using the Boltzmann-Fokker-Planck (BFP) \textit{decomposition} functions. Finally, LANDO generates the multigroup data from the interpretation by using the \textbf{Multigroup} class and a \textit{weighting} function.
 
 \begin{figure}[!htb]
@@ -408,115 +408,7 @@ The \textbf{Interpret} class has two main member functions to access the cross s
 \section{Multigroup Class}
 In this chapter the details of how the multigroup charged particle data is computed for use by the CPT methods.
 
-\subsection{Group Constants}
 
-\subsection{Transfer Matrices}
-Consider the definition of the group to group transfer
-\begin{equation} \label{eqn:g2g_transfer}
-  \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{4 \, \pi} d\hat{\Omega}^{\prime} \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \,\, \Sigma(E^{\prime}\rightarrow E; \hat{\Omega}^{\prime} \rightarrow \hat{\Omega}) \,\, \Psi(E^{\prime},\hat{\Omega}^{\prime})
-\end{equation}
-By assuming that the background is homogeneous and isotropic, the scattering becomes a function of the angle between the initial and final directions, $\hat{\Omega}^{\prime}$ and $\hat{\Omega}$. The cosine of the scattering angle, $\mucm$ , can be written in terms of the initial and final scattering angles as
-\begin{equation}
- \mucm = \hat{\Omega}^{\prime} \cdot \hat{\Omega} = \mu^{\prime} \mu + \sqrt{1-\left(\mu^{\prime}\right)^2} \sqrt{1-\mu^{2}} \cos\left(\phi^{\prime} - \phi \right) 
-\end{equation}
-and in general
-\begin{equation} \label{eqn:mucm_dxs}
-  \Sigma(E^{\prime}\rightarrow E; \hat{\Omega}^{\prime} \rightarrow \hat{\Omega}) = \Sigma(E^{\prime}\rightarrow E; \mucm).
-\end{equation}
-
-To convert this into a function of initial and final directions, Eq. \eqref{eqn:mucm_dxs} is expanded in a series of legendre polynomials
-\begin{equation} \label{eqn:legendre_expansion_dxs}
-  \Sigma(E^{\prime}\rightarrow E; \mucm) = \sum_{l=0}^L \dfrac{2l+1}{2} \, \Sigma_l(E^{\prime}\rightarrow E) \, P_l(\mucm)
-\end{equation}
-where
-\begin{equation}
-  \Sigma_l(E^{\prime}\rightarrow E) = \int\limits_{-1}^{1} d\mucm \, P_l(\mu) \, \Sigma(E^{\prime}\rightarrow E; \mucm).
-\end{equation}
-Substituting Eq. \eqref{eqn:legendre_expansion_dxs} back into Eq. \eqref{eqn:g2g_transfer} and using the relationship,
-\begin{equation}
-  P_l(\mucm) = \sum\limits_{m=-l}^l Y_{n}^{m}(\hat{\Omega}^{\prime}) \, Y_{n}^{m}(\hat{\Omega}),
-\end{equation}
-gives
-\begin{equation}
-  \sum_{l=0}^{\infty} \dfrac{2l+1}{2} \sum\limits_{m=-l}^l Y_{n}^{m}(\hat{\Omega}) \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{4 \, \pi} d\hat{\Omega}^{\prime} \, Y_{n}^{m}(\hat{\Omega}^{\prime}) \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \, \Sigma_l(E^{\prime}\rightarrow E) \, \Psi(E^{\prime},\hat{\Omega}^{\prime}).
-\end{equation}
-Next, defining the spherical harmonic moment of the flux as
-\begin{equation}
-  \Phi_l^m(E^{\prime}) = \int_{4\,\pi} d\hat{\Omega}^{\prime} \,\, Y_{n}^{m}(\hat{\Omega}^{\prime}) \,\, \Psi(E^{\prime},\hat{\Omega}^{\prime}),
-\end{equation}
-gives the final form of the expression as
-\begin{equation} \label{eqn:transfer-matrix-full}
-  \sum_{l=0}^{\infty} \dfrac{2l+1}{2} \sum\limits_{m=-l}^l Y_{n}^{m}(\hat{\Omega}) \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \, \Sigma_l(E^{\prime}\rightarrow E) \, \Phi_l^m(E^{\prime}).
-\end{equation}
-which expresses the transfer to the final direction $\hat{\Omega}$, in terms of the spherical harmonics moments of the flux. Finally, in the azimuthally symmetric system Eq. \eqref{eqn:transfer-matrix-full} can be simplified by integrating over the azimuthal angle; in this case, all the terms will be zero except those with $m = 0$, giving
-\begin{equation} \label{eqn:transfer-matrix-simple}
-  \sum_{l=0}^{\infty} \dfrac{2l+1}{2}  P_{l}(\mu) \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \, \Sigma_l(E^{\prime}\rightarrow E) \, \Phi_l(E^{\prime})
-\end{equation}
-where
-\begin{equation}
-  \Phi_l(E) = \int\limits_{-1}^{1} d\mu \, P_l(\mu) \, \Psi(E,\mu).
-\end{equation}
-
-From Eq. \eqref{eqn:transfer-matrix-simple} the group constants are defined as
-\begin{equation} \label{eqn:group-constants}
-  \sigma_{g^{\prime}\rightarrow g,l} = \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \Phi_l(E^{\prime}) \int\limits_{-1}^{1} d\mucm \, P_l(\mu) \, \Sigma(E^{\prime}\rightarrow E; \mucm).
-\end{equation}
-
-Before proceeding to the evaluation methods for Eq. \eqref{eqn:group-constants} we will first express the secondary-energy-angle distribution in the form that it is represented in evaluated libraries, where each reaction is represented in the form
-\begin{equation}
-  \Sigma(E^{\prime}\rightarrow E; \mucm) = m(E^{\prime}) \, \Sigma_s(E^{\prime}) \, f(E^{\prime},E,\mucm)
-\end{equation}
-where
-\begin{itemize}
-  \item $m(E^{\prime})$ is the multiplicity for the reaction
-  \item $\Sigma(E^{\prime})$ total cross section for the reaction
-  \item $p(E^{\prime},\mucm)$ angular distribution, which is a function of the incident energy. For correlated distributions, it is usually given in the center-of-mass system. Uncorrelated distributions are given in the laboratory system. Either may be given in terms of Legendre coefficients
-  or tabulated values.
-  \item $g(\mucm, E^{\prime}\rightarrow E)$ Energy distribution: For correlated distributions, this is an implied Dirac delta function, which expresses the exact correlation between scattering cosine and initial and final energies. For uncorrelated distributions, it is the actual secondary-energy
-  distribution, independent of $\mucm$.
-\end{itemize}
-
-
-\subsubsection{Correlated distributions}
-In the case of correlated distributions, the secondary distribution is expressed as the product of the angular distribution and a Dirac delta function expressing the exact correlation between scattering angle and initial and final energies, as
-\begin{equation}
-  f(E^{\prime},E,\mucm) = p(E^{\prime},\mucm) \, \delta\left[\mucm - S(E^{\prime},E)\right]
-\end{equation}
-
-In this case the Eq. \eqref{eqn:group-constants} can be written as
-\begin{equation}
-  \sigma_{g^{\prime}\rightarrow g,l} = \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \, w(E^{\prime}) \, F_l(E^{\prime})
-\end{equation}
-where
-\begin{equation}
-  F_l(E^{\prime}) = \int\limits_{-1}^{1} d\mucm \, P_l(\mu) \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \, p(E^{\prime},\mucm) \, \delta\left[\mucm - S(E^{\prime},E)\right].
-\end{equation}
-Finally, this integral is rewritten in the laboratory system as
-\begin{equation}
-  F_l(E^{\prime}) = \int\limits_{\mu_{min}}^{\mu_{max}} p(E^{\prime},\mucm[\mu]) \, P_l(\mu) \left| \dfrac{d\mucm}{d\mu} \right|d\mu 
-\end{equation}
-In these equations, the cosine limits are a function of the incident energy $E^{\prime}$ and correspond to the minimum and maximum scattering cosines that will permit a particle with an initial energy $E^{\prime}$ to end up with a secondary energy between $E_{g-\frac{1}{2}}$ and $E_{g+\frac{1}{2}}$.
-
-For inelastic scattering the relationship between the incident energy, outgoing energy, and the cosine of the laboratory scattering angle is
-\begin{equation}
-  \mu = \dfrac{1}{2} \left[ (A+1) \sqrt{\frac{E}{E^{\prime}}} - (A-1) \sqrt{\frac{E^{\prime}}{E}} + \dfrac{AQ}{E} \right]
-\end{equation}
-
-For elastic scattering the relationship between the incident energy, outgoing energy, and the cosine of the laboratory scattering angle is
-\begin{equation}
-  \mu = \dfrac{1}{2} \left[ (A+1) \sqrt{\frac{E}{E^{\prime}}} - (A-1) \sqrt{\frac{E^{\prime}}{E}} \right]
-\end{equation}
-
-\subsubsection{Uncorrelated distributions}
-
-\section{Boltzmann Fokker-Planck Decomposition Functions}
-This section describes the various Boltzmann-Fokker-Planck (BFP) decomposition functions available in LANDO. The BFP decomposition functions serve to separate the total elastic scattering differential cross section into peaked and smooth parts as:
-\begin{equation}
-    \sigma(E^{\prime},\mu_0) = \sigma_P(E^{\prime},\mu_0) + \sigma_S(E^{\prime},\mu_0), 
-\end{equation}
-where the subscripts $P$ and $S$ represent the smooth and peaked parts. The peaked part is then handled with a Fokker-Planck expansion, while the smooth part is dealt with using the typical transfer matrix.
-
-The following BFP decomposition are provided by LANDO: Fokker-Planck, Boltzmann, nuclear-elastic scattering, exponential fit, partial-range fit, and a moment-based method. The remainder of this section describes the implementation details of the BFP decomposition's available in LANDO.
 
 \subsection{Boltzmann}
 If no BFP decomposition is desired, the decomposition functions that should be selected are the Boltzmann decomposition methods. These functions set the smooth part of the decomposition equal to the total differential cross section and peaked part equal to zero, that is,

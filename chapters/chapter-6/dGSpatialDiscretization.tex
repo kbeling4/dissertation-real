@@ -1,0 +1,25 @@
+\section{\dG spatial discretization}
+The spatial discretizations of the CPT operators are done using a \dG finite element method. To begin, the finite spatial range $r \in [0,R]$ is divided into $K$ intervals order as
+\begin{equation}
+    0 = r_{\frac{1}{2}} < r_{\frac{3}{2}} < \ldots < r_{i-\frac{1}{2}} < r_{i+\frac{1}{2}} < \ldots < r_{K+\frac{1}{2}} = R,
+\end{equation}
+with a spatial cell $i$ being the interval $I_i = [r_{i-\frac{1}{2}}, r_{i+\frac{1}{2}}]$. Next, the finite element basis $P^p(I_i)$ of degree $p$ on interval $I_i$ consisting of the functions $\lbrace u_j(r) \in P^p(I_i), \, 1 \leq j \leq p \rbrace$ is introduced. The solution $\Psi_x(r,E,\mu)$ is then expanded in the local polynomial basis for cell $i$,
+\begin{equation} \label{eqn:spatial-expansion}
+    \Psi_{x,i}(r,E,\mu) = \sum_{j=1}^p \Psi_{x,i}^j(E,\mu) u_j(r).
+\end{equation}
+Substituting Eq.~\eqref{eqn:spatial-expansion} into the CPT operators, multiplying by the test functions $\lbrace v_k(r) \in P^p(I_i), \, 1 \leq k \leq p \rbrace$, and integrating over the spherical shell gives the weak forms of each CPT operator. It is noted that only the spatial streaming operator, $\boldsymbol{L}$, operates in space on the angular flux, and therefore all other operators discretized in space result in spatial mass matrices. These discretizations are not shown here because they are straightforward; instead only the discretization of the spatial streaming operator is shown.
+
+The weak form of the spatial streaming operator is 
+\begin{multline} \label{eqn:spatial-weak-form}
+    \boldsymbol{L} \Psi_x = \mu \, v_k r_{i+1/2}^2 \widehat{\Psi}_{i+1/2} - \mu \, v_k r_{i-1/2}^2 \widehat{\Psi}_{i-1/2} - \mu \, \int_{I_i} dr \, r^2 \, v_k^{\prime} \Psi_{x,i}(r,E,\mu) \\ 
+    + \Sigma_{a,z} \int_{I_i} dr \, r^2 \, v_k \, \Psi_{x,i}(r,E,\mu),
+\end{multline}
+where the terms $\widehat{\Psi}$ are the numerical fluxes that introduce discontinuities into the discretization via upwinding based on the ``flow direction'' of the particles. These ``flow directions'' are defined in the spatial streaming operator because particles clearly flow in the spatial direction associated with direction cosine $\mu$. For example, if $\mu > 0$ then the particles will travel from left to right across the spatial domain of the problem. Therefore, the numerical fluxes associated with the spatial streaming operator, $\widehat{\Psi}$, are defined as
+\begin{subequations} \label{eqn:spatial-upwinding}
+    \begin{align}
+        \widehat{\Psi}_{i-1/2} &= \Psi_{z,i-1}(r_{i-\frac{1}{2}},E,\mu),  &\text{for} \, \mu > 0 \\
+        \widehat{\Psi}_{i-1/2} &= \Psi_{z,i}(r_{i-\frac{1}{2}},E,\mu),  &\text{for} \, \mu < 0 \\
+        \widehat{\Psi}_{i+1/2} &= \Psi_{z,i}(r_{i+\frac{1}{2}},E,\mu),  &\text{for} \, \mu > 0 \\
+        \widehat{\Psi}_{i+1/2} &= \Psi_{z,i+1}(r_{i+\frac{1}{2}},E,\mu),  &\text{for} \, \mu < 0.
+    \end{align}
+\end{subequations}

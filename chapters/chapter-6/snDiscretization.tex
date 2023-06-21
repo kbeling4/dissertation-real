@@ -1,0 +1,89 @@
+\section{\Sn angular discretization}
+The method used to discretize the angular domain in this work is the discrete ordinates method, which consists of evaluating the CPT equation at discrete angles using a set of discrete angular directions. Here a one-dimensional \Sn approximation is employed by using a set of $N$ directions $(\mu_m)$ and weights $(w_m)$. These directions and weights are chosen such that they satisfy the N-point quadrature rule, that is,
+\begin{equation}
+    \int_{a}^b f(x) \, dx \approx w_1 \, f(\mu_1) + w_2 \, f(\mu_2) + \ldots + w_N \, f(\mu_N) = \sum_{m=1}^N w_{m} \, f(\mu_m).
+\end{equation}
+In this work only Gauss-type quadratures are considered such as Gauss-Legendre and Gauss-Lobatto. Gauss-Lobatto quadrature is especially useful in spherical geometries because it includes the points of the angular domain, $+1$ and $-1$, where the angular streaming term vanishes. 
+
+Using the \Sn method, a vector of $N$ discrete angular fluxes corresponding to the directions $\mu_m$ is written as $\vec{\Psi}_x(r,E)$, where an element $m$ of the vector corresponds to the discrete angular flux $\Psi_x(r,E,\mu_m)$. The angular discretization is trivial for all operators in Eq.~\eqref{eqn:operator-equation} except for the angular streaming operator, Boltzmann collision operator, and the angular diffusion operator in the FP collision operator as they operate in angle on the angular flux. The angular integrations required to calculate the angular moments in the Boltzmann collision operator are computed using the quadrature rule, that is,
+\begin{equation}
+    \Psi_l(r,E) = \int_{-1}^1 \, P_l(\mu) \, \Psi(r,E,\mu) \, d\mu = \sum_{m=0}^N w_m \, P_l(\mu_m) \, \Psi_m(r,E).
+\end{equation} 
+
+In remainder of this section, the weight-diamond-difference (WDD) and differential quadrature (DQ) angular discretization methods for the angular streaming and angular diffusion operators are discussed. 
+
+\subsection{The weighted diamond difference method}
+The WDD discretization of the angular streaming and angular FP collision operators at some discrete angular direction, $\mu_m$, are
+\begin{subequations} \label{eqn:WDD_angular_operators}
+    \begin{align}
+        \dfrac{\partial}{\partial \mu} \left.\left[(1-\mu^2) \Psi(r,E,\mu) \right]\right|_{\mu_m} &= \dfrac{1}{w_m} \left( \alpha_{m+1/2} \Psi_{m+1/2}(r,E) - \alpha_{m-1/2} \Psi_{m-1/2}(r,E) \right), \\
+        \dfrac{\partial}{\partial \mu} \left.\left[(1-\mu^2) \frac{\partial \Psi}{\partial \mu} \right]\right|_{\mu_m} &= \dfrac{1}{w_m} \left( \beta_{m-1} \Psi_{m-1}(r,E) - \beta_{m+1} \Psi_{m+1}(r,E) \right),
+    \end{align}
+\end{subequations} 
+where the half indices refer to the angular flux evaluated at the boundary of the angular cells. The WDD method closes the equations using the diamond-difference relationships
+\begin{subequations}
+    \begin{align}
+        \Psi_m(r,E) &= (1 - \tau_m) \Psi_{m-1/2}(r,E) + \tau_m \Psi_{m+1/2}(r,E), \\
+        \Psi_m(r,E) &= (1 - \gamma_m) \Psi_{m-1}(r,E) + \gamma_m \Psi_{m+1}(r,E),
+    \end{align}
+\end{subequations}
+where the WDD constants for the angular streaming and angular FP collision operators are given here \cite{Morel-1984} \cite{Morel-1985}.
+
+To solve the WDD relationships in Eqs.~\eqref{eqn:WDD_angular_operators} for the angular streaming operator, first a starting-direction equation with $\mu_{1/2} = -1$ must be solved, and then each subsequent angular equation can be solved for by stepping through the discrete angles. Therefore, the angular streaming operator is lower triangular and can be easily inverted by using the standard \Sn sweep method. This is a major advantage over the DQ method shown in the next section which as will be seen, is a dense matrix that cannot be easily inverted. Additionally, the angular FP operator is tri-diagonal and can be inverted using the standard source iteration algorithm by lagging the off diagonal terms \cite{Morel-1985}. The main disadvantage to the WDD difference method is that it only rigorously preserves the zeroth and first angular moments of the angular flux, whereas DQ methods have been shown to preserve a higher-order number of moments \cite{Warsa-2012} \cite{Warsa-2006}.
+
+\subsection{The differential quadrature method}
+Here the differential quadrature method of Bellman \cite{Bellman-1972} is introduced and used to discretize the angular streaming and angular FP collision operators. The DQ method makes the approximation that the derivative of a function $f(x)$ with respect to $x$ at a grid point $x_i$, is approximated by a linear sum of all the functional values in domain, that is,
+\begin{equation}
+    f_x(x_i) = \left.\dfrac{df}{dx}\right|_{x_i} = \sum_{j=1}^N a_{ij} \, f(x_j), \quad \text{for} \, i=1,2,\ldots,N
+\end{equation} 
+where $a_{ij}$ represent the weighting coefficients. The key procedure in the DQ approximation is to determine the coefficients $a_{ij}$, and this procedure is summarized here using a Lagrange interpolator basis. 
+
+To derive a formula for the weighting coefficients $a_{ij}$, the Lagrange interpolation polynomials are
+\begin{equation}
+    g_k(x) = \dfrac{M(x)}{(x - x_k) M^{\prime}(x_k)}
+\end{equation}
+where the polynomials
+\begin{equation}
+    M(x) = \prod_{j=1}^N (x - x_j)
+\end{equation}
+and $M^{\prime}(x)$ is the first order derivative of $M(x)$ for some set of nodes $x_i, \,\, i = 1,\ldots,N$. Next, it is assumed that the function $f(x)$ can be represented using these interpolating polynomials as
+\begin{equation}
+    f(x) = \sum_{j=1}^N f_j \, g_j(x)
+\end{equation}
+such that $f(x_i) = f_i$. The derivative of $f(x)$ is
+\begin{equation}
+    f^{\prime}(x) = \sum_{j=1}^N f_j \, g_j^{\prime}(x).
+\end{equation}
+From this, the derivatives $f^{\prime}(x_i)$ can be determined by evaluating the expansion for the derivative at $x_i$ with another expansion
+\begin{equation}
+    f^{\prime}(x_i) = \sum_{j=1}^N f_j \, g_j^{\prime}(x_i) = \sum_{j=1}^N a_{ij} \, f_j
+\end{equation}
+whose coefficients $a_{ij}$ are to be determined. When $i \neq j$ the coefficients are given by
+\begin{equation}
+    a_{ij} = g_j^{\prime}(x_i) = \dfrac{M^{\prime}(x_i)}{(x_i - x_j) \, M^{\prime}(x_j)}
+\end{equation}
+where 
+\begin{equation}
+    M^{\prime}(x_i) = \prod\limits_{\substack{j = 1 \\ j \neq i}}^N (x_i - x_j),
+\end{equation}
+and when $i = j$ it can be shown \cite{Shu-2000} that coefficients are given by
+\begin{equation}
+    a_{ii} = \sum\limits_{\substack{j=1 \\ i \neq j}}^N - a_{ij}.
+\end{equation}
+Finally, computing the expansion coefficients gives a transformation matrix, $\boldsymbol{A}$, such that when multiplied against a vector $v$, whose elements are $v_i = v(x_i)$,
+\begin{equation} \label{eqn:DQ_method}
+    v^{\prime} = \boldsymbol{A} v
+\end{equation}
+gives a vector $v^{\prime}$ whose elements are the derivatives of $v(x)$ at the nodes $x_i$. 
+
+Using the DQ method, both the angular streaming and AFP operators are represented using the vector notation above as some matrix, $\boldsymbol{R}_{op}$, that describes the angular derivative. Using Eq.~\eqref{eqn:DQ_method}, the angular streaming operator, $\boldsymbol{R}_{sph}$, is written as
+\begin{equation} \label{eqn:angular_discretization_angular_streaming}
+    \boldsymbol{R}_{sph} = \left[ (\boldsymbol{I} - \boldsymbol{M}^2) \boldsymbol{A} - 2 \boldsymbol{M} \right],
+\end{equation}
+and the AFP operator is
+\begin{equation} \label{eqn:angular_discretization_afp}
+    \boldsymbol{R}_{afp} = \left[ (\boldsymbol{I} - \boldsymbol{M}^2) \boldsymbol{A}^2 - 2 \boldsymbol{M} \boldsymbol{A} \right],
+\end{equation}
+where $\boldsymbol{M} = \text{diag} \, (\mu_m)$.
+
+Advantages of the DQ method over the WDD method are that the DQ method possesses a quicker convergence to the solution since it relies on interpolator polynomials to approximate the original function. However, the result is a dense matrix that cannot be inverted efficiently like the WDD matrix can.

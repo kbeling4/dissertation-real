@@ -1,0 +1,38 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\chapter{Numerical Discretizations}
+In this section, the numerical methods used to discretize the various operators in the CPT equation are introduced, and several numerical experiments are performed to demonstrate that these operators have been discretized properly. To simplify notation, the CPT equation describing a single ion is written in operator notation as
+\begin{equation} \label{eqn:operator-equation}
+    \boldsymbol{L} \vec{\Psi}_x + \boldsymbol{P} \vec{\Psi}_x = \boldsymbol{C}_{x} \vec{\Psi}_x + \vec{Q}_x,
+\end{equation}
+where
+\begin{subequations}
+    \begin{equation}
+        \boldsymbol{L} \vec{\Psi}_x = \dfrac{\mu}{r^2} \dfrac{\partial}{\partial r}\Big[ r^2 \Psi_x(r,E,\mu)\Big] + \Sigma_{a,x}(r,E) \Psi_x(r,E,\mu),
+    \end{equation}
+    and
+    \begin{equation}
+        \boldsymbol{P} \vec{\Psi}_x = \dfrac{1}{r} \dfrac{\partial}{\partial \mu}\Big[ (1-\mu^2) \Psi_x(r,E,\mu)\Big].
+    \end{equation}
+\end{subequations}
+The operators on the left-hand side of Eq.~\eqref{eqn:operator-equation} are the spatial and angular streaming operators, and the scattering collision operator, $\boldsymbol{C}_{x}$, is either a Boltzmann collision operator, an FP collision operator, or some combination of these two collision operators such as the BFP collision operator. In this section only the Boltzmann and FP collision operators are discretized because all other possible CPT collision operators are combinations of these two collision operators.
+
+In this work, the angular domain is discretized using the discrete ordinates (\Snns) method, and the spatial and energy domains are discretized using a discontinuous Galerkin (\dGns) finite element method. This section introduces the discretization's of each domain separately, as the fully discretized form of any CPT operator is calculated by using Kronecker products to multiply each discretized domain together. For example if $\boldsymbol{L}^A$, $\boldsymbol{L}^S$, and $\boldsymbol{L}^E$ are the angular, spatial, and energy discretized spatial streaming operators, then the fully discretized spatial streaming operator is given by
+\begin{equation}
+    \boldsymbol{L}^D = \boldsymbol{L}^A \otimes \boldsymbol{L}^S \otimes \boldsymbol{L}^E.
+\end{equation}
+
+The remainder of this section is divided into four parts: 1) \Sn angular discretization method, 2) \dG spatial discretization method, 3) \dG energy discretization method, and 4) numerical experiments. The first three parts present the various methods used to discretize the operators in Eq.~\eqref{eqn:operator-equation} on each domain of the problem, while the fourth part uses the method of manufactured solutions (MMS) to verify that the various operators have been discretized properly over the entire domain of the problem.
+
+% Sn ANGULAR DISCRETIZATION
+\input{chapter-6/snDiscretization}
+
+% dG SPATIAL DISCRETIZATION
+\input{chapter-6/dGSpatialDiscretization}
+
+% dG ENERGY DISCRETIZATION
+\input{chapter-6/dGEnergyDiscretization}
+
+\end{document}

@@ -1,12 +1,14 @@
-\documentclass[../main.tex]{subfiles}
+\section{Multigroup data}
+In this section the algorithms used to compute the multigroup charged particle data are introduced. First we present the method used to compute the group constants, that is, the multigroup form of cross sections that are only energy dependent. Next we present the algorithms used to compute the transfer matrices.
 
-\begin{document}
-\chapter{Multigroup Data Processing}
-In this chapter the details of how the multigroup charged particle data is computed for use by the CPT methods.
+\subsection{Group Constants}
+The group constants are computed in the usual manner
+\begin{equation}
+  \sigma_g = \dfrac{\int_{I_g} \sigma(E) \, w(E) \, dE}{\int_{I_g} w(E) \, dE}
+\end{equation}
+where $w(E)$ is some weighting function.
 
-\section{Group Constants}
-
-\section{Transfer Matrices}
+\subsection{Transfer Matrices}
 Consider the definition of the group to group transfer
 \begin{equation} \label{eqn:g2g_transfer}
   \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{4 \, \pi} d\hat{\Omega}^{\prime} \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \,\, \Sigma(E^{\prime}\rightarrow E; \hat{\Omega}^{\prime} \rightarrow \hat{\Omega}) \,\, \Psi(E^{\prime},\hat{\Omega}^{\prime})
@@ -52,57 +54,29 @@ where
 \begin{equation}
   \Phi_l(E) = \int\limits_{-1}^{1} d\mu \, P_l(\mu) \, \Psi(E,\mu).
 \end{equation}
-
 From Eq. \eqref{eqn:transfer-matrix-simple} the group constants are defined as
 \begin{equation} \label{eqn:group-constants}
   \sigma_{g^{\prime}\rightarrow g,l} = \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \Phi_l(E^{\prime}) \int\limits_{-1}^{1} d\mucm \, P_l(\mu) \, \Sigma(E^{\prime}\rightarrow E; \mucm).
 \end{equation}
 
-Before proceeding to the evaluation methods for Eq. \eqref{eqn:group-constants} we will first express the secondary-energy-angle distribution in the form that it is represented in evaluated libraries, where each reaction is represented in the form
-\begin{equation}
-  \Sigma(E^{\prime}\rightarrow E; \mucm) = m(E^{\prime}) \, \Sigma_s(E^{\prime}) \, f(E^{\prime},E,\mucm)
-\end{equation}
-where
-\begin{itemize}
-  \item $m(E^{\prime})$ is the multiplicity for the reaction
-  \item $\Sigma(E^{\prime})$ total cross section for the reaction
-  \item $p(E^{\prime},\mucm)$ angular distribution, which is a function of the incident energy. For correlated distributions, it is usually given in the center-of-mass system. Uncorrelated distributions are given in the laboratory system. Either may be given in terms of Legendre coefficients
-  or tabulated values.
-  \item $g(\mucm, E^{\prime}\rightarrow E)$ Energy distribution: For correlated distributions, this is an implied Dirac delta function, which expresses the exact correlation between scattering cosine and initial and final energies. For uncorrelated distributions, it is the actual secondary-energy
-  distribution, independent of $\mucm$.
-\end{itemize}
-
-
-\subsection{Correlated distributions}
 In the case of correlated distributions, the secondary distribution is expressed as the product of the angular distribution and a Dirac delta function expressing the exact correlation between scattering angle and initial and final energies, as
-\begin{equation}
-  f(E^{\prime},E,\mucm) = p(E^{\prime},\mucm) \, \delta\left[\mucm - S(E^{\prime},E)\right]
+\begin{equation} \label{eqn:energy-angle-expression}
+  \Sigma(E^{\prime},E,\mucm) = \Sigma(E^{\prime},\mucm) \, \delta\left[\mucm - S(E^{\prime},E)\right]
+\end{equation}
+where $S(E^{\prime},E)$ describes the relationship between the scattering angle and the incoming and outgoing energies. Substituting Eq. \eqref{eqn:energy-angle-expression} back into Eq. \eqref{eqn:group-constants} gives the final expression for computing the terms in the transfer matrix which can be written in the laboratory system as
+\begin{equation} \label{eqn:transfer-constants}
+  \sigma_{g^{\prime}\rightarrow g,l} = \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \, w(E^{\prime}) \int\limits_{-1}^{1} d\mu \, P_l(\mu) \, \Sigma(E^{\prime},\mucm[\mu]) \, \left| \dfrac{d\mucm}{d\mu} \right| \, \delta\left[\mu - S(E^{\prime},E)\right].
 \end{equation}
 
-In this case the Eq. \eqref{eqn:group-constants} can be written as
+Because of the delta function in Eq. \eqref{eqn:transfer-constants} we can combine the angular integral and integral over the outgoing energy group into a single integral over the angular variable with integration limits as
 \begin{equation}
-  \sigma_{g^{\prime}\rightarrow g,l} = \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \, w(E^{\prime}) \, F_l(E^{\prime})
+  \sigma_{g^{\prime}\rightarrow g,l} = \int\limits_{E_{g^{\prime}-\frac{1}{2}}}^{E_{g^{\prime}+\frac{1}{2}}} dE^{\prime} \, w(E^{\prime}) \int\limits_{\omega_{\min}[E^{\prime}]}^{\omega_{\max}[E^{\prime}]} d\mu \, P_l(\mu) \, \Sigma(E^{\prime},\mucm[\mu]) \, \left| \dfrac{d\mucm}{d\mu} \right| \, \delta\left[\mu - S(E^{\prime},E)\right]
 \end{equation}
-where
-\begin{equation}
-  F_l(E^{\prime}) = \int\limits_{-1}^{1} d\mucm \, P_l(\mu) \int\limits_{E_{g-\frac{1}{2}}}^{E_{g+\frac{1}{2}}} dE \, p(E^{\prime},\mucm) \, \delta\left[\mucm - S(E^{\prime},E)\right].
-\end{equation}
-Finally, this integral is rewritten in the laboratory system as
-\begin{equation}
-  F_l(E^{\prime}) = \int\limits_{\mu_{min}}^{\mu_{max}} p(E^{\prime},\mucm[\mu]) \, P_l(\mu) \left| \dfrac{d\mucm}{d\mu} \right|d\mu 
-\end{equation}
-In these equations, the cosine limits are a function of the incident energy $E^{\prime}$ and correspond to the minimum and maximum scattering cosines that will permit a particle with an initial energy $E^{\prime}$ to end up with a secondary energy between $E_{g-\frac{1}{2}}$ and $E_{g+\frac{1}{2}}$.
-
-For inelastic scattering the relationship between the incident energy, outgoing energy, and the cosine of the laboratory scattering angle is
-\begin{equation}
-  \mu = \dfrac{1}{2} \left[ (A+1) \sqrt{\frac{E}{E^{\prime}}} - (A-1) \sqrt{\frac{E^{\prime}}{E}} + \dfrac{AQ}{E} \right]
-\end{equation}
-
-For elastic scattering the relationship between the incident energy, outgoing energy, and the cosine of the laboratory scattering angle is
-\begin{equation}
-  \mu = \dfrac{1}{2} \left[ (A+1) \sqrt{\frac{E}{E^{\prime}}} - (A-1) \sqrt{\frac{E^{\prime}}{E}} \right]
-\end{equation}
-
-\subsection{Uncorrelated distributions}
-
-\end{document}
+where $\omega_{\min}$ and $\omega_{\max}$ are the following functions of $E^{\prime}$:
+\begin{subequations} \label{eqn:integration-limits-transfer-matrices}
+  \begin{align}
+    \omega_{\min}[E^{\prime}] &= \min\left\lbrace \mu_{\max}, \max\left[\mu_{\min}, S(E^{\prime}, E_{g-\frac{1}{2}})\right]\right\rbrace \\
+    \omega_{\max}[E^{\prime}] &= \max\left\lbrace \mu_{\min}, \min\left[\mu_{\max}, S(E^{\prime}, E_{g+\frac{1}{2}})\right]\right\rbrace
+  \end{align}
+\end{subequations}
+In Eq. \eqref{eqn:integration-limits-transfer-matrices}, the energy-angle relationships $S(E^{\prime},E)$ are given in Section 1 of this chapter and the minimum and maximum cosine of the scattering angle are the corresponding minimum and maximum cosine angles for the relationship being used. 
