@@ -1,4 +1,14 @@
-.DS_Store
-main.pdf
+figs/
+build/
 _minted-*/
-texput.log
+
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.lot
+*.out
+*.pdf
+*.gz
+*.toc

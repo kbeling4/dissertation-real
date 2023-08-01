@@ -1,4 +1,4 @@
-PDFLATEX = pdflatex -shell-escape -synctex=1
+PDFLATEX = pdflatex -shell-escape -synctex=1 -output-directory=build $< > /dev/null 
 BIBTEX = bibtex
 
 SOURCE   = main.tex
@@ -19,6 +19,7 @@ datadir = data
 tikzdir = tikz
 # location of tex subfiles 
 subfiles_dir = chapters
+appendicies_dir = appendix
 
 # location of matplotlibrc (makes plots look nice) 
 MPL = matplotlibrc
@@ -81,11 +82,23 @@ $(figdir) :
 
 # compile latex with latexmk
 $(MAIN).pdf: $(MAIN).tex $(figdir) $(FIGS) $(TABS) $(TIKZ) $(REF) $(CLS) $(subfiles_dir)/*.tex Makefile
-	$(PDFLATEX) $(BASE) && $(BIBTEX) $(BASE) && $(PDFLATEX) $(BASE) && $(PDFLATEX) $(BASE)
+	mkdir -p build && mkdir -p build/frontmatter
+	pdflatex -shell-escape -synctex=1 -output-directory=build $< > /dev/null $(BASE) 
+	bibtex -terse build/$(BASE) 
+	pdflatex -shell-escape -synctex=1 -output-directory=build $< > /dev/null $(BASE) 
+	pdflatex -shell-escape -synctex=1 -output-directory=build $< > /dev/null $(BASE)
 
 # compile chapters individually 
 % : $(subfiles_dir)/%.tex $(figdir) $(FIGS) $(TABS) $(TIKZ) $(REF) $(CLS) Makefile 
-	cd $(subfiles_dir); $(PDFLATEX) $@ && $(PDFLATEX) $@
+	mkdir -p build/$(subfiles_dir)
+	pdflatex -shell-escape -synctex=1 -output-directory=build/$(subfiles_dir) $(subfiles_dir)/$@
+	pdflatex -shell-escape -synctex=1 -output-directory=build/$(subfiles_dir) $(subfiles_dir)/$@
+
+# compile appendices individually 
+% : $(appendicies_dir)/%.tex $(figdir) $(FIGS) $(TABS) $(TIKZ) $(REF) $(CLS) Makefile 
+	mkdir -p build/$(appendicies_dir)
+	pdflatex -shell-escape -synctex=1 -output-directory=build/$(appendicies_dir) $< > /dev/null $(appendicies_dir)/$@
+	pdflatex -shell-escape -synctex=1 -output-directory=build/$(appendicies_dir) $< > /dev/null $(appendicies_dir)/$@
 
 # list figure names 
 listfigs : 
@@ -101,20 +114,34 @@ listtikz :
 .PHONY : 
 cleantikz : 
 	@$(foreach file, $(notdir $(basename $(TIKZ))), find $(tikzdir) -maxdepth 1 -type f -name '$(file).*' ! -name '$(file).tex' -delete;)
+
 # clear aux files from figs directory 
 .PHONY : 
 cleanfigs : 
 	@$(foreach file, $(notdir $(basename $(TIKZ))), find $(figdir) -maxdepth 1 -type f -name '$(file).*' ! -name '$(file).pdf' -delete;)
+
 # remove auxiliary files associated with a tex file in the main and subfiles directories
 .PHONY : 
 cleantex : 
 	@$(foreach dir, . $(subfiles_dir),\
 		$(foreach file, $(notdir $(basename $(wildcard $(dir)/*.tex))),\
-			find $(dir) -maxdepth 1 -type f -name '$(file).*' ! -name '$(file).tex' -delete;))
+			find $(dir) -maxdepth 1 -type f -name '$(file).*' ! -name '$(file).tex' -delete;\
+			find $(dir) -maxdepth 1 -type d -name '_minted-$(file)' -delete;))
+
+# remove auxiliary files associated with a tex file in the main and subfiles directories
+.PHONY : 
+cleanappendix : 
+	@$(foreach dir, . $(appendicies_dir),\
+		$(foreach file, $(notdir $(basename $(wildcard $(dir)/*.tex))),\
+			find $(dir) -maxdepth 1 -type f -name '$(file).*' ! -name '$(file).tex' -delete;\
+			find $(dir) -maxdepth 1 -type d -name '_minted-$(file)' -delete;))
 
 # remove tex auxilary files 
 .PHONY : clean 
 clean : 
 	rm -rf $(figdir) 
+	rm -rf build/
+	rm -rf _minted-*
 	$(MAKE) cleantex 
+	$(MAKE) cleanappendix
 	$(MAKE) cleantikz

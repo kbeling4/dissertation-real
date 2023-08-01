@@ -1,0 +1,29 @@
+\subsection{Interference Differential Cross Sections}
+The interference differential cross section describes the quantum mechanical interference between the long range Coulomb collisions and the short range NES collisions \cite{Hale-1983}. R-matrix theory is used to describe these interference cross sections as it allows for a parametric treatment of the short ranged (NES) effects, while accounting exactly for the long-ranged (Coulomb) effects. Therefore an accurate total elastic scattering differential is developed that is constrained by a theory that embodies the fundamental properties of nuclear interactions and ensures the correct limiting behavior at small angles and low energies, where the long-ranged effects dominate.
+
+Screened interference differential cross sections for distinguishable particles are given by,
+\begin{equation} \label{eqn:interfenceDistinguishable}
+    \sigma_d^I(E,\mucm) = \dfrac{-2 \, \eta}{1 - \mucm + A_s} \Re \left\lbrace \exp \left[ i \eta(E) \ln \left( \dfrac{1 - \mucm + A_s}{2} \right) \right]\sum\limits_{\ell = 0}^L \dfrac{2\ell + 1}{2} a_{\ell}(E) P_{\ell}(\mucm) \right\rbrace
+\end{equation}
+where $a_{\ell}(E)$ are the complex coefficients for expanding the trace of the nuclear scattering amplitude matrix \cite{Brown-2018}. Similarly the screened interference differential cross section for identical particles is,
+\begin{multline} \label{eqn:interfenceIdentical}
+    \sigma_i^I(E,\mucm) = \dfrac{-2 \, \eta}{\left(1 - \mucm + A_s\right)\left(1 + \mucm + A_s\right)} \\
+    \times \Re \left\lbrace \sum\limits_{\ell = 0}^L \dfrac{2 \ell + 1}{2} a_{\ell}(E) P_{\ell}(\mucm) \left[ \left(1 + \mucm + A_s \right) \exp\left(i \eta \ln \dfrac{1 - \mucm + A_s}{2}\right) \right.\right. \\ \left.\left. + (-1)^{\ell} \left(1 - \mucm + A_s \right) \exp\left(i \eta \ln \dfrac{1 + \mucm + A_s}{2}\right) \right]\right\rbrace.
+\end{multline}
+Eqs. \eqref{eqn:interfenceDistinguishable} and \eqref{eqn:interfenceIdentical} result in differential cross sections that oscillate between positive and negative values. Negative cross sections do not make physical sense, and therefore interference cross sections only make sense in combination with the Coulomb and NES cross sections such that the total cross section remains positive.
+
+Figure \ref{fig:interferenceTotal} shows total interference differential cross sections for deuteron-deuteron, deuteron-triton, deuteron-helion, and deuteron-$\alpha$ particle collisions. In Figure \ref{fig:interferenceDCS} the cross sections vary in amplitude between positive and negative values across the entire range of energies. Additionally, at high energies the magnitude of the cross section becomes comparable to the magnitudes of the Coulomb and NES cross sections suggesting that the interference cross section plays a significant role in slowing down of high energy ions.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.65]{../figures/chapter-4/sigmaI_total.pdf}
+    \caption{Total interference elastic scattering cross sections}
+    \label{fig:interferenceTotal}
+\end{figure}
+
+In Figure \ref{fig:interferenceDCS}, the deuteron-triton differential cross section is plotted versus the cosine of the CM scattering angle for several incident ion energies. For all energies as $\mucm \rightarrow 1$ the differential cross section is seen to oscillate rapidly between increasing large positive and negative values. This oscillation is due to the exponential and logarithmic terms in Eqs. \eqref{eqn:interfenceDistinguishable} and \eqref{eqn:interfenceIdentical} which are oscillating with increasing frequency between positive and negative values.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.5]{../figures/chapter-4/sigmaI_dcs.pdf}
+    \caption{Differential interference elastic scattering cross sections}
+    \label{fig:interferenceDCS}
+\end{figure}

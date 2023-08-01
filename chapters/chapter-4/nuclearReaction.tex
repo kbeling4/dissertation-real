@@ -1,20 +1,40 @@
-\section{Nuclear Reaction Differential Cross Sections}
-Figures \ref{fig:sig_rt} and \ref{fig:sig_r} show plots of the total and differential nuclear-reaction cross sections for energetic deuterons colliding with tritons and producing energetic neutrons, that is, 
-\begin{equation}
-    \sigma_{D,T \rightarrow n}(E^{\prime} \rightarrow E; \mucm).
-\end{equation}
-This DT nuclear-reaction collision also results in the production of an energetic $\alpha$-particle, but this cross section is not directly tabulated in the ENDF files and two-body kinematics are needed to calculate the corresponding differential cross section. From Figure \ref{fig:sig_rt}, the DT fusion reaction clearly has a threshold for reaction of about 0.02 MeV and a peak for incident deuterons of 0.1 MeV. Furthermore, looking at Figure \ref{fig:sig_r}, the neutrons that are produced are almost nearly isotropic in angle. While this DT nuclear-reaction cross section only represents one possible type of charged particle collision, the general comment that can be made is that charged-particle nuclear-reaction differential cross sections are not highly peaked and that these types of collisions have large MFPs when compared to the Coulomb differential cross sections.
+\section{Thermonuclear differential cross sections}
+Thermonuclear (TN) reactions are collisions that cause the identities of the emitted particles to differ from the incident and target particles. There are 4 main nuclear reactions of interest in ICF applications which are typically reffered to as the big 4, they are:
+\begin{multicols}{2}
+\begin{itemize}
+    \item $\ce{^{2}_{1}H} \, (t, \, n)\, \ce{^{4}_{2}He}$  $(Q = 10.0 \mev)$
+    \item $\ce{^{3}_{2}He}\, (d, \, p)\, \ce{^{4}_{2}He}$  $(Q = 10.0 \mev)$
+    \item $\ce{^{2}_{1}H} \, (d, \, n)\, \ce{^{3}_{2}He}$  $(Q = 10.0 \mev)$
+    \item $\ce{^{2}_{1}H} \, (d, \, p)\, \ce{^{3}_{1}H}$   $(Q = 10.0 \mev)$
+\end{itemize}
+\end{multicols}
+where $Q$ is the Q-value of the reaction. The three reacting isotopes, (d,t,h), produce seven charged particle products plus two neutron products. TN reactions cause the energy spectrum of charged particles and neutrons to vary from thermal background temperatures all the way up to $\sim 30 \mev$. TN reactions are typically divided into primary reactions, and secondary reactions (fusion of a primary product). In addition, tertiary interactions utilizing both processes in sequence can produce particles with the highest energy.  
+
+Figure \ref{fig:tnTotal} shows the total TN reaction cross sections for the major four reactions. In Figure \ref{fig:tnTotal} we see that the TN reaction with the highest probability is the deuterium-tritium reaction with a peak at $0.1 \mev$ of $\sim 4 \barns$. The next largest TN reaction is the deuterium-helion reaction with a peak at $0.4 \mev$ of $\sim 1 \barns$; however, most ICF background plasmas do not contain appreciable amounts of $\ce{^{3}_{2}He}$ and therefore this reaction is considered a secondary reaction because only helions produce from deuterium-deuterium reactions can produce the necessary helions. The two deuterium-deuterium reactions occur with roughly equal probability. It is also worth noting that at high energies ($> 2 \mev$) all the TN reactions occur with equal probability.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.75]{../figures/boltzmann_model/DT_TotalReactionXS.png}
-    \caption{Total nuclear-reaction cross section for $D+T \rightarrow n$}
-    \label{fig:sig_rt}
+    \includegraphics[scale=0.75]{../figures/chapter-4/tnTotal.pdf}
+    \caption{Total thermonuclear reaction cross sections}
+    \label{fig:tnTotal}
 \end{figure}
 
+Figure \ref{fig:tnDiffernetialCrossSections} shows the angular dependence of the TN differential cross sections at various energies for the DD and DT reactions. From Figure \ref{fig:tnDiffernetialCrossSections}, the neutron emitted in the DT reaction is emitted fairly isotopically at low energies. However, as the energy of the incident deuteron increases, the outgoing neutron is increasingly more likely to emitted in forward directions. Similarly, in the DD reaction there is slight bias in the forward direction at low incident particle energies and increases with increasing incident particle energy. In general, it can be concluded in TN reactions that the light particle tends to scatter in forward directions while the heavy particle will scatter in backward directions.
+
 \begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{.45\textwidth}
     \centering
-    \includegraphics[scale=0.75]{../figures/boltzmann_model/DT_ReactionXS.png}
-    \caption{Nuclear-reaction differential cross section for $D+T \rightarrow n$}
-    \label{fig:sig_r}
+    \includegraphics[scale=0.45]{../figures/chapter-4/ddDCS.pdf}
+    \caption{$d + d \rightarrow p + h$}
+    \label{fig:ddDCS}
+  \end{subfigure}%
+  \begin{subfigure}{.45\textwidth}
+    \centering
+    \includegraphics[scale=0.45]{../figures/chapter-4/dtDCS.pdf}
+    \caption{$d + t \rightarrow n + a$}
+    \label{fig:dtDCS}
+  \end{subfigure}
+  \caption{Thermonuclear reaction differential cross sections}
+  \label{fig:tnDiffernetialCrossSections}
 \end{figure}

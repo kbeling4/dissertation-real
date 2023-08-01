@@ -1,0 +1,41 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\chapter{ALONSO Manual}
+ALONSO is a C++ deterministic CPT code that runs fully coupled multi-specie ion and neutron transport problems. All of the CPT transport operators discussed in this work are provided in both one-dimensional planar and spherical geometries. ALONSO has two dependencies of note: 1) SALLY which provides the classes necessary for CPT, and 2) LANDO which generates all of the multigroup charged particle data.
+
+As a general overview, ALONSO is a steady-state, one-dimensional planar or spherical transport code that allows for the coupled transport of six different particle species: proton, neutron, deuteron, triton, helion, and $\alpha$-particle. Figure \ref{fig:ALONSO_code_structure} shows the general structure of ALONSO. Using a user supplied input file, ALONSO constructs the geometry, data, and sources. These are then passsed to a transport solver which solves the coupled system either as one large solve or as a system of outer-inner solves. The solution is then passed to the output function which produces an output file in JSON format.
+
+\begin{figure}[!htb]
+  \centering
+  \resizebox{0.5\columnwidth}{!}{%
+  \includegraphics{../figs/alonsoDesign.pdf}
+  }
+  \caption{Flow chart describing the general structure of ALONSO}
+  \label{fig:ALONSO_code_structure}
+\end{figure}
+
+In the remainder of this chapter we first discuss the format of the input files and the various options available in ALONSO. Next the three different C++ classes that ALONSO uses to construct a problem are discussed. The last section discusses the output function and the format of the output file.
+
+% INPUT FILE
+\input{ALONSO/input}
+
+% GEOMETRY CLASS
+\input{ALONSO/geometry}
+
+% DATA CLASS
+\input{ALONSO/data}
+
+% SOURCE CLASS
+\input{ALONSO/source}
+
+% SOLVER FUNCTION
+\input{ALONSO/solver}
+
+% OUTPUT FUNCTION
+\input{ALONSO/output}
+
+% OUTPUT FILE 
+\input{ALONSO/outputFile}
+
+\end{document}

@@ -1,4 +1,4 @@
-\section{Coulomb Differential Cross Sections}
+\subsection{Coulomb Differential Cross Sections}
 The Coulomb differential cross section describes the collisions that charged particles experience in a medium as a result of interactions with the charges of the background charged particles present in the plasma. The unscreened and screened Coulomb differential cross sections are found by solving the Schr\"{o}dinger equation, that is solutions to,
 \begin{equation} \label{eqn:Schrodinger}
     \left[-\dfrac{\hbar^2}{2 m}\nabla^2 + k^2 + V(r)\right] \Psi_k(\vec{r}) = \dfrac{(\hbar \vec{k})^2}{2m} \Psi_k(\vec{r}),
@@ -23,7 +23,7 @@ In the remainder of this section the analytical forms of the unscreened and scre
 % ------------------------------------------------
 % UNSCREENED COULOMB DIFFERENTIAL CROSS SECTIONS 
 % ------------------------------------------------
-\subsection{Unscreened Coulomb differential cross sections}
+\subsubsection{Unscreened Coulomb differential cross sections}
 The un-screened interaction potential for two charged particles is described by the standard Coulomb potential,
 \begin{equation} \label{eqn:Coulomb_potential}
     V(r) = \dfrac{Z_1 \, Z_2 \, e^2}{r},
@@ -47,7 +47,7 @@ Eq. \eqref{eqn:dist_unscreened_coulomb} can is written in a more usable form by 
 Figure \ref{fig:sigma_c} shows a plot of Eq. \eqref{eqn:coulomb-dcs} for deuterons colliding with tritons at an incident energy of $1 \mev$ cutoff at $\mucm = 0.99$. Looking at Figure \ref{fig:sigma_c} the Coulomb differential cross section for distinguishable particles is highly peaked about $\mucm = 1$, meaning that particles will most likely undergo collisions that result in zero angular deflection/energy loss. This peakedness is due to the fact that Eq. \eqref{eqn:coulomb-dcs} has a singularity as $\mucm \rightarrow 1$ as a result of the Coulomb interaction potential which allows particles that are infinitely far apart to nonphysically interact with one another. As a result of the singularity Eq. \eqref{eqn:coulomb-dcs} cannot be integrated over the entire range of $\mucm$, and instead must be cutoff at some cosine angle close to one. 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=1.00]{../figures/interaction_physics/sigma-C.pdf}
+    \includegraphics[scale=1.00]{../figures/chapter-4/sigma-C.pdf}
     \caption{Distinguishable Coulomb differential cross section for energetic deuterons colliding with background tritons cutoff at $\mucm = 0.99$}
     \label{fig:sigma_c}
 \end{figure}
@@ -59,7 +59,7 @@ The total scattering cross section associated with Eq. \eqref{eqn:coulomb-dcs} i
 Figure \ref{fig:sigma_c_total} shows Eq. \eqref{eqn:unscreened-total-xs} for several different collisions and with a cutoff cosine of $\mu_{cut} = 0.999$. From Figure \ref{fig:sigma_c_total} as the energy of the incident particle increases the magnitude of the total cross section decreases, this can also be seen in Figure \ref{fig:sigma_c}. Additionally, as the mass of the incident particle increases so does the magnitude of the total cross section. Conversely, as the mass of the target particle increases, the magnitude of the of the total cross section decreases. Lastly, for nominal ICF energies, $<10$ MeV, the magnitude of Eq. \eqref{eqn:unscreened-total-xs} is large meaning that for typical ICF densities the mean free path is very small and highly peaked about zero angular deflection.
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.75]{../figures/interaction_physics/total-sigma-C.pdf}
+    \includegraphics[scale=0.75]{../figures/chapter-4/total-sigma-C.pdf}
     \caption{Total distinguishable Coulomb differential cross section for several collisions cutoff at $\mucm = 0.999$}
     \label{fig:sigma_c_total}
 \end{figure}
@@ -72,7 +72,7 @@ The identical particle unscreened Coulomb differential cross section is found by
 Figure \ref{fig:coulomb-identical} shows $\sigma_{C,i}$ for a variety of incident particle energies and cosine of CM scattering angles. In Figure \ref{fig:coulomb-identical} it is clear that the identical particle Coulomb differential cross section is highly peaked about $\mucm = -1, 1$. When comparing the distinguishable and identical differential cross sections we see that both differential cross section are highly peaked about $\mucm = 1$ meaning that it is highly likely that the initial particle will scatter in the forward direction in both identical and distinguishable collisions; however, the identical particle differential cross section is highly peaked about $\mucm = -1$ meaning that it is very likely that the incident particle will transfer all of it's energy to the target particle. This means that the recoil now looks exactly like the incident particle underwent a small angle deflection collision.
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=1.00]{../figures/interaction_physics/sigma-Ci.pdf}
+    \includegraphics[scale=1.00]{../figures/chapter-4/sigma-Ci.pdf}
     \caption{The identical particle Coulomb differential cross section for deuterons colliding with background deuterons for $\mucm = [-0.99,0.99]$}
     \label{fig:coulomb-identical}
 \end{figure}
@@ -85,7 +85,7 @@ For the opposite case, $\hbar v \ll Z_1 Z_2 e^2$, the cosine term in Eq. \eqref{
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.75]{../figures/interaction_physics/sigma-Ci-2d.pdf}
+    \includegraphics[scale=0.75]{../figures/chapter-4/sigma-Ci-2d.pdf}
     \caption{Comparison between the full (solid lines) and approximate (dashed lines) identical particle Coulomb differential cross sections at various energies for tritons colliding with background tritons for $\mucm = [-0.99,0.99]$.}
     \label{fig:coulomb-identical-2d}
 \end{figure}
@@ -93,7 +93,7 @@ For the opposite case, $\hbar v \ll Z_1 Z_2 e^2$, the cosine term in Eq. \eqref{
 % ------------------------------------------------
 % SCREENING FUNCTIONS 
 % ------------------------------------------------
-\subsection{The Yukawa Potential}
+\subsubsection{The Yukawa Potential}
 Here the Yukawa potential is introduced as a reasonable form of screening in plasmas. To introduce the concept of Debye shielding consider a finite temperature plasma consisting of a statistically large number of electrons and ions and by assuming that the ion and electron densities are initially equal and spatially uniform. The ions and electrons in the background plasma have random thermal motion, thermally induced pertubations about the equilibrium will cause small, transient spatial variations of the electrostatic potential $\phi$. Next, the following assumptions are made:
 \begin{enumerate}
     \item The background plasma is assumed to be nearly collisionless so that collisions between particles may be neglected
@@ -156,7 +156,7 @@ this is sometimes called the Yukawa potential. In Eq. \eqref{eqn:yukawa-potentia
 % ------------------------------------------------
 % SCREENED COULOMB DIFFERENTIAL CROSS SECTIONS 
 % ------------------------------------------------
-\subsection{Screened coulomb differential cross sections}
+\subsubsection{Screened coulomb differential cross sections}
 Using the Yukawa potential derived in the previous section, the screened Coulomb differential cross section can be derived. The Schr\"{o}dinger equation with the Yukawa potential cannot be solved exactly and therefore its solution is approximated with the Born approximation. The Born approximation consists of approximating the the scattered wave function by a plane wave, and gives the following formula for the scattering amplitude
 \begin{equation} \label{eqn:first-born-approximation}
     f(\theta) \approx - \dfrac{2 \, m}{\hbar^2} \int\limits_0^{\infty} U(r) \, \dfrac{\sin qr}{q} \, r \, dr

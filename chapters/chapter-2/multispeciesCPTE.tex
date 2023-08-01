@@ -1,13 +1,88 @@
 \section{The Charged Particle Transport Equation}
+Here we discuss the equation that we will solve in the remainder of this work that describes the steady-state, one-dimensional, multispecies charged particle transport equation. Starting from the Boltzmann transport equation introduced in the previous section, we simplify to one-dimensional planar geometry and steady-state yielding
+\begin{multline} \label{eqn:one-dimensional-ss-boltzmann}
+  \mu \dfrac{\partial \Psi}{\partial x} + \Sigma_t(x,E) \Psi(x,E,\mu) \\ = \sum_{\ell = 0}^L \dfrac{2l+1}{2} P_{\ell}(\mu) \int_{0}^{\infty} dE^{\prime} \, \Sigma_{s,\ell}(x, E^{\prime}\rightarrow E) \, \Psi_l(x,E^{\prime}) + Q(x,E,\mu).
+\end{multline} 
+To simplify notation, Eq. \eqref{eqn:one-dimensional-ss-boltzmann} is written in operator notation as
+\begin{equation} \label{eqn:one-dimensional-ss-boltzmann-equation}
+  \boldsymbol{L} \Psi = \boldsymbol{B} \Psi + Q,
+\end{equation}
+where $\boldsymbol{L}$ is the streaming operator,
+\begin{equation} \label{eqn:1D-ss-absorption-operator}
+  \boldsymbol{L} \Psi = \mu \dfrac{\partial \Psi}{\partial x} + \Sigma_a(x,E) \Psi(x,E,\mu),
+\end{equation}
+and $\boldsymbol{B}$ is the Boltzmann scattering operator defined as
+\begin{equation} \label{eqn:1D-ss-boltzamnn-operator}
+  \boldsymbol{B} \Psi = \sum_{\ell = 0}^L \dfrac{2l+1}{2} P_{\ell}(\mu) \int_{0}^{\infty} dE^{\prime} \, \Sigma_{s,\ell}(x, E^{\prime}\rightarrow E) \, \Psi_l(x,E^{\prime}) - \Sigma_s(x,E) \Psi(x,E,\mu).
+\end{equation}
 
-\subsection{Notation}
-\begin{itemize}
-  \item p - proton
-  \item n - neutron
-  \item d - deuteron
-  \item t - triton
-  \item h - helion
-  \item a - alpha-particle
-\end{itemize}
+The generalization of Eq. \eqref{eqn:one-dimensional-ss-boltzmann-equation} to a multispecies charged particle transport equation that describes the creation and destruction of ions through TN and recoil collisions is done by including a recoil and nuclear reaction operators as source terms on the right-hand side. The recoil/nuclear reaction source $Q^r$ for an ion of species $\mathfrak{a}$ is
+\begin{multline} \label{eqn:recoil-operator}
+  Q_{\mathfrak{a}}^r(x,E,\mu) = \sum_{\substack{\mathfrak{b} = 1 \\ \mathfrak{b} \neq \mathfrak{a}}}^{\mathcal{S}} \sum_{\mathfrak{c} = 1}^{\mathcal{B}} \boldsymbol{R}^{\mathfrak{b} + \mathfrak{c} \rightarrow \mathfrak{a}} \Psi_{\mathfrak{b}} \\ = \sum_{\substack{\mathfrak{b} = 1 \\ \mathfrak{b} \neq \mathfrak{a}}}^{\mathcal{S}} \sum_{\mathfrak{c} = 1}^{\mathcal{B}} \sum_{\ell = 0}^L \dfrac{2l+1}{2} P_{\ell}(\mu) \int_{0}^{\infty} dE^{\prime} \, \Sigma_{s,\ell}^{\mathfrak{b} + \mathfrak{c} \rightarrow \mathfrak{a}}(x, E^{\prime}\rightarrow E) \, \Psi_{l}^{\mathfrak{b}}(x,E^{\prime})
+\end{multline}
+where $\mathcal{S}$ is the number of energetic species present in the plasma, and $\mathcal{B}$ is the number of background charged particle species in the plasma. In words, Eq. \eqref{eqn:recoil-operator} describes the rate at which particles of species $\mathfrak{b}$ with energy $E^{\prime}$ traveling in direction $\hat{\Omega}^{\prime}$ are colliding with background species $\mathfrak{c}$ and resulting in the production of energetic species $\mathfrak{a}$ with energy $E$ traveling in direction $\hat{\Omega}$.
 
-\subsection{Recoil and nuclear reaction operators}
+It is worth noting that Eq. \eqref{eqn:recoil-operator} is similar to our Boltzmann scattering operator, the main difference being the lack of a total scattering term. In the case of TN burn, the total cross section that corresponds to the differential cross section in Eq. \eqref{eqn:recoil-operator} describes the losses of ion species $\mathfrak{b}$ and background species $\mathfrak{c}$ as a result of TN burn collisions with background ion species $\mathfrak{b}$. If, on the other hand the differential cross section in Eq. \eqref{eqn:recoil-operator} results in a recoil source of particles the corresponding total cross section describes the loss of background particles of species $\mathfrak{c}$ due to them being scattered into energetic states. However, in both cases because we do not let the density of the background change during the steady-state problem, only the total cross section that describes the loss energetic ions of species $\mathfrak{b}$ is utilized in the transport equation for ion species $\mathfrak{b}$. To this end, the absorption cross section for energetic ion species $\mathfrak{a}$ is
+\begin{equation} \label{eqn:multispecies-absorption}
+  \Sigma_a^{\mathfrak{a}}(x,E) = \sum_{\substack{\mathfrak{b} = 1 \\ \mathfrak{b} \neq \mathfrak{a}}}^{\mathcal{S}} \sum_{\mathfrak{c} = 1}^{\mathcal{B}} \Sigma_{s}^{\mathfrak{a}+\mathfrak{c}\rightarrow\mathfrak{b}}(x,E).
+\end{equation}
+
+Using Eqn. \eqref{eqn:recoil-operator} and \eqref{eqn:multispecies-absorption} the system of multispecies ion transport equations is expressed in operator notation as
+\begin{equation} \label{eqn:multispecies-operator}
+  \boldsymbol{L}^{\mathfrak{a}} \Psi^{\mathfrak{a}} = \boldsymbol{B}^{\mathfrak{a}} \Psi^{\mathfrak{a}} + \sum_{\substack{\mathfrak{b} = 1 \\ \mathfrak{b} \neq \mathfrak{a}}}^{\mathcal{S}} \sum_{\mathfrak{c} = 1}^{\mathcal{B}} \boldsymbol{R}^{\mathfrak{b} + \mathfrak{c} \rightarrow \mathfrak{a}} \Psi^{\mathfrak{b}} + Q^{\mathfrak{a}}, \quad \text{for} \,\,\, \mathfrak{a} \in \mathcal{S}.
+\end{equation}
+In Eq. \eqref{eqn:multispecies-operator} $\boldsymbol{L}^{\mathfrak{a}}$ is the streaming operator $\boldsymbol{L}$ defined by Eq. \eqref{eqn:1D-ss-absorption-operator} with an absorption cross section given by Eq. \eqref{eqn:multispecies-absorption}. Similarly, $B^{\mathfrak{a}}$ is the Boltzmann scattering operator defined by Eq. \eqref{eqn:1D-ss-boltzamnn-operator} with the elastic scattering differential cross section $\Sigma_{s,\ell}^{\mathfrak{a} + \mathfrak{c} \rightarrow \mathfrak{a}}(x, E^{\prime}\rightarrow E)$. 
+
+To further illustrate Eq. \eqref{eqn:multispecies-operator} we write it out in matrix form for a system of three energetic species, (d,t,n), and one background species (d), that is,
+\begin{equation}
+  \begin{bmatrix}
+    \boldsymbol{L}^d & 0 & 0 \\
+    0 & \boldsymbol{L}^t & 0 \\
+    0 & 0 & \boldsymbol{L}^n \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \Psi^d \\
+    \Psi^t \\
+    \Psi^n
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \boldsymbol{B}^d & 0 & 0 \\
+    0 & \boldsymbol{B}^t & 0 \\
+    0 & 0 & \boldsymbol{B}^n \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \Psi^d \\
+    \Psi^t \\
+    \Psi^n
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    0 & \boldsymbol{R}^{t+d\rightarrow d} & \boldsymbol{R}^{n+d\rightarrow d} \\
+    \boldsymbol{R}^{d+d\rightarrow t} & 0 & \boldsymbol{R}^{n+d\rightarrow t} \\
+    \boldsymbol{R}^{d+d\rightarrow n} & \boldsymbol{R}^{t+d\rightarrow n} & 0 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \Psi^d \\
+    \Psi^t \\
+    \Psi^n
+  \end{bmatrix}
+\end{equation}
+
+
+% \subsection{Particle notation and reaction matrices}
+% In the remainder of this work the following general notation will be used to describe the various particles of interest:
+% \begin{multicols}{2}
+%   \begin{itemize}
+%     \item p,P - proton
+%     \item n,N - neutron
+%     \item d,D - deuteron
+%   \end{itemize}
+%   \columnbreak
+%   \begin{itemize}
+%     \item t,T - triton
+%     \item h,H - helion
+%     \item a,A - $\mathfrak{a}$-particle
+%   \end{itemize}
+% \end{multicols}
+

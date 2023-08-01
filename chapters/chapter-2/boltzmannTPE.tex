@@ -1,14 +1,9 @@
 \section{The Boltzmann Transport Equation}
-To begin the discussion on the Boltzmann transport equation, we first consider a particle moving in a three dimensional space, and let the vectors $\Bx$ and $\Bv$ give the particles position and velocity. Next, we define the distribution function for a given particle species as $f(\Bx,\Bv,t)$. Multiplying $f$ by the phase space, that is the set of all possible positions and velocities, gives the expected number of particles in the differential phase space for a given phase space at time $t$, that is,
-\begin{equation}
-  N(\Bx,\Bv,t) = f(\Bx,\Bv,t) \, d\Bx \, d\Bv.
-\end{equation}
-
 The Boltzmann transport equation describes the evolution of the particle distribution function over time, that is,
 \begin{equation} \label{eqn:general}
   \dfrac{D f}{D t} = \left( \dfrac{\partial f}{\partial t} \right)_{\text{collision}} 
 \end{equation}
-where the collision term that describes the rate of change to $f$ due to collisions with the background particles. The term on the left-hand side of Eq. \eqref{eqn:general} is the total derivative which can be expressed as:
+where the collision term describes the rate of change to $f$ due to collisions with the background particles. The term on the left-hand side of Eq. \eqref{eqn:general} is the total derivative which can be expressed as:
 \begin{equation} \label{eqn:total_derivative}
     \dfrac{D f}{Dt} = \dfrac{\partial f}{\partial t} + \dfrac{\partial}{\partial \Bx} \cdot \left( \Bv \, f \right) + \dfrac{\partial}{\partial \Bv} \cdot \left( \boldsymbol{a} f \right),
 \end{equation}
@@ -23,28 +18,77 @@ where $q$ is the charge of the particle, $\boldsymbol{E}$ is the external electr
 
 Substituting Eqs. \eqref{eqn:total_derivative} and \eqref{eqn:spatial_derivative} into Eq. \eqref{eqn:general}, the general Boltzmann transport equation for ion species $i$ becomes
 \begin{equation} \label{eqn:boltzmann}
-  \dfrac{\partial f_i}{\partial t} + \Bv \cdot \dfrac{\partial f_i}{\partial \Bx} + \dfrac{\boldsymbol{F}}{m} \cdot \dfrac{\partial f_i}{\partial \Bv} = \left( \dfrac{\partial f_i}{\partial t} \right)_{\text{collision}}.
+  \dfrac{\partial f}{\partial t} + \Bv \cdot \dfrac{\partial f}{\partial \Bx} + \dfrac{\boldsymbol{F}}{m} \cdot \dfrac{\partial f}{\partial \Bv} = \left( \dfrac{\partial f}{\partial t} \right)_{\text{collision}}.
 \end{equation}
 Finally, in radiation transport the velocity variable is represented using a direction of flight variable, $\BOmega$, and an energy variable. For charged particle transport we recast Eq. \eqref{eqn:boltzmann} in terms of the angular flux, that is,
-\begin{equation}
-  \Psi(\Bx,E,\BOmega,t) = v \, f(\Bx,\Bv,t).
-\end{equation}
-The resulting general transport equation for particles of species $i$ in terms of the angular flux is,
-\begin{equation}
-  \dfrac{1}{v} \dfrac{\partial \Psi_i}{\partial t} + \boldsymbol{\Omega} \cdot \dfrac{\partial \Psi_i}{\partial \Bx} + \dfrac{\boldsymbol{F}}{m} \cdot \dfrac{\partial \Psi_i}{\partial \Bv} = \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{collision}}.
+\begin{equation} \label{eqn:general-boltzmann}
+  \dfrac{1}{v} \dfrac{\partial \Psi}{\partial t} + \boldsymbol{\Omega} \cdot \dfrac{\partial \Psi}{\partial \Bx} + \dfrac{\boldsymbol{F}}{m} \cdot \dfrac{\partial \Psi}{\partial \Bv} = \left( \dfrac{\partial \Psi}{\partial t} \right)_{\text{collision}}.
 \end{equation} 
 
 
-\subsection{The Boltzmann collision operator}
+\subsection{The collision operator}
+The collision term in Eq. \eqref{eqn:general-boltzmann} is comprised of three terms: absorption, scattering, and source. The source term is the external source of particles in medium. For energetic charged particles this can either be a volumetric source of particles such as some predefined distribution of particles or particles resulting from thermo-nuclear (TN) burn processes. 
+
 \begin{equation}
-  \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{collision}} = \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{absorption}} + \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{scattering}} + \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{source}}
+  \left( \dfrac{\partial \Psi}{\partial t} \right)_{\text{absorption}} = \Sigma_a \Psi(\Bx,E,\BOmega,t)
 \end{equation}
-\begin{equation}
-  \left( \dfrac{\partial \Psi_i}{\partial t} \right)_{\text{absorption}} = \Sigma_a \Psi_i(\Bx,E,\BOmega,t)
-\end{equation}
-\begin{multline}
-  \left( \dfrac{\partial f_i}{\partial t} \right)_{\text{scattering}} = \int_{0}^{\infty} dE^{\prime} \int_{4\pi} d \BOmega^{\prime} \, \Sigma_s(\Bx, E^{\prime}\rightarrow E; \BOmega^{\prime} \rightarrow \BOmega) \, \Psi(\Bx,E^{\prime},\BOmega^{\prime},t) \\
+
+\begin{multline} \label{eqn:boltzmann-scattering}
+  \left( \dfrac{\partial f}{\partial t} \right)_{\text{scattering}} = \int_{0}^{\infty} dE^{\prime} \int_{4\pi} d \BOmega^{\prime} \, \Sigma_s(\Bx, E^{\prime}\rightarrow E; \BOmega^{\prime} \rightarrow \BOmega) \, \Psi(\Bx,E^{\prime},\BOmega^{\prime},t) \\
   - \Sigma_s(\Bx,E) \, \Psi(\Bx,E,\BOmega,t)
 \end{multline}
+where $\Sigma_s(\Bx,E)$ is the total scattering cross section defined as
+\begin{equation}
+  \Sigma_s(\Bx,E) = \int_{4\pi} d \BOmega \, \Sigma_s(\Bx, E^{\prime}\rightarrow E; \BOmega^{\prime} \rightarrow \BOmega)
+\end{equation}
 
-\subsection{Boundary conditions}
+In deterministic solution methods it is necessary to rewrite Eq. \eqref{eqn:boltzmann-scattering} in terms
+of $\mu$. This is done by expanding the differential cross section and angular fux in terms of Legendre polynomials about $\mu_0$ and $\mu$. Using the addition theorem of Legendre polynomials Eq. \eqref{eqn:boltzmann-scattering} becomes
+\begin{equation}
+  \left( \dfrac{\partial f}{\partial t} \right)_{\text{scattering}} = \sum_{l = 0}^L \dfrac{2l+1}{2} P_l(\mu) \int_{0}^{\infty} dE^{\prime} \Sigma_{s,l}(\Bx, E^{\prime}\rightarrow E) \, \Psi_l(\Bx,E^{\prime},t) \\
+  - \Sigma_s(\Bx,E) \, \Psi(\Bx,E,\BOmega,t)
+\end{equation}
+where $P_l(\mu)$ are the Legendre polynomials of order $l$. The Legendre expansion coefficients $\Sigma_{s,l}$ and moments of the angular flux $\Psi_l$ are
+\begin{equation}
+  \Sigma_{s,l}(\Bx, E^{\prime}\rightarrow E) = 2 \pi \int_{-1}^{1} P_l(\mu) \Sigma_s(\Bx, E^{\prime}\rightarrow E; \mucm) d\mucm,
+\end{equation}
+and
+\begin{equation}
+  \Psi_l(\Bx,E^{\prime},t) = 2\pi \int_{-1}^{1} \Psi(\Bx,E,\BOmega,t) d\mu
+\end{equation}
+
+\subsection{Boundary and initial conditions}
+The Boltzmann transport equation is differential in space and time both boundary conditions and an initial condition must be provided to solve the transport equation. The initial condition corresponds to specifying the angular flux at time $t = 0$, that is,
+\begin{equation}
+  \Psi(\vec{r},E,\hat{\Omega},0) = \Psi_0(\vec{r},E,\hat{\Omega}).
+\end{equation}
+
+Suppose that the Boltzmann transport equation is solved in a spatial domain $\mathcal{D}$ with boundary $\partial \mathcal{D}$. The boundary conditions specify the incoming flux of particles on $\partial \mathcal{D}$, that is,
+\begin{equation} \label{eqn:boltzmann-boundary-condition}
+  \Psi(\vec{r},E,\hat{\Omega},t) = f(\vec{r},E,\hat{\Omega},t), \quad \vec{r} \in \partial \mathcal{D} \,\, \text{and} \,\, \hat{\Omega} \cdot \hat{n} < 0,
+\end{equation}
+where $\hat{n}$ is the outward normal unit vector of $\mathcal{D}$. For Eq. \eqref{eqn:boltzmann-boundary-condition} to hold true it is assumed that once a particle leaves the spatial boundary of the problem it cannot re-enter back into the problem.
+
+\subsection{Derived quantities}
+Typically we do not require the angular flux directly, but are instead interested in quantities that are derived from the angular flux. This includes quantities like the dose deposition, average particle energy, and the energy integrated flux. These quantities are now described in greater detail. 
+
+\subsubsection{Dose depostion}
+The dose gives the spatial distribution of the energy deposited per unit volume. It is obtained by integrating the product of the average energy lost per distance traveled, $S(\vec{r},E)$, or the stopping power and the flux over all ergies and angles, that is,
+\begin{equation}
+  D(\vec{r},t) = \int_{4\pi} \int_{0}^{\infty} S(\vec{r},E) \, \Psi(\vec{r},E,\hat{\Omega},t) \, d \hat{\Omega} \, dE = \int_{0}^{\infty} S(\vec{r},E) \, \Phi(\vec{r},E,t) \, dE.
+\end{equation}   
+This quantity is of particular interest to nearly all applications of CPT. Moreover, the dose is typically easier to resolve because it is only differential in space in contrast to angular and scalar flux which are also differential in angle and/or energy.
+
+\subsubsection{Average particle energy}
+The quantity gives the average particle energy as a function of space. It is obtained by integrating the product of energy times the angular flux over the energy and angular domains of the problem. This quantity is averaged by dividing by the energy and angle integrated angular flux, that is,
+\begin{equation}
+  E_{\text{ave}}(\vec{r},t) = \ddfrac{\int_{4\pi} \int_{0}^{\infty} E \, \Psi(\vec{r},E,\hat{\Omega},t) \, d \hat{\Omega} \, dE}{ \int_{4\pi} \int_{0}^{\infty} \Psi(\vec{r},E,\hat{\Omega},t) \, d \hat{\Omega} \, dE} = \ddfrac{\int_{0}^{\infty} E \, \Phi(\vec{r},E,t) \, dE}{ \int_{0}^{\infty} \Phi(\vec{r},E,t) \, dE}.
+\end{equation}
+This quantity is of particular interest in ICF applications as it helps to identify where higher energy RIF products from TN burn are being produced, as well as if these particles are escaping the spatial boundary of the problem.
+
+\subsubsection{Energy integrated flux}
+The last derived quantity of interest to us in this work is the energy integrated flux, which gives the spatial distribution of the energy and angular integrated flux, that is,
+\begin{equation}
+  F(\vec{r},t) = \int_{4\pi} \int_{0}^{\infty} \Psi(\vec{r},E,\hat{\Omega},t) \, d \hat{\Omega} \, dE = \int_{0}^{\infty} \Phi(\vec{r},E,t) \, dE.
+\end{equation}
+The energy integrated flux is a helpful quantity in ICF applications as it can help identify where recoils and TN products are produced and if they escape the boundaries of the problem.

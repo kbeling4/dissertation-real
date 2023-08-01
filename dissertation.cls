@@ -29,6 +29,8 @@
 \RequirePackage{tabularx}
 \RequirePackage{tikz}
 \RequirePackage{xcolor}
+\RequirePackage{multicol}
+\RequirePackage[version=4]{mhchem}
 
 % --- packages options --- 
 \graphicspath{ {./figures/} }
@@ -49,14 +51,19 @@
 \newcommand{\mucm}{\ensuremath{\mu_{\scaleto{CM}{3pt}}}}
 \newcommand{\etacm}{\ensuremath{\eta_{\scaleto{CM}{3pt}}}}
 \newcommand{\dG}{dG($p$)~}
+\newcommand{\dGn}[1]{dG($#1$)}
 \newcommand{\dGns}{dG($p$)}
+\newcommand{\dGc}{dG($p$)}
 \newcommand{\Sn}{$\text{S}_N$~}
 \newcommand{\Snns}{$\text{S}_N$}
+
 \newcommand{\mev}{\ensuremath{\,\text{MeV}}}
 \newcommand{\icm}{\ensuremath{\,\text{cm}^{-1}}}
 \newcommand{\cm}{\ensuremath{\,\text{cm}}}
+\newcommand{\barns}{\ensuremath{\,\text{barns}}}
+
 \newcommand{\bA}[1]{\ensuremath{\mathbf{#1}}}
-\newcommand{\dGc}{dG($p$)}
+
 \newcommand{\emin}{\ensuremath{E_{\text{min}}}}
 \newcommand{\emax}{\ensuremath{E_{\text{max}}}}
 \newcommand{\qmin}{\ensuremath{Q_{\text{min}}}}
@@ -88,6 +95,8 @@
 \newcommand{\Gthree}{\ensuremath{\boldsymbol{G}_{\scaleto{3}{4pt}}}}
 \newcommand{\Gfour}{\ensuremath{\boldsymbol{G}_{\scaleto{4}{4pt}}}}
 \newcommand{\GFP}{\ensuremath{\boldsymbol{\mathcal{L}}}}
+
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}}
 
 
 

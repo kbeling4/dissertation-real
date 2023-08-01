@@ -1,0 +1,24 @@
+\subsection{Nuclear Elastic Scattering}
+Nuclear elastic scattering collisions are short-range collisions that can result in large angular deflections. The NES differential cross sections are expressed in terms of Legendre moments,
+\begin{equation} \label{eqn:nes_differential cross section}
+    \sigma_{x,t \rightarrow x}^N(E^{\prime} \rightarrow E; \mucm) = \sum_{l=0}^L \dfrac{2l+1}{2} b_l(E^{\prime}) P_l(\mucm),
+\end{equation}
+where $P_l(\mucm)$ are the Legendre polynomials of order $l$, and $b_l(E)$ are the tabulated Legendre expansion coefficients \cite{Brown-2018}.
+
+Figure \ref{fig:nesTotal} shows the total NES cross sections for DD, DT, DH, and DA collisions. In Figure \ref{fig:nesTotal}, as the energy of the incident particle increases so does the total NES cross sections. These NES cross sections are much smaller in magnitude than the corresponding Coulomb cross sections at low incident energies, $\sim 10^4$ barns at $0.1 \mev$. However, at high energies, $(> 1 \mev)$, the NES and Coulomb cross sections become comparable in magnitude with the Coulomb cross section varying between $10^2$ and $10^0$ barns between incident particle energies of $1 \mev$ and $10 \mev$. In general then, the slowing down of low energy particles $(< 1 \mev)$ is dominated by Coulomb collisions whereas the slowing down of energetic particles $(> 1 \mev)$ is caused by a combination of both Coulomb and NES collisions.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.75]{../figures/chapter-4/sigmaNES_total.pdf}
+    \caption{Total nuclear elastic scattering cross sections}
+    \label{fig:nesTotal}
+\end{figure}
+
+In Figure \ref{fig:nesDCS} the NES differential cross section for the DT collision is shown at various incident particle energies. From Figure \ref{fig:nesDCS}, at low incident particle energies the scattering is approximately isotropic; however, at high energies there is a significant probably of scattering in backward directions. Scattering in backward directions causes the particles to lose a significant amounts of energy in single collisions. Therefore at high energies there is a significant probability that a particle will lose a considerable amount of energy causing it to slow down quicker than if only Coulomb collisions are taken into account. Nakao et al. \cite{Nakao-1990} examined the effects of NES on the slowing down of energetic light ions in ICF plasmas and found that they contributed significantly for high energy, $(> 10 \mev)$, protons slowing down in a DT plasma.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.75]{../figures/chapter-4/sigmaNES_dcs.pdf}
+    \caption{Nuclear elastic scattering differential cross section for DT}
+    \label{fig:nesDCS}
+\end{figure}

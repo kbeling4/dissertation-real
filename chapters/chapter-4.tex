@@ -2,13 +2,15 @@
 
 \begin{document}
 
-\chapter{Charged Particle Interaction Physics}
-The interaction physics that describe the slowing down of energetic light ions through collisions with background charged particles in plasmas are described in terms of differential cross sections. A general collision between an incident energetic light ion of species $x$ and a target charged particle of species $T$ resulting in new species $s$ and $r$ is written as
+\chapter{Light Ion Interaction Physics}
+The mathematical models introduced and derived in the previous two chapters form the basis for our model of the transport of energetic light ions in ICF plasma. In this and the following chapters the interaction physics and multigroup data describing the interactions of light ions as they slow down are discussed. This data will then be combined with our mathematical models to solve light ion transport equations in ICF applications.
+
+A general collision between an incident energetic light ion of species $x$ and a target charged particle of species $T$ resulting in species $s$ and $r$ is written as
 \begin{equation} \label{eqn:general-collision}
     x+t \rightarrow r+s \equiv T(x,s)R,
 \end{equation}
 where particles $s$ and $R$ are termed the scattered and recoiling particles. The general differential cross section that describes the collision in Eq. \eqref{eqn:general-collision} is
-\begin{equation} \label{eqn:differential cross section}
+\begin{equation} \label{eqn:differentialCrossSection}
     \sigma_{x,t \rightarrow s}(E^{\prime} \rightarrow E; \mucm),
 \end{equation}
 where the incident ion, $x$, had energy $E^{\prime}$ in the laboratory (LAB) frame of reference before its collision with the target species $t$. The resulting species $s$ is scattered through an angle whose center of mass (CM) cosine is $\mucm$ and has resulting energy $E$ in the LAB frame of reference. The differential cross section in Eq. \eqref{eqn:differential cross section} is a microscopic differential cross section and has units of $cm^{2}$, and is related to the macroscopic differential cross section as
@@ -17,35 +19,29 @@ where the incident ion, $x$, had energy $E^{\prime}$ in the laboratory (LAB) fra
 \end{equation}
 where $\mathcal{N}$ is the number density of the target species in $cm^{-3}$.
 
-Collisions where the resulting species is identical to the incident species, $s = x$, are termed elastic scattering collisions; and collisions where the resulting species differs from the incident species, $s \neq x$, are termed nuclear-reaction collisions. These nuclear-reaction collisions result in the destruction of the incident ions and are therefore considered absorption collisions for the incident ion. Furthermore, ion collisions can either be described as light or heavy depending on whether the incident ion is lighter or heavier than the target particle respectively. 
+From Eqs. \eqref{eqn:general-collision} and \eqref{eqn:differentialCrossSection}, collisions where the resulting species is identical to the incident species, $s = x$, are termed elastic scattering collisions; and collisions where the resulting species differs from the incident species, $s \neq x$, are termed nuclear-reaction collisions. These nuclear-reaction collisions result in the destruction of the incident ions and are therefore considered absorption collisions for the incident ion. Furthermore, ion collisions can either be described as light or heavy depending on whether the incident ion is lighter or heavier than the target particle respectively. The heavy differential cross sections are related to the light differential cross sections through kinematics and are discussed in the next chapter, as such we only discuss light collisions in this chapter.
 
-As energetic ions slow down they experience four types of collisions with the background charged particles present in the plasma:
+As energetic light ions slow down in they experience three different types of collisions with the thermal background ions and electrons: 
 \begin{enumerate}
-    \item elastic-Coulomb collisions with thermal electrons;
-    \item elastic-Coulomb collisions with thermal ions;
-    \item nuclear-elastic scattering collisions with thermal ions; or
-    \item nuclear-reaction collisions with thermal ions.
+    \item elastic collisions with thermal electrons;
+    \item elastic collisions with thermal ions; or
+    \item thermonuclear reaction collisions with thermal ions.
 \end{enumerate}
-In the remainder of this chapter the underlying physics of the elastic-Coulomb, nuclear-elastic, and nuclear-reaction collisions are introduced and discussed.
+% In addition, because the light ions experience both long-range (Coulomb) and short-range (NES) elastic scattering collisions with background ions, an interference cross section is needed to accurately describe the quantum mechanical interference between the two different types of elastic scattering. In the following sections elastic-Coulomb, nuclear-elastic, interference, and nuclear-reaction collisions with the background ions are discussed. Next, the Fokker-Planck moments of the elastic differential cross section are introduced and discussed, and lastly the electronic stopping powers that describe the elastic-Coulomb collisions with thermal electrons are discussed.
 
 % ------------------------------------------------
-% COULOMB DIFFERENTIAL CROSS SECTIONS
+% ION ELASTIC SCATTERING
 % ------------------------------------------------
-\input{chapter-4/coulombDCS.tex}
-
-% ------------------------------------------------
-% NES DIFFERENTIAL CROSS SECTIONS 
-% ------------------------------------------------
-\input{chapter-4/nuclearElasticScattering.tex}
-
-% ------------------------------------------------
-% INTERFERENCE DIFFERENTIAL CROSS SECTIONS 
-% ------------------------------------------------
-\input{chapter-4/interference.tex}
+\input{chapters/chapter-4/ionElasticScattering.tex}
 
 % ------------------------------------------------
 % NUCLEAR REACTION DIFFERENTIAL CROSS SECTIONS 
 % ------------------------------------------------
-\input{chapter-4/nuclearReaction.tex}
+\input{chapters/chapter-4/nuclearReaction.tex}
+
+% ------------------------------------------------
+% ELECTRONIC ELASTIC SCATTERING
+% ------------------------------------------------
+\input{chapters/chapter-4/electronicStoppingPowers.tex}
 
 \end{document}

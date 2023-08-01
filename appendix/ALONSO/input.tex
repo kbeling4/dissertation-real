@@ -1,0 +1,170 @@
+\section{Input file}
+The input file that ALONSO uses is in JSON format. The following code snippet outlines the nine data objects required to run a problem. 
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+{
+  "Transport species" : {},
+  "Data" : {},
+  "Geometry" : {},
+  "Materials" : ["Material 1", "Material 2"],
+  "Source Definition" : {},
+  "Transport Problems" : {},
+  "Solution Method" : {},
+  "Output Parameters" : {},
+  "Material Isotopics" : ["Isotope 1", "Isotope 2"]
+}
+\end{minted}
+In the remainder of this section each object is discussed, and the different options available to each object are listed.
+
+\subsection{Transport species}
+The ``Transport species'' object in the input files allows a user to easily turn on and off the various species of particles, using boolean operators, that can be transported within ALONSO. The following code snippet turns on all particles species by setting all of the particles to ``true''.
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+{
+    "Transport species" : {
+    "Proton"   : true,
+    "Neutron"  : true,
+    "Deuteron" : true,
+    "Triton"   : true,
+    "Helion"   : true,
+    "Alpha"    : true
+  }
+}
+\end{minted}
+
+\subsection{Data}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Data" : {
+      "ENDF file" : "../../nuclear-data/endf/32groups.json",
+      "Stopping power file" : "../../nuclear-data/stopping-powers/32groups.json"
+    }
+  }
+\end{minted}
+
+\subsection{Geometry}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Geometry" : {
+      "Region boundaries" : [0.0, 0.05],
+      "Number of spatial cells" : [64],
+      "Materials" : ["Deuterium"],
+
+      "Number of discrete ordinates" : 16,
+      "Spatial finite element order" : 1,
+      "Energy finite element order"  : 1,
+      "Left boundary condition" : "Vacuum",
+      "Right boundary condition" : "Vacuum"
+    }
+  }
+\end{minted}
+
+\subsection{Materials}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Materials" : [
+      { "Name" : "Deuterium",
+        "Composition" : ["Deuterium"]
+      }
+    ]
+  }
+\end{minted}
+
+\subsection{Source definition}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Source Definition" : { 
+      "Triton" : {
+        "Volume" : {
+          "Type" : "Zero"
+        },
+        "Left"   : {
+          "Type" : "Beam",
+          "Beam Energy" : 3.0
+        },
+        "Right"  : {
+          "Type" : "Zero"
+        } 
+      }
+    }
+  }
+\end{minted}
+
+\subsection{Transport problems}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Transport Problems" : {
+      "Proton" : {
+        "Scattering operator" : "BFP"
+      },
+      "Neutron" : {
+        "Scattering operator" : "B"
+      },
+      "Deuteron" : {
+        "Scattering operator" : "BFP"
+      },
+      "Triton" : {
+        "Scattering operator" : "BFP"
+      },
+      "Helion" : {
+        "Scattering operator" : "BFP"
+      },
+      "Alpha" : {
+        "Scattering operator" : "BFP"
+      }
+    }
+  }
+\end{minted}
+
+\subsection{Solution method}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Solution Method" : {
+      "Scheme" : "Fully-lagged",
+      "Solver" : {
+        "Method" : "GMRES",
+        "Tolerance" : 1e-10,
+        "Restart" : 10,
+        "Max iterations" : 100
+      },
+      "Outer solver" : {
+        "Method" : "Gauss-Seidel",
+        "Tolerance" : 1e-10,
+        "Max iterations" : 10
+      },
+      "Inner solver" : {
+        "Method" : "GMRES",
+        "Tolerance" : 1e-10,
+        "Restart" : 100,
+        "Max iterations" : 10000
+      }
+    }
+  }
+\end{minted}
+
+\subsection{Output parameters}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Output Parameters" : {
+      "File name" : "output.json",
+      "Cell average" : false,
+      "Energy integrated flux" : true,
+      "Average energy" : true,
+      "Average stopping power" : true,
+      "Dose" : true
+    }
+  }
+\end{minted}
+
+\subsection{Material isotopics}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=LightGray, fontsize=\footnotesize, linenos]{json}
+  {
+    "Material Isotopics" : [
+      { "Name" : "Deuterium",
+        "Density" : 1.19632e+24,
+        "Elastic scattering data" : {},
+        "Absorption" : {},
+        "Stopping power data" : {},
+        "Reaction/Recoil data" : {}
+      }
+    ]
+  }
+\end{minted}
