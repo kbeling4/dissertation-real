@@ -1,7 +1,58 @@
-\subsection{Fokker-Planck Moments}
-
-\subsubsection{Stopping powers}
+\subsection{Fokker-Planck moments}
+The Fokker-Planck moments of the elastic scattering differential cross section are computed using Eq. \eqref{eqn:FP_data_moments}, given in the previous chapter. 
 
 \subsubsection{Angular moments}
+Using Eq. \eqref{eqn:FP_data_moments}, the angular Fokker-Planck moments are given by
+\begin{equation} \label{eqn:angular-FP-moments}
+  D_n(E) = 2\pi \int\limits_{-1}^{1} (1 - \mucm)^n \, \Sigma_{x,t\rightarrow x}(E^{\prime},\mucm) \, d\mucm.
+\end{equation}
+The first moment of Eq. \eqref{eqn:FP_data_moments} is the momentum transfer and describes the average deflection per distance traveled by a packet of particles.
+
+Figure \ref{fig:angular-deflection-moments} shows the first four angular deflection moments of elastic differential cross sections that describe deuteron-deuteron and deuteron-triton collisions. At energies less than $0.1 \mev$ the higher order angular deflection moments are much smaller than the first order moment suggesting that in this region angular scattering is dominated by small angular deflection collisions (i.e. Coulomb). However at energies greater than $1 \mev$ the higher order moments become comparable in magnitude to the first order moment, and even exceed the first order moment in the deuteron-triton system. This suggests that in these higher energy regions large angle scattering collisions, or NES, are significant and that a Fokker-Planck approximation is no longer valid.
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{.45\textwidth}
+    \centering
+    \includegraphics[scale=0.45]{../figures/chapter-4/angular_moments_dd.pdf}
+    \caption{Deuteron-deuteron moments.}
+    % \label{fig:ddDCS}
+  \end{subfigure}%
+  \begin{subfigure}{.45\textwidth}
+    \centering
+    \includegraphics[scale=0.45]{../figures/chapter-4/angular_moments_dt.pdf}
+    \caption{Deuteron-triton moments.}
+    % \label{fig:dtDCS}
+  \end{subfigure}
+  \caption{First four angular deflection moments of the total elastic scattering differential cross sections.}
+  \label{fig:angular-deflection-moments}
+\end{figure}
 
 \subsubsection{Energy moments}
+To derive a usable expression for the energy Fokker-Planck moments, we rewrite the energy-loss term, $E^{\prime} - E$ in terms of $\mucm$ using a kinematic relationship (shown in detail in the following chapter),
+\begin{equation} \label{eqn:energy-loss-relationship}
+  E^{\prime} - E = 2 \, E^{\prime} \, (1 - \mucm) \left[ \dfrac{A}{(1+A)^2} \right],
+\end{equation}
+where $A$ is the ratio of the target particles mass to the incident particles mass. Using Eq. \eqref{eqn:energy-loss-relationship} the energy loss Fokker-Planck moments are
+\begin{equation} \label{eqn:energy-loss-FP-moments}
+  Q_n(E) = 4\pi E \left[ \dfrac{A}{(1+A)^2} \right] \int\limits_{-1}^{1} (1 - \mucm)^n \, \Sigma_{x,t\rightarrow x}(E^{\prime},\mucm) \, d\mucm.
+\end{equation}
+If the incident and target particles are identical, then which ever particle is emitted with higher energy is considered to be the scattered particle and therefore the integration is only from $0$ to $1$. The first two moments of Eq. \eqref{eqn:energy-loss-FP-moments} are the stopping power and energy straggling terms which describe the average and mean energy loss per distance traveled by particles in a material. 
+
+Figure \ref{fig:energy-loss-moments} shows the first four energy loss moments for deuteron-deuteron and deuteron-triton elastic scattering. The differential cross sections contain all three elastic scattering terms: Coulomb, NES, and interference. In Figure \ref{fig:energy-loss-moments} we see that at low energies the higher-order energy loss moments are not significant as they are orders of magnitude less than the stopping power. This suggests that in the low energy regime the problem is dominated by Coulomb collision and the differential cross section satisfies the Fokker-Planck approximation. However, in the high energy regime the higher order Fokker-Planck moments dominate suggesting that collisions resulting in large energy loss are a significant mechanism for slowing down. Additionally, because these higher order Fokker-Planck moments are significant it follows that at higher energies the differential cross sections do not satisfy the Fokker-Planck approximation. 
+\begin{figure}[!htb]
+  \centering
+  \begin{subfigure}{.45\textwidth}
+    \centering
+    \includegraphics[scale=0.45]{../figures/chapter-4/energy_moments_dd.pdf}
+    \caption{Deuteron-deuteron moments.}
+    % \label{fig:ddDCS}
+  \end{subfigure}%
+  \begin{subfigure}{.45\textwidth}
+    \centering
+    \includegraphics[scale=0.45]{../figures/chapter-4/energy_moments_dt.pdf}
+    \caption{Deuteron-triton moments.}
+    % \label{fig:dtDCS}
+  \end{subfigure}
+  \caption{First four energy loss moments of the total elastic scattering differential cross sections.}
+  \label{fig:energy-loss-moments}
+\end{figure}

@@ -1,0 +1,72 @@
+\section{RPA Stopping Power Models}
+The random phase approximation (RPA) is appropriate for describing the behavior of free electrons in fusion plasmas. Stopping powers derived from RPA allow one to calculate fast charged particle energy loss in a fully self-consisitent way. In other words, RPA stopping po
+
+\subsection{Ion-ion stopping powers}
+The charged particle stopping power due to the ions in the plasma is written as
+\begin{equation}
+  S_{\text{ion}}(E) = \dfrac{4 \pi e^4 Z_p^2}{m_t \, V_p^2} n_t \, \Psi(\zeta_t) \, \text{L}_{\text{ions}}
+\end{equation}
+The function $\Psi$ has the form
+\begin{equation}
+  \Psi(\zeta_t) = \text{erf}(\zeta_t) - \dfrac{2 \zeta_t}{\sqrt{\pi}}\left(1 + \dfrac{m_t}{m_p} \right) \exp\left(-\zeta_t^2\right); \quad \zeta_t = \dfrac{v_p}{v_t},
+\end{equation}
+where the characteristic background ion velocity is given by $v_t = \sqrt{2kT_{\text{ions}}/m_t}$. In ICF problems the ions are always non-degenerate so that the quantity $\text{L}_{\text{ions}}$ is simply the Coulomb logarithm
+\begin{equation}
+  \text{L}_{\text{ions}} = \ln \dfrac{\lambda_D}{\text{b}_{\text{min}}}.
+\end{equation}
+Again $\lambda_D$ is the Debye length and $\text{b}_{\text{min}}$ is the classical distance of closest approach.
+
+\begin{figure}[!htb]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../figures/chapter-4/ion-ion-stopping-powers.pdf}
+    \caption{Ion-ion stopping for different energetic particles in a deuterium background.}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../figures/chapter-4/ion-ion-temperature-stopping-powers.pdf}
+    \caption{Ion-ion stopping for protons in a deuterium background at several temperatures.}
+  \end{minipage}
+\end{figure}
+
+\subsection{Ion-electron stopping powers}
+\begin{equation}
+  S_{\text{elec}}(E) = \dfrac{4 \pi e^4 Z_p^2}{m_e \, V_p^2} n_e \, \Psi(\zeta_t) \, \left[\ln \Lambda_{\text{RPA}} + \Delta \right]
+\end{equation}
+\begin{equation}
+  \Psi(\zeta) = \text{erf}(\zeta) - \dfrac{2 \zeta}{\sqrt{\pi}}\left(1 + \dfrac{m_e}{m_p} \right) \exp\left(-\zeta_t^2\right); \quad \zeta_t = \dfrac{v_p}{\sqrt{2 kT_{\text{elec}}}/m_e},
+\end{equation}
+Parameterization of the RPA term is
+\begin{equation}
+  \ln \Lambda_{\text{RPA}} = \left[ \dfrac{\sqrt{\pi} }{2 F_{1/2}(\eta)} \dfrac{1}{1 + e^{\tiny{-\eta}}} \right] \left\lbrace \ln \dfrac{\lambda_D}{\lambda} - \dfrac{1}{2} + \dfrac{1}{2} \ln\ln \left[ \exp(e^{-C}) + \exp(\eta) \right] \right\rbrace
+\end{equation}
+where $\eta$ is the chemical potential divided by $kT$, and $F_{1/2}(\eta)$ is the Fermi integral of order $1/2$,
+\begin{equation}
+  F_{1/2}(\eta) = \int\limits_{0}^{\infty} \dfrac{y^{1/2} \, dy}{\exp(y - \eta) + 1}.
+\end{equation}
+Parametrization of the velocity term:
+\begin{equation}
+  \Delta(x) = \ln\left[1 + a_1 x^2\right] + \ln \left[\dfrac{1 + a_2 x^2 + a_4 x^4 + a_6 x^6}{1 + b_2 x^2 + b_4 x^4 + b_6 a^6}\right]
+\end{equation}
+where
+\begin{subequations}
+  \begin{equation}
+    a_1 = \left(\dfrac{4}{5} - \dfrac{\pi}{20}\right); \quad a_2 = 1.317; \quad a_4 = 0.303; \quad a_6 = 0.177
+  \end{equation}
+  \begin{equation}
+    b_2 = 1.317; \quad b_4 = 0.120; \quad b_6 = 0.0365.
+  \end{equation}
+\end{subequations}
+
+\begin{figure}[!htb]
+  \centering
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../figures/chapter-4/ion-electron-stopping-powers.pdf}
+    \caption{Ion-electron stopping for different incident particles in a deuterium background.}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[b]{0.45\textwidth}
+    \includegraphics[width=\textwidth]{../figures/chapter-4/ion-electron-temperature-stopping-powers.pdf}
+    \caption{Ion-electron stopping for different protons at several temperatures in a deuterium background.}
+  \end{minipage}
+\end{figure}

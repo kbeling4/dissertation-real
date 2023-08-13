@@ -1,4 +1,4 @@
-\subsection{Coulomb Differential Cross Sections}
+\subsection{Coulomb differential cross sections}
 The Coulomb differential cross section describes the collisions that charged particles experience in a medium as a result of interactions with the charges of the background charged particles present in the plasma. The unscreened and screened Coulomb differential cross sections are found by solving the Schr\"{o}dinger equation, that is solutions to,
 \begin{equation} \label{eqn:Schrodinger}
     \left[-\dfrac{\hbar^2}{2 m}\nabla^2 + k^2 + V(r)\right] \Psi_k(\vec{r}) = \dfrac{(\hbar \vec{k})^2}{2m} \Psi_k(\vec{r}),
@@ -18,12 +18,6 @@ Collisions where two identical particles collide requires special consideration.
 \end{equation}
 where $s$ is the spin of the particles. The first term in Eq. \eqref{eqn:formula-identical-particles} describes the forward scattering probability,while the second term describes the backward scattering probability. The third term in Eq. \eqref{eqn:formula-identical-particles} is an interference term and characterizes the exchange interaction between the forward and backward directions.
 
-In the remainder of this section the analytical forms of the unscreened and screened forms of the Coulomb differential cross section are derived from the scattering amplitudes for both distinguishable and identical particle collisions. Additionally, two different screening functions are introduced: 1) Moliere screening for cold solid materials, and 2) Debye screening for plasmas.
-
-% ------------------------------------------------
-% UNSCREENED COULOMB DIFFERENTIAL CROSS SECTIONS 
-% ------------------------------------------------
-\subsubsection{Unscreened Coulomb differential cross sections}
 The un-screened interaction potential for two charged particles is described by the standard Coulomb potential,
 \begin{equation} \label{eqn:Coulomb_potential}
     V(r) = \dfrac{Z_1 \, Z_2 \, e^2}{r},
@@ -34,7 +28,6 @@ where $Z_1 e$ and $Z_2 e$ are the charges of the incident and target charged par
 \end{equation}
 where $\gamma = Z_1 \, Z_2 \, e^2 / \hbar \, v$, $v$ is the incident velocity, $\hbar \, k = m_r \, v$, and $m_r = \frac{m_1 m_2}{m_1 + m_2}$ is the reduced mass of the system. Substituting Eq. \eqref{eqn:coulomb-scattering-amplitude} into Eqs. \eqref{eqn:formula-distinguishable-particles} and Eq. \eqref{eqn:formula-identical-particles} yields the differential cross sections corresponding to an unscreened Coulomb potential for distinguishable and identical particle scattering collisions. In the following, both the distinguishable and identical unscreened Coulomb differential cross sections are examined.
 
-\subsubsection{Distinguishable particles}
 The unscreened Coulomb differential cross section is found by substituting Eq. \eqref{eqn:coulomb-scattering-amplitude} into Eq. \eqref{eqn:formula-distinguishable-particles},
 \begin{equation} \label{eqn:dist_unscreened_coulomb}
     \sigma_{d}^{C} = \left(\dfrac{Z_1 \, Z_2 \, e^2}{2 \, m_r \, v^2}\right)^2 \dfrac{1}{\sin^4 \theta/2},
@@ -64,7 +57,6 @@ Figure \ref{fig:sigma_c_total} shows Eq. \eqref{eqn:unscreened-total-xs} for sev
     \label{fig:sigma_c_total}
 \end{figure}
 
-\subsubsection{Identical particles}
 The identical particle unscreened Coulomb differential cross section is found by substituting Eq. \eqref{eqn:coulomb-scattering-amplitude} into Eq. \eqref{eqn:formula-identical-particles} giving,
 \begin{multline} \label{eqn:coulomb-unscreened-identical}
    \sigma_{i}^{C} = \dfrac{\gamma^2}{k^2} \left[ \dfrac{1}{(1 - \mucm)^2} + \dfrac{1}{(1 + \mucm)^2} \right. \\ \left. + \dfrac{(-1)^{2s}}{2s+1} \dfrac{2}{(1 - \mucm)(1 + \mucm)} \cos \left( \gamma \, \log \, \dfrac{1 - \mucm}{1 + \mucm} \right) \right].
@@ -93,7 +85,7 @@ For the opposite case, $\hbar v \ll Z_1 Z_2 e^2$, the cosine term in Eq. \eqref{
 % ------------------------------------------------
 % SCREENING FUNCTIONS 
 % ------------------------------------------------
-\subsubsection{The Yukawa Potential}
+\subsubsection{The Yukawa potential}
 Here the Yukawa potential is introduced as a reasonable form of screening in plasmas. To introduce the concept of Debye shielding consider a finite temperature plasma consisting of a statistically large number of electrons and ions and by assuming that the ion and electron densities are initially equal and spatially uniform. The ions and electrons in the background plasma have random thermal motion, thermally induced pertubations about the equilibrium will cause small, transient spatial variations of the electrostatic potential $\phi$. Next, the following assumptions are made:
 \begin{enumerate}
     \item The background plasma is assumed to be nearly collisionless so that collisions between particles may be neglected
